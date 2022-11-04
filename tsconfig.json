@@ -30,7 +30,7 @@
         "bin",
         "__tests__",
         "cross-points",
-        "cross-points/*.ts",
+        "similarity/*.ts",
         "k-opt",
         "*/*.ts"
     ]

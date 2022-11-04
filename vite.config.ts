@@ -1,22 +1,23 @@
-import { babel } from "@rollup/plugin-babel";
-import vuePlugin from "@vitejs/plugin-vue";
-import path from "path";
 import AutoImport from "unplugin-auto-import/vite";
-import ElementPlus from "unplugin-element-plus/vite";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import Components from "unplugin-vue-components/vite";
-import { defineConfig, UserConfigExport } from "vite";
+import ElementPlus from "unplugin-element-plus/vite";
+import path from "path";
 import vpchecker from "vite-plugin-checker";
+import vuePlugin from "@vitejs/plugin-vue";
+import { babel } from "@rollup/plugin-babel";
+import { ConfigEnv, defineConfig, UserConfig } from "vite";
 import { createHtmlPlugin } from "vite-plugin-html";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import { resolve } from "path";
 import { VitePWA } from "vite-plugin-pwa";
-//@ts-ignore
+
 const checker = vpchecker;
 // console.log(babel)
-//@ts-ignore
-export default defineConfig(({ mode, command }) => {
+
+export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
     // console.log(mode, command);
     const isdrop = mode === "production" && command === "build";
-    const config: UserConfigExport = {
+    const config: UserConfig = {
         worker: {
             plugins: [
                 //@ts-ignore
@@ -121,4 +122,3 @@ export default defineConfig(({ mode, command }) => {
     };
     return config;
 });
-import { resolve } from "path";
