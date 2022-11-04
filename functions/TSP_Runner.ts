@@ -1,5 +1,4 @@
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
-
 import { NodeCoordinates } from "./NodeCoordinates";
 import { ReadOnlyPheromone } from "./ReadOnlyPheromone";
 import { SharedOptions } from "./SharedOptions";

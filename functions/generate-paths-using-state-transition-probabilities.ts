@@ -1,16 +1,15 @@
+import { get_distance_round } from "../src/set_distance_round";
 import { assert_true } from "../test/assert_true";
 import { closed_total_path_length } from "./closed-total-path-length";
 import { creategetdistancebyindex } from "./creategetdistancebyindex";
 import { geteuclideandistancebyindex } from "./geteuclideandistancebyindex";
-
 import { NodeCoordinates } from "./NodeCoordinates";
 import { picknextnodeRoulette } from "./pick-next-node-Roulette";
 // import { PickNextNodeRouletteOptions } from "./PickNextNodeRouletteOptions";
 import { pickRandomOne } from "./pickRandomOne";
-import { SharedOptions } from "./SharedOptions";
-import { select_available_cities_from_optimal_and_latest } from "./select_available_cities_from_optimal_and_latest";
-import { get_distance_round } from "../src/set_distance_round";
 import { ReadOnlyPheromone } from "./ReadOnlyPheromone";
+import { select_available_cities_from_optimal_and_latest } from "./select_available_cities_from_optimal_and_latest";
+import { SharedOptions } from "./SharedOptions";
 
 export function generate_paths_using_state_transition_probabilities(
     options: {

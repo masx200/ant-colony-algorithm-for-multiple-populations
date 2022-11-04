@@ -1,7 +1,8 @@
-import { assert_Integer } from "../test/assert_Integer";
+import "core-js/stable/array/at";
+
 import uniq from "lodash/uniq";
 
-import "core-js/stable/array/at";
+import { assert_Integer } from "../test/assert_Integer";
 
 export function create_get_neighbors_from_optimal_routes_and_latest_routes(
     latest_and_optimal_routes: {

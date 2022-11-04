@@ -1,7 +1,9 @@
 import { sum } from "lodash";
+
 import { assert_number } from "../test/assert_number";
 import { cycle_route_to_segments } from "./cycle_route_to_segments";
 import { generateUniqueArrayOfCircularPath } from "./generateUniqueArrayOfCircularPath";
+
 export function closed_total_path_length({
     path,
     getdistancebyindex,

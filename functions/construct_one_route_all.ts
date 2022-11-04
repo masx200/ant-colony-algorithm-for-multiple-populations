@@ -1,5 +1,4 @@
 import { generate_paths_using_state_transition_probabilities } from "./generate-paths-using-state-transition-probabilities";
-
 import { NodeCoordinates } from "./NodeCoordinates";
 import { SharedOptions } from "./SharedOptions";
 

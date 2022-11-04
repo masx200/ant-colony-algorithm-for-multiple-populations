@@ -1,4 +1,5 @@
-import { MatrixSymmetryCreate, MatrixFill } from "@masx200/sparse-2d-matrix";
+import { MatrixFill, MatrixSymmetryCreate } from "@masx200/sparse-2d-matrix";
+
 import { PheromoneCache } from "./PheromoneCache";
 
 export function create_pheromone_cache(count_of_nodes: number): PheromoneCache {

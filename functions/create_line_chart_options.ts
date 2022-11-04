@@ -1,6 +1,6 @@
-import { ECOption } from "./echarts-line";
-
 import { ECBasicOption } from "echarts/types/dist/shared";
+
+import { ECOption } from "./echarts-line";
 
 export function create_line_chart_options({
     title_text,

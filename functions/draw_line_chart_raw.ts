@@ -1,4 +1,5 @@
 import { EChartsType } from "echarts";
+
 import { create_line_chart_options } from "./create_line_chart_options";
 import { ECOption } from "./echarts-line";
 

@@ -1,14 +1,14 @@
-import { get_best_route_Of_Series_routes_and_lengths } from "./get_best_route_Of_Series_routes_and_lengths";
-import { Precise_2_opt_eliminates_all_intersections } from "../cross-points/Precise_2_opt_eliminates_all_intersections";
-import { partial_precise_random_2_opt_eliminates_cross_points } from "../cross-points/partial_precise_random_2_opt_eliminates_cross_points";
-import { Random_K_OPT_full_limited_find_best } from "../k-opt/Random_K_OPT_full_limited_find_best";
-import { random_k_exchange_limited } from "../cross-points/random_k_exchange_limited";
+import { sumBy } from "lodash";
 
+import { partial_precise_random_2_opt_eliminates_cross_points } from "../cross-points/partial_precise_random_2_opt_eliminates_cross_points";
+import { Precise_2_opt_eliminates_all_intersections } from "../cross-points/Precise_2_opt_eliminates_all_intersections";
+import { random_k_exchange_limited } from "../cross-points/random_k_exchange_limited";
+import { Random_K_OPT_full_limited_find_best } from "../k-opt/Random_K_OPT_full_limited_find_best";
 import { set_distance_round } from "../src/set_distance_round";
-import { pickRandomOne } from "./pickRandomOne";
+import { get_best_route_Of_Series_routes_and_lengths } from "./get_best_route_Of_Series_routes_and_lengths";
 import { LocalOptimizationRoutesOptions } from "./LocalOptimizationRouteOptions";
 import { NodeCoordinates } from "./NodeCoordinates";
-import { sumBy } from "lodash";
+import { pickRandomOne } from "./pickRandomOne";
 
 export async function local_optimization_routes({
     routes_and_lengths,

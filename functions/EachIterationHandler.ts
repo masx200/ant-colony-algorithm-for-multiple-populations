@@ -1,10 +1,10 @@
 import { uniqBy } from "lodash";
+
 import { assert_true } from "../test/assert_true";
 import { calc_population_relative_information_entropy } from "./calc_population-relative-information-entropy";
 import { get_best_route_Of_Series_routes_and_lengths } from "./get_best_route_Of_Series_routes_and_lengths";
 import { local_optimization_route_thread } from "./local_optimization_route_thread";
 import { NodeCoordinates } from "./NodeCoordinates";
-
 import { SharedOptions } from "./SharedOptions";
 
 export async function EachIterationHandler(

@@ -1,56 +1,50 @@
-import { create_get_neighbors_from_optimal_routes_and_latest_routes } from "./create_get_neighbors_from_optimal_routes_and_latest_routes";
-
+import { sum } from "lodash-es";
 import uniq from "lodash/uniq";
+
 import EventEmitterTargetClass from "@masx200/event-emitter-target";
-import { DefaultOptions } from "../src/default_Options";
+
+import { assignOwnKeys } from "../collections/assignOwnKeys";
+// import { create_collection_of_latest_routes } from "../collections/collection-of-latest-routes";
+import { create_collection_of_optimal_routes } from "../collections/collection-of-optimal-routes";
 import {
     default_alpha,
     default_beta,
     default_count_of_ants,
     default_max_results_of_2_opt,
     default_max_results_of_k_opt,
+    DefaultOptions,
 } from "../src/default_Options";
+import { set_distance_round } from "../src/set_distance_round";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 import { assert_number } from "../test/assert_number";
 import { assert_true } from "../test/assert_true";
-
-import { createEventPair } from "./createEventPair";
-
-// import { DataOfBestChange } from "./DataOfBestChange";
-
-import { DataOfFinishOneIteration } from "./DataOfFinishOneIteration";
-import { DataOfFinishOneRoute } from "./DataOfFinishOneRoute";
-import { EachIterationHandler } from "./EachIterationHandler";
-
-import { EachRouteGenerator } from "./EachRouteGenerator";
-import { generateUniqueArrayOfCircularPath } from "./generateUniqueArrayOfCircularPath";
-import { PureDataOfFinishOneRoute } from "./PureDataOfFinishOneRoute";
-
-import { TSP_Runner } from "./TSP_Runner";
-// import { ReadOnlyPheromone } from "./ReadOnlyPheromone";
-import { SharedOptions } from "./SharedOptions";
-
-// import { create_collection_of_latest_routes } from "../collections/collection-of-latest-routes";
-import { create_collection_of_optimal_routes } from "../collections/collection-of-optimal-routes";
-import { GreedyRoutesGenerator } from "./GreedyRoutesGenerator";
-import { DataOfFinishGreedyIteration } from "./DataOfFinishGreedyIteration";
-import { set_distance_round } from "../src/set_distance_round";
-import { assignOwnKeys } from "../collections/assignOwnKeys";
-// import { create_global_optimal_routes } from "./create_global_optimal_routes";
-import { calc_pheromone_dynamic } from "./calc_pheromone_dynamic";
-import { update_convergence_coefficient } from "./update_convergence_coefficient";
-import { update_last_random_selection_probability } from "./update_last_random_selection_probability";
-import { create_pheromone_cache } from "./create_pheromone_cache";
-import { sum } from "lodash-es";
-// import { DataOfTotal } from "./DataOfTotal";
-import { PheromoneCache } from "./PheromoneCache";
-
-import { TSP_Output_Data } from "./TSP_Output_Data";
-import { cycle_route_to_segments } from "./cycle_route_to_segments";
 import {
     Cached_hash_table_of_path_lengths_and_path_segments,
     update_Cached_hash_table_of_path_lengths_and_path_segments,
 } from "./Cached_hash_table_of_path_lengths_and_path_segments";
+// import { create_global_optimal_routes } from "./create_global_optimal_routes";
+import { calc_pheromone_dynamic } from "./calc_pheromone_dynamic";
+import { create_get_neighbors_from_optimal_routes_and_latest_routes } from "./create_get_neighbors_from_optimal_routes_and_latest_routes";
+import { create_pheromone_cache } from "./create_pheromone_cache";
+import { createEventPair } from "./createEventPair";
+import { cycle_route_to_segments } from "./cycle_route_to_segments";
+import { DataOfFinishGreedyIteration } from "./DataOfFinishGreedyIteration";
+// import { DataOfBestChange } from "./DataOfBestChange";
+import { DataOfFinishOneIteration } from "./DataOfFinishOneIteration";
+import { DataOfFinishOneRoute } from "./DataOfFinishOneRoute";
+import { EachIterationHandler } from "./EachIterationHandler";
+import { EachRouteGenerator } from "./EachRouteGenerator";
+import { generateUniqueArrayOfCircularPath } from "./generateUniqueArrayOfCircularPath";
+import { GreedyRoutesGenerator } from "./GreedyRoutesGenerator";
+// import { DataOfTotal } from "./DataOfTotal";
+import { PheromoneCache } from "./PheromoneCache";
+import { PureDataOfFinishOneRoute } from "./PureDataOfFinishOneRoute";
+// import { ReadOnlyPheromone } from "./ReadOnlyPheromone";
+import { SharedOptions } from "./SharedOptions";
+import { TSP_Output_Data } from "./TSP_Output_Data";
+import { TSP_Runner } from "./TSP_Runner";
+import { update_convergence_coefficient } from "./update_convergence_coefficient";
+import { update_last_random_selection_probability } from "./update_last_random_selection_probability";
 
 export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     let greedy_length: number = Infinity;

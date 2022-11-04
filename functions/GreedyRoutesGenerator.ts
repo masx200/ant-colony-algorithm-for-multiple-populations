@@ -1,12 +1,13 @@
-import { PureDataOfFinishOneRoute } from "./PureDataOfFinishOneRoute";
-import { SharedOptions } from "./SharedOptions";
-import { greedy_first_search_routes_parallel } from "./greedy_first_search_routes_parallel";
-import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
-import { get_best_route_Of_Series_routes_and_lengths } from "./get_best_route_Of_Series_routes_and_lengths";
-import { DataOfFinishGreedyIteration } from "./DataOfFinishGreedyIteration";
 import { sum } from "lodash-es";
+
+import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
 import { get_distance_round } from "../src/set_distance_round";
 import { assert_true } from "../test/assert_true";
+import { DataOfFinishGreedyIteration } from "./DataOfFinishGreedyIteration";
+import { get_best_route_Of_Series_routes_and_lengths } from "./get_best_route_Of_Series_routes_and_lengths";
+import { greedy_first_search_routes_parallel } from "./greedy_first_search_routes_parallel";
+import { PureDataOfFinishOneRoute } from "./PureDataOfFinishOneRoute";
+import { SharedOptions } from "./SharedOptions";
 
 export async function GreedyRoutesGenerator(
     options: {

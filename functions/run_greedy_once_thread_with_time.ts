@@ -1,7 +1,6 @@
-import { NodeCoordinates } from "./NodeCoordinates";
-
-import { pickRandomOne } from "./pickRandomOne";
 import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
+import { NodeCoordinates } from "./NodeCoordinates";
+import { pickRandomOne } from "./pickRandomOne";
 
 export async function run_greedy_once_thread_with_time({
     node_coordinates,

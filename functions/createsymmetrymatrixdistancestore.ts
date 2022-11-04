@@ -1,7 +1,7 @@
-import { NodeCoordinates } from "./NodeCoordinates";
+import { MatrixSymmetryCreate } from "@masx200/sparse-2d-matrix";
 
 import { euclidean_distance } from "./euclidean_distance";
-import { MatrixSymmetryCreate } from "@masx200/sparse-2d-matrix";
+import { NodeCoordinates } from "./NodeCoordinates";
 
 export function createsymmetrymatrixdistancestore(
     node_coordinates: NodeCoordinates,

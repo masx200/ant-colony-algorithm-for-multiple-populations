@@ -6,9 +6,10 @@ import { ArrayShuffle } from "./ArrayShuffle";
 import { closed_total_path_length } from "./closed-total-path-length";
 import { creategetdistancebyindex } from "./creategetdistancebyindex";
 import { cycle_reorganize } from "./cycle_reorganize";
-import { geteuclideandistancebyindex } from "./geteuclideandistancebyindex";
 import { get_random_start } from "./get_random_start";
+import { geteuclideandistancebyindex } from "./geteuclideandistancebyindex";
 import { GreedyWithStartOptions } from "./GreedyWithStartOptions";
+
 export function Greedy_algorithm_to_solve_tsp_with_selected_start({
     node_coordinates,
     start = get_random_start(node_coordinates),

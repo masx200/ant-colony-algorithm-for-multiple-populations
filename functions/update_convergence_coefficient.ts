@@ -1,10 +1,11 @@
 import { convergence_coefficient_max } from "./convergence_coefficient_max";
 import {
-    convergence_coefficient_min,
     convergence_coefficient_grow_speed,
+    convergence_coefficient_min,
 } from "./convergence_coefficient_min";
 import { max_number_of_stagnation as default_max_number_of_stagnation } from "./max_number_of_stagnation";
 import { relative_Information_Entropy_Factor as default_relative_Information_Entropy_Factor } from "./relative_Information_Entropy_Factor";
+
 export function update_convergence_coefficient({
     number_of_stagnation,
     coefficient_of_diversity_increase,

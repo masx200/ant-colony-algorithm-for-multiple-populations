@@ -1,8 +1,8 @@
 import { calc_state_transition_probabilities } from "./calc_state_transition_probabilities";
-
 import { PickNextNodeRouletteOptions } from "./PickNextNodeRouletteOptions";
 import { pickRandomOne } from "./pickRandomOne";
 import { SharedOptions } from "./SharedOptions";
+
 export function picknextnodeRoulette(
     options: PickNextNodeRouletteOptions & {
         get_convergence_coefficient: () => number;
