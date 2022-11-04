@@ -6,9 +6,40 @@ import { random_k_exchange_limited } from "../cross-points/random_k_exchange_lim
 
 import { set_distance_round } from "../src/set_distance_round";
 import { pickRandomOne } from "./pickRandomOne";
-import { LocalOptimizationRouteOptions } from "./LocalOptimizationRouteOptions";
+import { LocalOptimizationRoutesOptions } from "./LocalOptimizationRouteOptions";
+import { NodeCoordinates } from "./NodeCoordinates";
+import { sumBy } from "lodash";
 
-export async function local_optimization_route({
+export async function local_optimization_routes({
+    routes_and_lengths,
+    ...options
+}: LocalOptimizationRoutesOptions): Promise<{
+    route: number[];
+    length: number;
+    time_ms: number;
+}> {
+    const results = routes_and_lengths.map(({ route, length }) => {
+        return local_optimization_route({ route, length, ...options });
+    });
+
+    const time_ms = sumBy(results, (v) => v.time_ms);
+    const { route, length } =
+        get_best_route_Of_Series_routes_and_lengths(results);
+    return { route, length, time_ms: time_ms };
+}
+export interface LocalOptimizationRouteOptions {
+    count_of_nodes: number;
+    max_segments_of_cross_point: number;
+    distance_round: boolean;
+    route: number[];
+    max_results_of_k_opt: number;
+    node_coordinates: NodeCoordinates;
+    length: number;
+    max_results_of_k_exchange: number;
+    max_results_of_2_opt: number;
+}
+
+export function local_optimization_route({
     count_of_nodes,
     max_segments_of_cross_point,
     distance_round,
@@ -18,11 +49,11 @@ export async function local_optimization_route({
     length: oldLength,
     max_results_of_k_exchange,
     max_results_of_2_opt,
-}: LocalOptimizationRouteOptions): Promise<{
+}: LocalOptimizationRouteOptions): {
     route: number[];
     length: number;
     time_ms: number;
-}> {
+} {
     set_distance_round(distance_round);
     const starttime_of_one_route = Number(new Date());
     const is_count_not_large = count_of_nodes <= max_segments_of_cross_point;

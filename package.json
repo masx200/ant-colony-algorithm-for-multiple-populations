@@ -15,7 +15,7 @@
         "build": "tsc --noEmit --jsx preserve && vite build",
         "check": "tsc --noEmit --jsx preserve ",
         "preview": "vite preview",
-        "format": " prettier --write  *.ts */*.html */*.ts */*.css *.md  */*.vue *.json *.js"
+        "format": " prettier --write  *.ts */*.html */*.ts */*.css *.md  */*.vue *.json *.cjs"
     },
     "devDependencies": {
         "@babel/core": "^7.18.0",
@@ -45,7 +45,12 @@
         "echarts": "^5.3.2",
         "element-plus": "^2.2.5",
         "eslint": "^8.26.0",
+        "eslint-config-standard": "^17.0.0",
         "eslint-plugin-babel": "^5.3.1",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^6.1.1",
+        "eslint-plugin-standard": "^5.0.0",
         "eslint-plugin-vue": "^9.7.0",
         "find": "^0.3.0",
         "fs-extra": "^10.1.0",

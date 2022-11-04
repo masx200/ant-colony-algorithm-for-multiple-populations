@@ -1,4 +1,4 @@
-import { sum, uniqBy } from "lodash";
+import { uniqBy } from "lodash";
 import { assert_true } from "../test/assert_true";
 import { calc_population_relative_information_entropy } from "./calc_population-relative-information-entropy";
 import { get_best_route_Of_Series_routes_and_lengths } from "./get_best_route_Of_Series_routes_and_lengths";
@@ -74,28 +74,40 @@ export async function EachIterationHandler(
         (a) => a.length
     );
 
-    const optimization_results = await Promise.all(
-        need_to_optimization_routes_and_lengths.map((v) =>
-            local_optimization_route_thread({
-                count_of_nodes,
-                max_segments_of_cross_point,
-                distance_round,
-                route: v.route,
-                max_results_of_k_opt,
-                node_coordinates,
-                length: v.length,
-                max_results_of_k_exchange,
-                max_results_of_2_opt,
-            })
-        )
-    );
-    const {
-        route: optimal_route_of_iteration,
-        length: optimal_length_of_iteration,
-        // time_ms: optimal_time_ms,
-    } = get_best_route_Of_Series_routes_and_lengths(optimization_results);
-    const optimal_time_ms = sum(optimization_results.map((v) => v.time_ms));
-
+    const optimization_results = await local_optimization_route_thread({
+        count_of_nodes,
+        max_segments_of_cross_point,
+        distance_round,
+        max_results_of_k_opt,
+        node_coordinates,
+        max_results_of_k_exchange,
+        max_results_of_2_opt,
+        routes_and_lengths: need_to_optimization_routes_and_lengths,
+    });
+    //     await Promise.all(
+    //     need_to_optimization_routes_and_lengths.map((v) =>
+    //         local_optimization_route_thread({
+    //             count_of_nodes,
+    //             max_segments_of_cross_point,
+    //             distance_round,
+    //             route: v.route,
+    //             max_results_of_k_opt,
+    //             node_coordinates,
+    //             length: v.length,
+    //             max_results_of_k_exchange,
+    //             max_results_of_2_opt,
+    //         })
+    //     )
+    // );
+    // const {
+    //     route: optimal_route_of_iteration,
+    //     length: optimal_length_of_iteration,
+    //     // time_ms: optimal_time_ms,
+    // } = get_best_route_Of_Series_routes_and_lengths(optimization_results);
+    // const optimal_time_ms = sum(optimization_results.map((v) => v.time_ms));
+    const optimal_route_of_iteration = optimization_results.route;
+    const optimal_length_of_iteration = optimization_results.length;
+    const optimal_time_ms = optimization_results.time_ms;
     if (optimal_length_of_iteration < get_best_length()) {
         set_global_best(
             optimal_route_of_iteration,
