@@ -2,7 +2,7 @@ import { assert_true } from "../test/assert_true";
 import { construct_one_route_all } from "./construct_one_route_all";
 import { EachRouteGeneratorOptions } from "./Fun_EachRouteGenerator";
 import { SharedOptions } from "./SharedOptions";
-// import { local_optimization_route_thread } from "./local_optimization_route_thread";
+
 export async function EachRouteGenerator(
     options: EachRouteGeneratorOptions & SharedOptions
 ): Promise<{
@@ -58,37 +58,17 @@ export async function EachRouteGenerator(
         beta_zero,
         lastrandom_selection_probability,
     });
-    // if (get_best_route().length === 0) {
+
     if (oldLength < get_best_length()) {
-        // set_best_length(oldLength);
-        // set_best_route(oldRoute);
         set_global_best(oldRoute, oldLength);
     }
     // }
     const endtime_of_one_route = Number(new Date());
     /* 在每条路径生成后,如果路径比贪心结果更优,则对当前路径执行三种局部优化方法 */
-    // const {
-    //     route,
-    //     length,
-    //     time_ms: time_ms_of_optimization,
-    // } = oldLength < greedy_length
-    //     ? await local_optimization_route_thread({
-    //           count_of_nodes,
-    //           max_segments_of_cross_point,
-    //           distance_round,
-    //           route: oldRoute,
-    //           max_results_of_k_opt,
-    //           node_coordinates,
-    //           length: oldLength,
-    //           max_results_of_k_exchange,
-    //           max_results_of_2_opt,
-    //       })
-    //     : { route: oldRoute, length: oldLength, time_ms: 0 };
+
     const route = oldRoute;
     const length = oldLength;
     if (length < get_best_length()) {
-        // set_best_length(length);
-        // set_best_route(route);
         set_global_best(route, length);
     }
     assert_true(get_best_length() < Infinity);
