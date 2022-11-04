@@ -1,8 +1,8 @@
-# ant-colony-algorithm-with-storing-pheromone
+# Ant-colony-algorithm-for-multiple-populations
 
 #### 介绍
 
-ant-colony-algorithm-with-dynamic-pheromone
+多种群的蚁群算法
 
 动态计算信息素的蚁群算法.
 
