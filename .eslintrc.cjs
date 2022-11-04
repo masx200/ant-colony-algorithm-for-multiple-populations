@@ -23,7 +23,7 @@ module.exports = {
     rules: {
         // allow async-await
         "no-console": "off",
-        indent: ["error", 2, { SwitchCase: 1 }],
+        indent: ["error", 4, { SwitchCase: 1 }],
         semi: ["error", "always"],
         "space-before-function-paren": [
             "error",
