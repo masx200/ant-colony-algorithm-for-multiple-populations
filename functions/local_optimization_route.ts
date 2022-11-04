@@ -72,8 +72,7 @@ export function local_optimization_route({
     ]);
     const { route: route2, length: length2 } = random_k_exchange_limited({
         ...route_and_length_selection1,
-        // route: route1,
-        // length: length1,
+
         node_coordinates,
         max_results_of_k_exchange,
     });
@@ -86,8 +85,7 @@ export function local_optimization_route({
               ...route_and_length_selection2,
               count_of_nodes,
               max_results_of_2_opt,
-              //   route: route2,
-              //   length: length2,
+
               node_coordinates,
           })
         : partial_precise_random_2_opt_eliminates_cross_points({
@@ -95,8 +93,7 @@ export function local_optimization_route({
               count_of_nodes,
               max_of_segments: max_segments_of_cross_point,
               max_results_of_2_opt,
-              //   route: route2,
-              //   length: length2,
+
               node_coordinates,
           });
 

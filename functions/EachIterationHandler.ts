@@ -21,7 +21,6 @@ export async function EachIterationHandler(
 ): Promise<{
     iterate_best_length: number;
     coefficient_of_diversity_increase: number;
-    // nextrandom_selection_probability: number;
 
     optimal_length_of_iteration: number;
     optimal_route_of_iteration: number[];
@@ -62,7 +61,6 @@ export async function EachIterationHandler(
     const iterate_best_route = iterate_best_lengthandroute.route;
     const endtime_of_process_iteration = Number(new Date());
 
-    /* 对全局最优解和这轮的路径中的长度排名前一半的路径执行三种局部优化方法 */
     const best_half_routes = Array.from(routes_and_lengths)
         .sort((a, b) => a.length - b.length)
         .slice(0, routes_and_lengths.length / 2);
@@ -84,27 +82,7 @@ export async function EachIterationHandler(
         max_results_of_2_opt,
         routes_and_lengths: need_to_optimization_routes_and_lengths,
     });
-    //     await Promise.all(
-    //     need_to_optimization_routes_and_lengths.map((v) =>
-    //         local_optimization_route_thread({
-    //             count_of_nodes,
-    //             max_segments_of_cross_point,
-    //             distance_round,
-    //             route: v.route,
-    //             max_results_of_k_opt,
-    //             node_coordinates,
-    //             length: v.length,
-    //             max_results_of_k_exchange,
-    //             max_results_of_2_opt,
-    //         })
-    //     )
-    // );
-    // const {
-    //     route: optimal_route_of_iteration,
-    //     length: optimal_length_of_iteration,
-    //     // time_ms: optimal_time_ms,
-    // } = get_best_route_Of_Series_routes_and_lengths(optimization_results);
-    // const optimal_time_ms = sum(optimization_results.map((v) => v.time_ms));
+
     const optimal_route_of_iteration = optimization_results.route;
     const optimal_length_of_iteration = optimization_results.length;
     const optimal_time_ms = optimization_results.time_ms;
@@ -126,7 +104,7 @@ export async function EachIterationHandler(
         optimal_route_of_iteration,
         iterate_best_length,
         iterate_best_route,
-        // nextrandom_selection_probability,
+
         population_relative_information_entropy:
             current_population_relative_information_entropy,
     };
