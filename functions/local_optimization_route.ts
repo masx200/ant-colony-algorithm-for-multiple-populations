@@ -3,8 +3,7 @@ import { Precise_2_opt_eliminates_all_intersections } from "../cross-points/Prec
 import { partial_precise_random_2_opt_eliminates_cross_points } from "../cross-points/partial_precise_random_2_opt_eliminates_cross_points";
 import { Random_K_OPT_full_limited_find_best } from "../k-opt/Random_K_OPT_full_limited_find_best";
 import { random_k_exchange_limited } from "../cross-points/random_k_exchange_limited";
-// import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
-// import { ReadOnlyPheromone } from "./TSP_Runner";
+
 import { set_distance_round } from "../src/set_distance_round";
 import { pickRandomOne } from "./pickRandomOne";
 import { LocalOptimizationRouteOptions } from "./LocalOptimizationRouteOptions";
