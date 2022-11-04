@@ -54,7 +54,6 @@ export async function EachIterationHandler(
     );
 
     assert_true(!Number.isNaN(current_population_relative_information_entropy));
-    
 
     const iterate_best_lengthandroute =
         get_best_route_Of_Series_routes_and_lengths(routes_and_lengths);
@@ -96,16 +95,14 @@ export async function EachIterationHandler(
         // time_ms: optimal_time_ms,
     } = get_best_route_Of_Series_routes_and_lengths(optimization_results);
     const optimal_time_ms = sum(optimization_results.map((v) => v.time_ms));
-    
+
     if (optimal_length_of_iteration < get_best_length()) {
         set_global_best(
             optimal_route_of_iteration,
             optimal_length_of_iteration
         );
-        
     }
-    
-    
+
     const timems_of_process_iteration =
         endtime_of_process_iteration -
         starttime_of_process_iteration +
