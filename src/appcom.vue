@@ -340,13 +340,12 @@
             />
             <hr />
         </details>
-        <!-- <details class="width-100-percent" :open="true">
-            <summary>贪心路径的统计</summary> -->
+
         <Data_table
             :tableheads="greedy_iteration_table_heads"
             :tablebody="greedy_iteration_table_body"
         />
-        <!-- </details> -->
+
         <hr />
         <details
             style="content-visibility: auto"
