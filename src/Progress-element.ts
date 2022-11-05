@@ -4,6 +4,6 @@ export default defineComponent({
     components: { ElProgress },
     props: {
         percentage: { type: Number, required: true },
-        indeterminate: { type: Boolean, required: false },
+        indeterminate: { type: Boolean, required: true },
     },
 });

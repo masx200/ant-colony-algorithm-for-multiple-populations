@@ -1,5 +1,10 @@
 <template>
     <table border="1">
+        <caption>
+            {{
+                title
+            }}
+        </caption>
         <tr>
             <th v-for="(item, index) of tableheads" :key="index">{{ item }}</th>
         </tr>

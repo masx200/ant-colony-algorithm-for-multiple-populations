@@ -12,7 +12,7 @@ import {
 } from "vue";
 import { NodeCoordinates } from "../functions/NodeCoordinates";
 import { assert_number } from "../test/assert_number";
-
+import MultiplePopulationsConfigs from "./multiple-populations-configs.vue";
 import Data_table from "./Data_table.vue";
 import {
     default_search_rounds,
@@ -50,8 +50,9 @@ import { get_options_route_number_and_current_length_chart } from "./get_options
 import { TSP_Output_Data } from "../functions/TSP_Output_Data";
 export default defineComponent({
     components: {
-        Data_table: Data_table,
-        Progress_element: Progress_element,
+        MultiplePopulationsConfigs,
+        "Data-table": Data_table,
+        "Progress-element": Progress_element,
         LineChart,
     },
     setup() {
@@ -174,7 +175,7 @@ export default defineComponent({
 
         const is_running = ref(false);
 
-        const disablemapswitching = ref(false);
+        const disable_switching = ref(false);
         const searchrounds = ref(default_search_rounds);
         const count_of_ants_ref = ref(DefaultOptions.count_of_ants);
         const selecteleref = ref<HTMLSelectElement>();
@@ -309,7 +310,7 @@ export default defineComponent({
 
         const resetold = () => {
             TSP_terminate();
-            disablemapswitching.value = false;
+            disable_switching.value = false;
             is_running.value = false;
         };
         const reset = () => {
@@ -350,7 +351,7 @@ export default defineComponent({
                 count_of_ants_value >= 2 &&
                 node_coordinates
             ) {
-                disablemapswitching.value = true;
+                disable_switching.value = true;
                 const count_of_ants = count_of_ants_value;
                 assert_number(count_of_ants);
                 const runner = await TSP_before_Start({
@@ -441,7 +442,7 @@ export default defineComponent({
             oneiterationtablebody,
             count_of_ants_ref,
 
-            disablemapswitching,
+            disable_switching,
 
             create_and_run_tsp_by_search_rounds,
             searchrounds,

@@ -1,6 +1,6 @@
 <template>
     <div :class="{ 'container-top': navbar_float }">
-        <Progress_element
+        <Progress-element
             :class="{ 'fixed-top-navbar': navbar_float }"
             :percentage="percentage"
             :indeterminate="indeterminate"
@@ -16,7 +16,7 @@
         <select
             v-model="selected_value"
             ref="selecteleref"
-            :disabled="disablemapswitching"
+            :disabled="disable_switching"
             @change="submit_select_node_coordinates"
         >
             <option
@@ -58,15 +58,30 @@
                     border: 5px solid #2196f3;
                 "
             >
+                <MultiplePopulationsConfigs
+                    :input_options="input_options"
+                    :disable_switching="disable_switching"
+                />
+            </div>
+            <hr />
+            <div
+                style="
+                    border-top: thick;
+                    border-color: #2196f3;
+                    border-width: thick;
+                    padding: 10px;
+                    border: 5px solid #2196f3;
+                "
+            >
                 <span>结果四舍五入</span>
                 <el-radio-group
                     v-model="round_result"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                 >
                     <el-radio :label="true">是</el-radio>
                     <el-radio :label="false">否</el-radio> </el-radio-group
                 ><br />
-                <hr />
+
                 <span>相对信息熵因子</span>
                 <el-input-number
                     step-strictly
@@ -74,7 +89,7 @@
                     v-model.number="
                         input_options.relative_Information_Entropy_Factor
                     "
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="0.1"
                     :controls="false"
                 /><br />
@@ -83,7 +98,7 @@
                     step-strictly
                     :step="1"
                     v-model.number="input_options.max_number_of_stagnation"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="1"
                     :controls="false"
                 /><br />
@@ -94,7 +109,7 @@
                     v-model.number="
                         input_options.max_size_of_collection_of_optimal_routes
                     "
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="1"
                     :controls="false"
                 /><br />
@@ -106,7 +121,7 @@
                     v-model.number="
                         input_options.max_cities_of_state_transition
                     "
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="1"
                     :controls="false"
                 /><br />
@@ -115,7 +130,7 @@
                     step-strictly
                     :step="1"
                     v-model.number="input_options.max_cities_of_greedy"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="1"
                     :controls="false"
                 /><br />
@@ -124,7 +139,7 @@
                     step-strictly
                     :step="1"
                     v-model.number="input_options.max_segments_of_cross_point"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="1"
                     :controls="false"
                 /><br />
@@ -133,7 +148,7 @@
                     step-strictly
                     :step="1"
                     v-model.number="max_routes_of_greedy"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="2"
                     :controls="false"
                 /><br /><span>每条的k-opt最大数量</span>
@@ -141,7 +156,7 @@
                     step-strictly
                     :step="1"
                     v-model.number="input_options.max_results_of_k_opt"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="1"
                     :controls="false"
                 /><br />
@@ -150,7 +165,7 @@
                     step-strictly
                     :step="1"
                     v-model.number="input_options.max_results_of_k_exchange"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="1"
                     :controls="false"
                 /><br /><span>每条的2-opt最大次数</span>
@@ -158,7 +173,7 @@
                     step-strictly
                     :step="1"
                     v-model.number="input_options.max_results_of_2_opt"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="1"
                     :controls="false"
                 /><br />
@@ -168,7 +183,7 @@
                     step-strictly
                     :step="1"
                     v-model.number="count_of_ants_ref"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="2"
                     :controls="false"
                 /><br />
@@ -178,7 +193,7 @@
                     step-strictly
                     :step="0.001"
                     v-model.number="alpha_zero"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="0.001"
                     :max="5"
                 /><br />
@@ -188,7 +203,7 @@
                     step-strictly
                     :step="0.001"
                     v-model.number="beta_zero"
-                    :disabled="disablemapswitching"
+                    :disabled="disable_switching"
                     :min="0.001"
                     :max="10"
                 /><br />
@@ -309,13 +324,15 @@
         <hr />
 
         <!-- //汇总结果 -->
-        <Data_table
+        <Data-table
+            title="最优解的统计"
             :tableheads="summary_best_TableHeads"
             :tablebody="summary_best_TableBody"
         />
         <!-- 拆分表格 -->
         <hr />
-        <Data_table
+        <Data-table
+            title="总体的统计"
             :tableheads="summary_total_TableHeads"
             :tablebody="summary_total_TableBody"
         />
@@ -334,7 +351,8 @@
             @toggle="show_array_routes_of_best = $event.target.open"
         >
             <summary>最优路径的数组展示</summary>
-            <Data_table
+            <Data-table
+                title="全局最优路径"
                 :tableheads="global_best_routeHeads"
                 :tablebody="global_best_routeBody"
             />
@@ -347,14 +365,16 @@
             @toggle="show_history_routes_of_best = $event.target.open"
         >
             <summary>最优路径的变化历史</summary>
-            <Data_table
+            <Data-table
+                title="最优路径的变化"
                 :tableheads="TableHeadsOfHistoryOfBest"
                 :tablebody="TableBodyOfHistoryOfBest"
             />
             <hr />
         </details>
 
-        <Data_table
+        <Data-table
+            title="贪心路径统计"
             :tableheads="greedy_iteration_table_heads"
             :tablebody="greedy_iteration_table_body"
         />
@@ -368,7 +388,8 @@
         >
             <summary>每次迭代的统计</summary>
             <!-- 迭代结果 -->
-            <Data_table
+            <Data-table
+                title="每次迭代的统计"
                 :tableheads="oneiterationtableheads"
                 :tablebody="oneiterationtablebody"
             />
@@ -376,7 +397,7 @@
         <hr />
     </div>
 </template>
-<script lang="ts" src="./appcom.ts"></script>
+<script lang="ts" src="./app-com.ts"></script>
 <style scoped>
 .fixed-top-navbar {
     z-index: 10;
