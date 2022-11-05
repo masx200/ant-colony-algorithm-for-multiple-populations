@@ -6,7 +6,7 @@
             :indeterminate="indeterminate"
             v-show="show_progress"
         />
-        <h1>自适应+蚁群+k-opt+动态计算信息素-TSP-测试</h1>
+        <h1>多种群:自适应+蚁群+k-opt+动态计算信息素-TSP-测试</h1>
         <hr />
         <span>选择城市地图</span>
         <br />
