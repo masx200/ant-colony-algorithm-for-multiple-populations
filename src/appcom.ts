@@ -17,7 +17,6 @@ import Data_table from "./Data_table.vue";
 import {
     default_search_rounds,
     default_search_time_seconds,
-    default_beta,
     DefaultOptions,
 } from "./default_Options";
 import { set_distance_round } from "./set_distance_round";
