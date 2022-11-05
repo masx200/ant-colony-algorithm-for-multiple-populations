@@ -15,14 +15,12 @@ import { assert_number } from "../test/assert_number";
 
 import Data_table from "./Data_table.vue";
 import {
-    default_count_of_ants,
     default_search_rounds,
     default_search_time_seconds,
     default_beta,
-    default_alpha,
     DefaultOptions,
 } from "./default_Options";
-import { get_distance_round, set_distance_round } from "./set_distance_round";
+import { set_distance_round } from "./set_distance_round";
 
 import Progress_element from "./Progress-element.vue";
 import { RunWay } from "./RunWay";
@@ -63,7 +61,7 @@ export default defineComponent({
         const show_progress = ref(true);
         const input_options = reactive(structuredClone(DefaultOptions));
 
-        const round_result = ref(get_distance_round());
+        const round_result = ref(DefaultOptions.distance_round);
         watch(round_result, (round) => {
             set_distance_round(round);
         });
@@ -179,7 +177,7 @@ export default defineComponent({
 
         const disablemapswitching = ref(false);
         const searchrounds = ref(default_search_rounds);
-        const count_of_ants_ref = ref(default_count_of_ants);
+        const count_of_ants_ref = ref(DefaultOptions.count_of_ants);
         const selecteleref = ref<HTMLSelectElement>();
 
         const options_of_best_route_chart: Ref<ECBasicOption> = ref({});
@@ -342,7 +340,7 @@ export default defineComponent({
             const element = selecteleref.value;
             const node_coordinates = TSP_cities_map.get(element?.value || "");
 
-            const alpha_value = alpha.value;
+            const alpha_value = alpha_zero.value;
             const max_routes_of_greedy_value = max_routes_of_greedy.value;
             const beta_value = beta.value;
             const distance_round = round_result.value;
@@ -392,7 +390,7 @@ export default defineComponent({
         const radio_run_way = ref(RunWay.round);
         const run_way_time = RunWay.time;
         const run_way_round = RunWay.round;
-        const alpha = ref(default_alpha);
+        const alpha_zero = ref(DefaultOptions.alpha_zero);
         const beta = ref(default_beta);
         const max_routes_of_greedy = ref(DefaultOptions.max_routes_of_greedy);
         return {
@@ -414,7 +412,7 @@ export default defineComponent({
             greedy_iteration_table_body,
             max_routes_of_greedy,
             show_chart_of_best,
-            alpha,
+            alpha_zero,
             beta,
             can_run,
 
