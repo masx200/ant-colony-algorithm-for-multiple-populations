@@ -9,17 +9,7 @@
         />
     </div>
 </template>
-<script lang="ts">
-import { ElProgress } from "element-plus";
-import { defineComponent } from "vue";
-export default defineComponent({
-    components: { ElProgress },
-    props: {
-        percentage: { type: Number, required: true },
-        indeterminate: { type: Boolean, required: false },
-    },
-});
-</script>
+<script lang="ts" src="./Progress-element.ts"></script>
 <style scoped>
 .progress-bar {
     /* z-index: 10; */
