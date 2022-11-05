@@ -160,7 +160,7 @@
                 :min="2"
                 :controls="false"
             /><br />
-            <span>信息素因子</span>
+            <span>第一类的信息素因子</span>
             <el-input-number
                 :controls="false"
                 step-strictly
@@ -170,7 +170,7 @@
                 :min="0.001"
                 :max="5"
             /><br />
-            <span>启发式因子</span>
+            <span>第一类的启发式因子</span>
             <el-input-number
                 :controls="false"
                 step-strictly
