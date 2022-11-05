@@ -1,6 +1,6 @@
 import { max_number_of_stagnation } from "../functions/max_number_of_stagnation";
 import { relative_Information_Entropy_Factor } from "../functions/relative_Information_Entropy_Factor";
-import { TSPRunnerOptions } from "./TSPRunnerOptions";
+import { TSPDefaultOptions } from "./TSPRunnerOptions";
 
 export const default_count_of_ants = 20;
 export const default_search_rounds = 170;
@@ -15,7 +15,7 @@ export const default_max_results_of_k_exchange = 10;
 
 export { DefaultOptions };
 
-const DefaultOptions: Omit<Required<TSPRunnerOptions>, "node_coordinates"> = {
+const DefaultOptions: Required<TSPDefaultOptions> = {
     max_results_of_k_exchange: default_max_results_of_k_exchange,
     max_cities_of_state_transition: 40,
     max_results_of_2_opt: default_max_results_of_2_opt,

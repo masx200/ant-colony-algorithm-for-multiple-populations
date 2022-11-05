@@ -162,7 +162,10 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                         target,
                         key
                     ) as PheromoneCache["get"];
-                    function getPheromone(row: number, column: number): number {
+                    return function getPheromone(
+                        row: number,
+                        column: number
+                    ): number {
                         if (
                             row < 0 ||
                             row > count_of_nodes - 1 ||
@@ -200,8 +203,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                                 return cached;
                             }
                         }
-                    }
-                    return getPheromone;
+                    };
                 } else {
                     return Reflect.get(target, key);
                 }
