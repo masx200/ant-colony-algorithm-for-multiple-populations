@@ -1,6 +1,6 @@
 import { createApp, h } from "vue";
 import "../functions/echarts-line";
-import appcom from "./appcom.vue";
+import appcom from "./app-com.vue";
 import "./style.css";
 document.title = "ant-colony-algorithm-with-dynamic-pheromone";
 
