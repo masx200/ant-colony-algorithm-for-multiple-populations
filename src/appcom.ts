@@ -342,7 +342,7 @@ export default defineComponent({
 
             const alpha_value = alpha_zero.value;
             const max_routes_of_greedy_value = max_routes_of_greedy.value;
-            const beta_value = beta.value;
+            const beta_value = beta_zero.value;
             const distance_round = round_result.value;
             if (
                 max_routes_of_greedy_value > 0 &&
@@ -391,7 +391,7 @@ export default defineComponent({
         const run_way_time = RunWay.time;
         const run_way_round = RunWay.round;
         const alpha_zero = ref(DefaultOptions.alpha_zero);
-        const beta = ref(default_beta);
+        const beta_zero = ref(default_beta);
         const max_routes_of_greedy = ref(DefaultOptions.max_routes_of_greedy);
         return {
             selected_value,
@@ -413,7 +413,7 @@ export default defineComponent({
             max_routes_of_greedy,
             show_chart_of_best,
             alpha_zero,
-            beta,
+            beta_zero,
             can_run,
 
             show_routes_of_best,

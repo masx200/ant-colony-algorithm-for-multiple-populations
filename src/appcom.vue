@@ -175,7 +175,7 @@
                 :controls="false"
                 step-strictly
                 :step="0.001"
-                v-model.number="beta"
+                v-model.number="beta_zero"
                 :disabled="disablemapswitching"
                 :min="0.001"
                 :max="10"
