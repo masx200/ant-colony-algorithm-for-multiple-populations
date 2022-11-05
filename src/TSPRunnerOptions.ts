@@ -14,6 +14,16 @@ export interface TSPDefaultOptions {
     count_of_ants?: number | undefined;
     relative_Information_Entropy_Factor?: number;
     max_number_of_stagnation?: number;
+    number_of_populations_of_the_first_category: number;
+
+    number_of_the_second_type_of_population: number;
+    population_communication_iterate_cycle: number;
+    global_pheromone_volatilization_coefficient: number;
+    local_pheromone_volatilization_coefficient: number;
+    path_selection_parameter_q0_min: number;
+    path_selection_parameter_q0_max: number;
+    alpha_for_the_second_type_of_population: number;
+    beta_for_the_second_type_of_population: number;
 }
 
 export type TSPRunnerOptions = {

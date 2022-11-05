@@ -32,4 +32,13 @@ const DefaultOptions: Required<TSPDefaultOptions> = {
     distance_round: true,
     relative_Information_Entropy_Factor: relative_Information_Entropy_Factor,
     max_number_of_stagnation: max_number_of_stagnation,
+    number_of_populations_of_the_first_category: 2,
+    number_of_the_second_type_of_population: 2,
+    population_communication_iterate_cycle: 15,
+    global_pheromone_volatilization_coefficient: 0.1,
+    local_pheromone_volatilization_coefficient: 0.1,
+    path_selection_parameter_q0_max: 0.9,
+    path_selection_parameter_q0_min: 0.4,
+    alpha_for_the_second_type_of_population: 1,
+    beta_for_the_second_type_of_population: 2,
 };
