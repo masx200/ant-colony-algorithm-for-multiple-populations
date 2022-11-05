@@ -391,7 +391,7 @@ export default defineComponent({
         const run_way_time = RunWay.time;
         const run_way_round = RunWay.round;
         const alpha_zero = ref(DefaultOptions.alpha_zero);
-        const beta_zero = ref(default_beta);
+        const beta_zero = ref(DefaultOptions.beta_zero);
         const max_routes_of_greedy = ref(DefaultOptions.max_routes_of_greedy);
         return {
             selected_value,
