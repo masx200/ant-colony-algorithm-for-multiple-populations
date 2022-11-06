@@ -4,6 +4,7 @@ export function similarityOfTwoRoutes(
     route1: number[],
     route2: number[]
 ): number {
+    assert(route1.length > 0);
     assert.equal(route1.length, route2.length);
     const A: number[][] = Array(route1.length)
         .fill(0)
