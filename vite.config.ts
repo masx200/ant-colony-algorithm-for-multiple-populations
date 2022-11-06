@@ -5,33 +5,27 @@ import path from "path";
 import vpchecker from "vite-plugin-checker";
 import vuePlugin from "@vitejs/plugin-vue";
 import { babel } from "@rollup/plugin-babel";
-import { ConfigEnv, defineConfig, UserConfig } from "vite";
+import { ConfigEnv, defineConfig, PluginOption, UserConfig } from "vite";
 import { createHtmlPlugin } from "vite-plugin-html";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { resolve } from "path";
 import { VitePWA } from "vite-plugin-pwa";
 
 const checker = vpchecker;
-// console.log(babel)
 
 export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
-    // console.log(mode, command);
     const isdrop = mode === "production" && command === "build";
     const config: UserConfig = {
         worker: {
             plugins: [
-                //@ts-ignore
                 babel({
                     babelHelpers: "bundled",
                     exclude: [/node_modules/],
                     extensions: [".ts", ".js"],
                     plugins: [
-                        [
-                            "@babel/plugin-proposal-async-generator-functions",
-                            // { allowAllFormats: true },
-                        ],
+                        ["@babel/plugin-proposal-async-generator-functions"],
                     ],
-                }),
+                }) as PluginOption,
             ],
         },
         esbuild: {
@@ -50,35 +44,28 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
                 resolvers: [ElementPlusResolver()],
             }),
             checker({
-                // vueTsc: true,
                 typescript: { root: path.resolve(__dirname) },
             }),
-            // checker({ vueTsc: true }),
 
-            ElementPlus({
-                // options
-            }),
+            ElementPlus({}),
             vuePlugin(),
-            // mode === "production" &&
-            //     command === "build" &&
-            // isdrop &&
+
             babel({
                 babelHelpers: "bundled",
                 sourceMaps: mode !== "production",
                 exclude: [/node_modules/],
                 extensions: [".ts", ".js"],
-                //@ts-ignore
+
                 plugins: [
                     [
                         "babel-plugin-import",
                         {
                             libraryName: "lodash",
                             libraryDirectory: "",
-                            camel2DashComponentName: false, // default: true
+                            camel2DashComponentName: false,
                         },
                     ],
                     isdrop && "babel-plugin-clean-code",
-                    // "@babel/plugin-syntax-typescript",
                 ].filter(Boolean),
             }),
             createHtmlPlugin({
@@ -96,28 +83,18 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
                 babelHelpers: "bundled",
                 exclude: [/node_modules/],
                 extensions: [".ts", ".js"],
-                plugins: [
-                    [
-                        "@babel/plugin-proposal-async-generator-functions",
-                        // { allowAllFormats: true },
-                    ],
-                ],
+                plugins: [["@babel/plugin-proposal-async-generator-functions"]],
             }),
-            // getBabelOutputPlugin({ plugins: ["babel-plugin-clean-code"] }),
         ],
         build: {
             rollupOptions: {
                 input: resolve(__dirname, "src", "index.html"),
-                // output: { file: resolve(__dirname, "dist", "index.html") },
             },
             cssCodeSplit: false,
             minify: "esbuild",
             emptyOutDir: true,
             outDir: path.resolve(__dirname, "dist"),
             target: "es2018",
-            // terserOptions: {
-            //     compress: { drop_console: true, drop_debugger: true },
-            // },
         },
     };
     return config;
