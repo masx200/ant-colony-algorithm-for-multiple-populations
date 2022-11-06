@@ -5,7 +5,7 @@ import { creategetdistancebyindex } from "./creategetdistancebyindex";
 import { geteuclideandistancebyindex } from "./geteuclideandistancebyindex";
 import { NodeCoordinates } from "./NodeCoordinates";
 import { picknextnodeRoulette } from "./pick-next-node-Roulette";
-// import { PickNextNodeRouletteOptions } from "./PickNextNodeRouletteOptions";
+
 import { pickRandomOne } from "./pickRandomOne";
 import { ReadOnlyPheromone } from "./ReadOnlyPheromone";
 import { select_available_cities_from_optimal_and_latest } from "./select_available_cities_from_optimal_and_latest";
@@ -62,7 +62,7 @@ export function generate_paths_using_state_transition_probabilities(
     while (route.length !== count_of_nodes) {
         const current_city = Array.from(route).slice(-1)[0];
         assert_true(typeof current_city === "number");
-        // console.log("current_city", current_city);
+
         const randomselection = Math.random() < random_selection_probability;
         const get_filtered_nodes = function (): number[] | Set<number> {
             return is_count_not_large
@@ -76,7 +76,6 @@ export function generate_paths_using_state_transition_probabilities(
                   });
         };
 
-        /* 随机选择时,也从缩小的可选城市中选择 */
         const nextnode = randomselection
             ? pickRandomOne(Array.from(get_filtered_nodes()))
             : picknextnode({
@@ -89,9 +88,7 @@ export function generate_paths_using_state_transition_probabilities(
                   getpheromone,
                   getdistancebyserialnumber,
               });
-        // if (typeof nextnode !== "number") {
-        //     debugger;
-        // }
+
         assert_true(typeof nextnode === "number");
         route.push(nextnode);
         available_nodes.delete(nextnode);

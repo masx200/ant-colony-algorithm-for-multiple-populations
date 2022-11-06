@@ -22,8 +22,6 @@ export function create_get_neighbors_from_optimal_routes_and_latest_routes(
         const result = uniq(
             latest_and_optimal_routes
                 .map(({ route }) => {
-                    /*  route)
-                    .map((route) =>  */
                     const index = route.findIndex((v) => v === city);
 
                     if (index < 0) {

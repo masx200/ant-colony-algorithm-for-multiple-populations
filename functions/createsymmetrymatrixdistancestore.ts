@@ -11,9 +11,9 @@ export function createsymmetrymatrixdistancestore(
     return MatrixSymmetryCreate({
         row,
         initializer: (left, right) => {
-            let leftpair = node_coordinates[left];
-            let rightpair = node_coordinates[right];
-            let distance = euclidean_distance(leftpair, rightpair, round);
+            const leftpair = node_coordinates[left];
+            const rightpair = node_coordinates[right];
+            const distance = euclidean_distance(leftpair, rightpair, round);
             return distance;
         },
     });

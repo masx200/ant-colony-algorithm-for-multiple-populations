@@ -13,6 +13,4 @@ export interface EachRouteGeneratorOptions {
     get_best_route: () => number[];
     greedy_length: number;
     pheromone_exceeds_maximum_range: () => boolean;
-    // set_best_length: (arg0: number) => void;
-    // set_best_route: (arg0: number[]) => void;
 }

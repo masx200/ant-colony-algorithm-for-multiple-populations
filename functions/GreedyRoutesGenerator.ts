@@ -16,8 +16,7 @@ export async function GreedyRoutesGenerator(
         ) => void;
         get_best_route: () => number[];
         get_best_length: () => number;
-        // set_best_length: (best_length: number) => void;
-        // set_best_route: (route: number[]) => void;
+
         onRouteCreated: (route: number[], length: number) => void;
         emit_finish_one_route: (data: PureDataOfFinishOneRoute) => void;
 
@@ -34,12 +33,11 @@ export async function GreedyRoutesGenerator(
         emit_finish_greedy_iteration,
         get_best_route,
         get_best_length,
-        // set_best_length,
-        // set_best_route,
+
         onRouteCreated,
         emit_finish_one_route,
     } = options;
-    // const { count_of_nodes } = shared;
+
     const greedy_results_iter = greedy_first_search_routes_parallel({
         ...options,
         round: get_distance_round(),
@@ -59,22 +57,16 @@ export async function GreedyRoutesGenerator(
 
         const oldLength = length;
         const oldRoute = route;
-        // if (get_best_route().length === 0) {
+
         if (oldLength < get_best_length()) {
             set_global_best(oldRoute, oldLength);
-            // set_best_length(oldLength);
-            // set_best_route(oldRoute);
         }
-        // }
-        // if (oldLength < get_best_length()) {
-        //     set_best_length(oldLength);
-        //     set_best_route(oldRoute);
-        // }
+
         onRouteCreated(route, length);
 
         emit_finish_one_route({
             time_ms_of_one_route: time_ms,
-            // route,
+
             length,
         });
     }

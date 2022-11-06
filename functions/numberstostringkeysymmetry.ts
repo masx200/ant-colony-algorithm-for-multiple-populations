@@ -2,7 +2,7 @@ export function numberstostringkeysymmetry(
     left: number,
     right: number
 ): `${number},${number}` {
-    let max = Math.max(left, right);
-    let min = Math.min(left, right);
+    const max = Math.max(left, right);
+    const min = Math.min(left, right);
     return `${min},${max}`;
 }
