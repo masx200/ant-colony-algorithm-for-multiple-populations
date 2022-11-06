@@ -25,7 +25,7 @@ export function intersection_filter_with_cycle_route_find_one_old({
     const cloned = cycle_reorganize(oldRoute, start);
     const cyclesegments = cycle_route_to_segments(cloned);
 
-    for (let [[left1, left2], [right1, right2]] of combinations(
+    for (const [[left1, left2], [right1, right2]] of combinations(
         cyclesegments,
         2
     )) {

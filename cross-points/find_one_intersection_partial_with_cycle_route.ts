@@ -30,7 +30,7 @@ export function find_one_intersection_partial_with_cycle_route({
         0,
         max_of_segments
     );
-    for (let [[left1, left2], [right1, right2]] of combinations(
+    for (const [[left1, left2], [right1, right2]] of combinations(
         cyclesegments,
         2
     )) {

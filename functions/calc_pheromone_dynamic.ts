@@ -6,12 +6,12 @@ import {
     has_Cached_hash_table_of_path_lengths_and_path_segments,
 } from "./Cached_hash_table_of_path_lengths_and_path_segments";
 import { Infinity_to_max_or_min } from "./Infinity_to_max_or_min";
-// import { is_segment_in_cycle_route } from "./is_segment_in_cycle_route";
+
 import { nan_to_zero } from "./nan_to_zero";
 
 export function calc_pheromone_dynamic({
     latest_and_optimal_routes,
-    // PheromoneZero,
+
     row,
     column,
     greedy_length,
@@ -19,7 +19,7 @@ export function calc_pheromone_dynamic({
     routes_segments_cache,
 }: {
     latest_and_optimal_routes: { route: number[]; length: number }[];
-    // PheromoneZero: number;
+
     row: number;
     column: number;
     greedy_length: number;
@@ -28,9 +28,8 @@ export function calc_pheromone_dynamic({
 }): number {
     assert_true(latest_and_optimal_routes.length > 0);
     const length_of_routes = latest_and_optimal_routes.length;
-    //0*Infinity===NaN
+
     const result =
-        // PheromoneZero +
         sum(
             latest_and_optimal_routes.map(({ length: route_length }) => {
                 const a = Math.pow(
@@ -59,7 +58,7 @@ export function calc_pheromone_dynamic({
                         convergence_coefficient * convergence_coefficient
                     )
                 );
-                //b可能是Infinity
+
                 const r = c * a * b;
                 return nan_to_zero(r);
             })
