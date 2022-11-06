@@ -52,6 +52,4 @@ export function update_convergence_coefficient({
         convergence_coefficient *= convergence_coefficient_grow_speed;
         return Math.min(convergence_coefficient_max, convergence_coefficient);
     }
-
-    // return convergence_coefficient;
 }

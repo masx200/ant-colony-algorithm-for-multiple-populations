@@ -27,7 +27,7 @@ export const divide_route_to_k_opt_random = (
             length_of_old - sum(lengths_of_parts)
         );
     }
-    for (let length_of_part of lengths_of_parts) {
+    for (const length_of_part of lengths_of_parts) {
         routes.push(cloned.slice(-length_of_part));
         cloned.length = cloned.length - length_of_part;
     }

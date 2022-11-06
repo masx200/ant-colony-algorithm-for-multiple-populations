@@ -44,7 +44,6 @@ export function select_available_cities_from_optimal_and_latest({
             selected.forEach((node) => {
                 source.add(node);
             });
-            // debugger;
         } else {
             cloned_available.forEach((node) => {
                 source.add(node);
@@ -52,7 +51,7 @@ export function select_available_cities_from_optimal_and_latest({
         }
     }
     const result = Array.from(source);
-    // debugger;
+
     assert_true(result.length <= available_nodes.size);
     assert_true(result.length <= max_cities_of_state_transition);
     assert_true(result.length > 0);
