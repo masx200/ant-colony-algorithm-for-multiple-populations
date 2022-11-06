@@ -65,12 +65,12 @@ export function use_history_of_best(
         const resultbest = history_of_best;
         return resultbest.length
             ? resultbest.map((result) => {
-                return [
-                    result.search_count_of_best,
-                    result.global_best_length,
-                    result.time_of_best_ms / 1000,
-                ];
-            })
+                  return [
+                      result.search_count_of_best,
+                      result.global_best_length,
+                      result.time_of_best_ms / 1000,
+                  ];
+              })
             : [];
     });
 

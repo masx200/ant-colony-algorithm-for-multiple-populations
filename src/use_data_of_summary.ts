@@ -31,12 +31,12 @@ export function use_data_of_summary() {
             const result = data_of_best.value;
             return result
                 ? [
-                    [
-                        result.global_best_length,
-                        result.time_of_best_ms / 1000,
-                        result.search_count_of_best,
-                    ],
-                ]
+                      [
+                          result.global_best_length,
+                          result.time_of_best_ms / 1000,
+                          result.search_count_of_best,
+                      ],
+                  ]
                 : [];
         });
     const summary_total_TableBody: ComputedRef<[number, number, number][]> =
@@ -44,13 +44,13 @@ export function use_data_of_summary() {
             const result = data_of_total.value;
             return result
                 ? [
-                    [
-                        result.total_time_ms / 1000,
+                      [
+                          result.total_time_ms / 1000,
 
-                        result.current_search_count,
-                        result.current_iterations,
-                    ],
-                ]
+                          result.current_search_count,
+                          result.current_iterations,
+                      ],
+                  ]
                 : [];
         });
     const data_of_best = ref<DataOfBestChange>();
