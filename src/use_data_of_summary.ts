@@ -1,4 +1,4 @@
-import { computed, ComputedRef, /* Ref, */ ref } from "vue";
+import { computed, ComputedRef, ref } from "vue";
 import { DataOfBestChange } from "../functions/DataOfBestChange";
 import { DataOfTotal } from "../functions/DataOfTotal";
 
@@ -15,14 +15,8 @@ export function use_data_of_summary() {
         "全局最优长度",
         "最优解的耗时秒",
         "最优解路径序号",
-        // "总共耗时秒",
-        // "总计路径数量",
-        // "总计迭代次数",
     ];
     const summary_total_TableHeads = [
-        // "全局最优长度",
-        // "最优解的耗时秒",
-        // "最优解路径序号",
         "总共耗时秒",
         "总计路径数量",
         "总计迭代次数",
@@ -32,42 +26,33 @@ export function use_data_of_summary() {
         const result = data_of_best.value;
         return result ? [[JSON.stringify(result.global_best_route)]] : [];
     });
-    const summary_best_TableBody: ComputedRef<
-        [number, number, number /* , number, number, number */][]
-    > = computed(() => {
-        const result = data_of_best.value;
-        return result
-            ? [
-                  [
-                      result.global_best_length,
-                      result.time_of_best_ms / 1000,
-                      result.search_count_of_best,
-                      //   result.total_time_ms / 1000,
+    const summary_best_TableBody: ComputedRef<[number, number, number][]> =
+        computed(() => {
+            const result = data_of_best.value;
+            return result
+                ? [
+                    [
+                        result.global_best_length,
+                        result.time_of_best_ms / 1000,
+                        result.search_count_of_best,
+                    ],
+                ]
+                : [];
+        });
+    const summary_total_TableBody: ComputedRef<[number, number, number][]> =
+        computed(() => {
+            const result = data_of_total.value;
+            return result
+                ? [
+                    [
+                        result.total_time_ms / 1000,
 
-                      //   result.current_search_count,
-                      //   result.current_iterations,
-                  ],
-              ]
-            : [];
-    });
-    const summary_total_TableBody: ComputedRef<
-        [number, number, number /* , number, number, number */][]
-    > = computed(() => {
-        const result = data_of_total.value;
-        return result
-            ? [
-                  [
-                      //   result.global_best_length,
-                      //   result.time_of_best_ms / 1000,
-                      //   result.search_count_of_best,
-                      result.total_time_ms / 1000,
-
-                      result.current_search_count,
-                      result.current_iterations,
-                  ],
-              ]
-            : [];
-    });
+                        result.current_search_count,
+                        result.current_iterations,
+                    ],
+                ]
+                : [];
+        });
     const data_of_best = ref<DataOfBestChange>();
     const data_of_total = ref<DataOfTotal>();
     const on_receive_Data_Of_total = function (data: DataOfTotal) {
@@ -86,7 +71,5 @@ export function use_data_of_summary() {
         data_of_best: data_of_best,
         on_receive_Data_Of_Global_Best,
         clear_data_of_best,
-        // summary_best_TableHeads,
-        // summary_best_TableBody,
     };
 }
