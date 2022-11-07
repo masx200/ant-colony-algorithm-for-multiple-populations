@@ -11,7 +11,7 @@ export function construct_one_route_all(
 
         alpha_zero: number;
         beta_zero: number;
-        lastrandom_selection_probability: number;
+        last_random_selection_probability: number;
     } & SharedOptions
 ): {
     route: number[];
@@ -24,7 +24,7 @@ export function construct_one_route_all(
 
         alpha_zero,
         beta_zero,
-        lastrandom_selection_probability,
+        last_random_selection_probability,
     } = options;
 
     const result = generate_paths_using_state_transition_probabilities({
@@ -32,7 +32,7 @@ export function construct_one_route_all(
         pheromoneStore,
         alpha_zero,
         beta_zero,
-        random_selection_probability: lastrandom_selection_probability,
+        random_selection_probability: last_random_selection_probability,
         node_coordinates,
     });
     return result;

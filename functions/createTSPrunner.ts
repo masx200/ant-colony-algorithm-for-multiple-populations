@@ -492,7 +492,26 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         };
     }
     function smoothPheromones(similarity: number) {}
-    function rewardCommonRoutes(common: number[][]): void {}
+    const { global_pheromone_volatilization_coefficient } = options;
+
+    function rewardCommonRoutes(common: number[][]): void {
+        const maxValue = Math.max(...pheromoneStore.values());
+        const n = count_of_nodes;
+        for (let i = 0; i < n; i++)
+            for (let j = i; j < n; j++) {
+                if (i !== j) {
+                    if (common[i][j] > 0) {
+                        const value =
+                            (1 - global_pheromone_volatilization_coefficient) *
+                                pheromoneStore.get(i, j) +
+                            global_pheromone_volatilization_coefficient *
+                                common[i][j] *
+                                maxValue;
+                        pheromoneStore.set(i, j, value);
+                    }
+                }
+            }
+    }
     function updateBestRoute(route: number[], length: number): void {
         onRouteCreated(route, length);
     }

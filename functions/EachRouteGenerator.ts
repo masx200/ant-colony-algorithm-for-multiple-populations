@@ -23,7 +23,7 @@ export async function EachRouteGenerator(
         pheromoneStore,
         alpha_zero,
         beta_zero,
-        lastrandom_selection_probability,
+        last_random_selection_probability,
 
         getBestLength,
         getBestRoute,
@@ -51,7 +51,7 @@ export async function EachRouteGenerator(
 
         alpha_zero,
         beta_zero,
-        lastrandom_selection_probability,
+        last_random_selection_probability,
     });
 
     if (oldLength < getBestLength()) {
