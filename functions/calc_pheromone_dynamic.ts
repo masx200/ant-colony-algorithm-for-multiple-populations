@@ -28,7 +28,7 @@ export function calc_pheromone_dynamic({
 }): number {
     assert_true(latest_and_optimal_routes.length > 0);
     const length_of_routes = latest_and_optimal_routes.length;
-
+    if (row === column) return 0;
     const result =
         sum(
             latest_and_optimal_routes.map(({ length: route_length }) => {

@@ -7,12 +7,12 @@ import { assignOwnKeys } from "../collections/assignOwnKeys";
 
 import { create_collection_of_optimal_routes } from "../collections/collection-of-optimal-routes";
 import {
+    DefaultOptions,
     default_alpha,
     default_beta,
     default_count_of_ants,
     default_max_results_of_2_opt,
     default_max_results_of_k_opt,
-    DefaultOptions,
 } from "../src/default_Options";
 import { set_distance_round } from "../src/set_distance_round";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
@@ -23,10 +23,8 @@ import {
     update_Cached_hash_table_of_path_lengths_and_path_segments,
 } from "./Cached_hash_table_of_path_lengths_and_path_segments";
 
-import { calc_pheromone_dynamic } from "./calc_pheromone_dynamic";
-import { create_get_neighbors_from_optimal_routes_and_latest_routes } from "./create_get_neighbors_from_optimal_routes_and_latest_routes";
-import { create_pheromone_cache } from "./create_pheromone_cache";
 import { createEventPair } from "./createEventPair";
+import { create_get_neighbors_from_optimal_routes_and_latest_routes } from "./create_get_neighbors_from_optimal_routes_and_latest_routes";
 import { cycle_route_to_segments } from "./cycle_route_to_segments";
 import { DataOfFinishGreedyIteration } from "./DataOfFinishGreedyIteration";
 
@@ -37,9 +35,9 @@ import { EachRouteGenerator } from "./EachRouteGenerator";
 import { generateUniqueArrayOfCircularPath } from "./generateUniqueArrayOfCircularPath";
 import { GreedyRoutesGenerator } from "./GreedyRoutesGenerator";
 
-import { PheromoneCache } from "./PheromoneCache";
 import { PureDataOfFinishOneRoute } from "./PureDataOfFinishOneRoute";
 
+import { createCachePheromoneCalc } from "./createCachePheromoneCalc";
 import { SharedOptions } from "./SharedOptions";
 import { TSP_Output_Data } from "./TSP_Output_Data";
 import { TSP_Runner } from "./TSP_Runner";
@@ -153,63 +151,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     function clear_pheromone_cache() {
         pheromone_exceeds_maximum_range = false;
     }
-    const pheromoneStore: PheromoneCache = new Proxy(
-        create_pheromone_cache(count_of_nodes),
-        {
-            get(target, key) {
-                if (key === "get") {
-                    const raw_get = Reflect.get(
-                        target,
-                        key
-                    ) as PheromoneCache["get"];
-                    return function getPheromone(
-                        row: number,
-                        column: number
-                    ): number {
-                        if (
-                            row < 0 ||
-                            row > count_of_nodes - 1 ||
-                            column < 0 ||
-                            column > count_of_nodes - 1
-                        ) {
-                            throw Error(
-                                "row,column,out of bounds:" + row + "," + column
-                            );
-                        } else {
-                            const cached = raw_get(row, column);
-                            if (0 >= cached) {
-                                const result = calc_pheromone_dynamic({
-                                    latest_and_optimal_routes:
-                                        global_optimal_routes,
 
-                                    row,
-                                    column,
-                                    greedy_length,
-                                    convergence_coefficient,
-                                    routes_segments_cache:
-                                        routes_segments_cache,
-                                });
-
-                                if (result > Number.MAX_VALUE) {
-                                    pheromone_exceeds_maximum_range = true;
-                                }
-                                const max_value = Number.MAX_VALUE;
-                                const min_value = Number.EPSILON;
-                                let value = Math.min(result, max_value);
-                                value = Math.max(value, min_value);
-                                target.set(row, column, value);
-                                return value;
-                            } else {
-                                return cached;
-                            }
-                        }
-                    };
-                } else {
-                    return Reflect.get(target, key);
-                }
-            },
-        }
-    );
     const global_optimal_routes = Array.from(collection_of_optimal_routes);
 
     function update_latest_and_optimal_routes() {
@@ -303,7 +245,16 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     });
 
     const routes_segments_cache: Cached_hash_table_of_path_lengths_and_path_segments =
-        new Map();
+        new Map<number, Set<string>>();
+    const pheromoneStore = createCachePheromoneCalc(
+        count_of_nodes,
+        global_optimal_routes,
+        () => greedy_length,
+        () => convergence_coefficient,
+        routes_segments_cache,
+        (exceeds) => (pheromone_exceeds_maximum_range = exceeds)
+    );
+
     const { max_number_of_stagnation, relative_Information_Entropy_Factor } =
         options;
     const runOneIteration = async () => {
@@ -449,11 +400,11 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                         for (const [city1, city2] of cycle_route_to_segments(
                             route
                         )) {
-                            pheromoneStore.set(city1, city2, 0);
+                            pheromoneStore.calc(city1, city2);
                         }
                     }
                 } else {
-                    pheromoneStore.clear();
+                    pheromoneStore.calcAll();
                 }
                 update_Cached_hash_table_of_path_lengths_and_path_segments(
                     routes_segments_cache,
