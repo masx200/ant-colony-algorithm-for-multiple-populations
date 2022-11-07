@@ -5,7 +5,7 @@ export interface RunnerMultipleCommunicative {
     getOutputDataAndConsumeIterationData: () => TSP_Output_Data;
 
     updateBestRoute(route: number[]): void;
-    smoothPheromones(): void;
+    smoothPheromones(similarity: number): void;
     getBestLength: () => number;
     getBestRoute: () => number[];
     rewardCommonRoutes(common: number[][]): void;
