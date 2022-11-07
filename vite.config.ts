@@ -57,6 +57,7 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
                 extensions: [".ts", ".js"],
 
                 plugins: [
+                    ["@babel/plugin-proposal-async-generator-functions"],
                     [
                         "babel-plugin-import",
                         {
@@ -78,12 +79,6 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
             VitePWA({
                 registerType: "autoUpdate",
                 workbox: { globPatterns: ["*/*"] },
-            }),
-            babel({
-                babelHelpers: "bundled",
-                exclude: [/node_modules/],
-                extensions: [".ts", ".js"],
-                plugins: [["@babel/plugin-proposal-async-generator-functions"]],
             }),
         ],
         build: {
