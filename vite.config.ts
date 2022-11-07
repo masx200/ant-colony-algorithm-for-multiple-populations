@@ -10,6 +10,7 @@ import { createHtmlPlugin } from "vite-plugin-html";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { resolve } from "path";
 import { VitePWA } from "vite-plugin-pwa";
+import { PluginItem } from "@babel/core";
 
 const checker = vpchecker;
 
@@ -19,10 +20,19 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
         worker: {
             plugins: [
                 babel({
+                    sourceMaps: true,
                     babelHelpers: "bundled",
                     exclude: [/node_modules/],
                     extensions: [".ts", ".js"],
                     plugins: [
+                        [
+                            "babel-plugin-import",
+                            {
+                                libraryName: "lodash",
+                                libraryDirectory: "",
+                                camel2DashComponentName: false,
+                            },
+                        ],
                         ["@babel/plugin-proposal-async-generator-functions"],
                     ],
                 }) as PluginOption,
@@ -67,7 +77,7 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
                         },
                     ],
                     isdrop && "babel-plugin-clean-code",
-                ].filter(Boolean),
+                ].filter(Boolean) as PluginItem[],
             }),
             createHtmlPlugin({
                 minify: {
