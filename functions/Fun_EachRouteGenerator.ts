@@ -9,8 +9,8 @@ export interface EachRouteGeneratorOptions {
     beta_zero: number;
     lastrandom_selection_probability: number;
     max_results_of_k_opt: number;
-    get_best_length: () => number;
-    get_best_route: () => number[];
+    getBestLength: () => number;
+    getBestRoute: () => number[];
     greedy_length: number;
     pheromone_exceeds_maximum_range: () => boolean;
 }

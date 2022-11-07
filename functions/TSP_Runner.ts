@@ -19,8 +19,8 @@ export type TSP_Runner = Required<TSPRunnerOptions> &
 
         get_number_of_iterations: () => number;
 
-        get_best_length: () => number;
-        get_best_route: () => number[];
+        getBestLength: () => number;
+        getBestRoute: () => number[];
         get_current_search_count: () => number;
         pheromoneStore: ReadOnlyPheromone;
 
@@ -31,5 +31,5 @@ export type TSP_Runner = Required<TSPRunnerOptions> &
         beta_zero: number;
         count_of_ants: number;
 
-        get_output_data_and_consume_iteration_data: () => TSP_Output_Data;
+        getOutputDataAndConsumeIterationData: () => TSP_Output_Data;
     };

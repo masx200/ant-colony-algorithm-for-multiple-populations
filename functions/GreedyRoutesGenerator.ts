@@ -4,7 +4,7 @@ import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/G
 import { get_distance_round } from "../src/set_distance_round";
 import { assert_true } from "../test/assert_true";
 import { DataOfFinishGreedyIteration } from "./DataOfFinishGreedyIteration";
-import { get_best_route_Of_Series_routes_and_lengths } from "./get_best_route_Of_Series_routes_and_lengths";
+import { getBestRoute_Of_Series_routes_and_lengths } from "./getBestRoute_Of_Series_routes_and_lengths";
 import { greedy_first_search_routes_parallel } from "./greedy_first_search_routes_parallel";
 import { PureDataOfFinishOneRoute } from "./PureDataOfFinishOneRoute";
 import { SharedOptions } from "./SharedOptions";
@@ -14,8 +14,8 @@ export async function GreedyRoutesGenerator(
         emit_finish_greedy_iteration: (
             data: DataOfFinishGreedyIteration
         ) => void;
-        get_best_route: () => number[];
-        get_best_length: () => number;
+        getBestRoute: () => number[];
+        getBestLength: () => number;
 
         onRouteCreated: (route: number[], length: number) => void;
         emit_finish_one_route: (data: PureDataOfFinishOneRoute) => void;
@@ -31,8 +31,8 @@ export async function GreedyRoutesGenerator(
         set_global_best,
         count_of_nodes,
         emit_finish_greedy_iteration,
-        get_best_route,
-        get_best_length,
+        getBestRoute,
+        getBestLength,
 
         onRouteCreated,
         emit_finish_one_route,
@@ -58,7 +58,7 @@ export async function GreedyRoutesGenerator(
         const oldLength = length;
         const oldRoute = route;
 
-        if (oldLength < get_best_length()) {
+        if (oldLength < getBestLength()) {
             set_global_best(oldRoute, oldLength);
         }
 
@@ -72,7 +72,7 @@ export async function GreedyRoutesGenerator(
     }
 
     const { length: best_length, route: optimal_route_of_iteration } =
-        get_best_route_Of_Series_routes_and_lengths(parallel_results);
+        getBestRoute_Of_Series_routes_and_lengths(parallel_results);
     const best_route = optimal_route_of_iteration;
     Greedy_algorithm_to_solve_tsp_with_selected_start_pool.destroy();
     const time_ms_of_one_iteration = sum(
@@ -90,10 +90,10 @@ export async function GreedyRoutesGenerator(
         optimal_length_of_iteration: best_length,
         optimal_route_of_iteration,
         time_ms_of_one_iteration,
-        global_best_length: get_best_length(),
+        global_best_length: getBestLength(),
     });
-    assert_true(get_best_length() < Infinity);
-    assert_true(get_best_route().length === count_of_nodes);
+    assert_true(getBestLength() < Infinity);
+    assert_true(getBestRoute().length === count_of_nodes);
     return {
         best_length,
         best_route,

@@ -1,4 +1,4 @@
-export function get_best_route_Of_Series_routes_and_lengths(
+export function getBestRoute_Of_Series_routes_and_lengths(
     routes_and_lengths: {
         route: number[];
         length: number;

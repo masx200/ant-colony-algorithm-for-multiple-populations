@@ -34,7 +34,7 @@ export async function tsp_runner_run_async({
     let rest_time = time_of_search_ms;
     const type_of_search =
         time_of_search_ms < Infinity ? RunWay.time : RunWay.round;
-    let duration: number = 0;
+    let duration = 0;
     while (
         type_of_search === RunWay.time ? rest_time > 0 : rest_iterations > 0
     ) {
@@ -67,13 +67,11 @@ export async function tsp_runner_run_async({
         run_iterations = Math.min(run_iterations, rest_iterations);
         if (Number(new Date()) - last_update_time > drawChartMaxWait) {
             on_update_output_data(
-                await runner.get_output_data_and_consume_iteration_data()
+                await runner.getOutputDataAndConsumeIterationData()
             );
             last_update_time = Number(new Date());
         }
         await sleep_requestAnimationFrame_async_or_settimeout();
     }
-    on_update_output_data(
-        await runner.get_output_data_and_consume_iteration_data()
-    );
+    on_update_output_data(await runner.getOutputDataAndConsumeIterationData());
 }

@@ -25,14 +25,14 @@ export async function EachRouteGenerator(
         beta_zero,
         lastrandom_selection_probability,
 
-        get_best_length,
-        get_best_route,
+        getBestLength,
+        getBestRoute,
     } = options;
     if (pheromone_exceeds_maximum_range()) {
         return {
             time_ms: 0,
-            length: get_best_length(),
-            route: get_best_route(),
+            length: getBestLength(),
+            route: getBestRoute(),
         };
     }
     const {
@@ -54,7 +54,7 @@ export async function EachRouteGenerator(
         lastrandom_selection_probability,
     });
 
-    if (oldLength < get_best_length()) {
+    if (oldLength < getBestLength()) {
         set_global_best(oldRoute, oldLength);
     }
 
@@ -62,11 +62,11 @@ export async function EachRouteGenerator(
 
     const route = oldRoute;
     const length = oldLength;
-    if (length < get_best_length()) {
+    if (length < getBestLength()) {
         set_global_best(route, length);
     }
-    assert_true(get_best_length() < Infinity);
-    assert_true(get_best_route().length === count_of_nodes);
+    assert_true(getBestLength() < Infinity);
+    assert_true(getBestRoute().length === count_of_nodes);
     const time_ms = endtime_of_one_route - starttime_of_one_route;
 
     return { time_ms: time_ms, route, length };

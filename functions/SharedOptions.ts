@@ -10,8 +10,8 @@ export type SharedOptions = Required<TSPRunnerOptions> & {
     get_random_selection_probability: () => number;
     get_search_count_of_best: () => number;
 
-    get_best_route: () => number[];
-    get_best_length: () => number;
+    getBestRoute: () => number[];
+    getBestLength: () => number;
 
     set_global_best: (route: number[], length: number) => void;
     get_current_search_count: () => number;

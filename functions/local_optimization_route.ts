@@ -5,7 +5,7 @@ import { Precise_2_opt_eliminates_all_intersections } from "../cross-points/Prec
 import { random_k_exchange_limited } from "../cross-points/random_k_exchange_limited";
 import { Random_K_OPT_full_limited_find_best } from "../k-opt/Random_K_OPT_full_limited_find_best";
 import { set_distance_round } from "../src/set_distance_round";
-import { get_best_route_Of_Series_routes_and_lengths } from "./get_best_route_Of_Series_routes_and_lengths";
+import { getBestRoute_Of_Series_routes_and_lengths } from "./getBestRoute_Of_Series_routes_and_lengths";
 import { LocalOptimizationRoutesOptions } from "./LocalOptimizationRouteOptions";
 import { NodeCoordinates } from "./NodeCoordinates";
 import { pickRandomOne } from "./pickRandomOne";
@@ -24,7 +24,7 @@ export async function local_optimization_routes({
 
     const time_ms = sumBy(results, (v) => v.time_ms);
     const { route, length } =
-        get_best_route_Of_Series_routes_and_lengths(results);
+        getBestRoute_Of_Series_routes_and_lengths(results);
     return { route, length, time_ms: time_ms };
 }
 export interface LocalOptimizationRouteOptions {
@@ -104,7 +104,7 @@ export function local_optimization_route({
         { route: oldRoute, length: oldLength },
     ];
     const { route, length } =
-        get_best_route_Of_Series_routes_and_lengths(temp_set_of_routes);
+        getBestRoute_Of_Series_routes_and_lengths(temp_set_of_routes);
     const endtime_of_one_route = Number(new Date());
     const time_ms = endtime_of_one_route - starttime_of_one_route;
     return { route, length, time_ms: time_ms };

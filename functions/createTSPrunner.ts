@@ -94,7 +94,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     on_finish_greedy_iteration((data) => {
         data_of_greedy.push(data);
     });
-    function get_output_data_and_consume_iteration_data() {
+    function getOutputDataAndConsumeIterationData() {
         const output_data: TSP_Output_Data = {
             data_of_greedy,
             get delta_data_of_iterations() {
@@ -235,11 +235,11 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         length: number;
         route: number[];
     } = { length: Infinity, route: [] };
-    const get_best_route = () => {
+    const getBestRoute = () => {
         return global_best.route;
     };
 
-    const get_best_length = () => {
+    const getBestLength = () => {
         return global_best.length;
     };
     let current_search_count = 0;
@@ -272,7 +272,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             ...data,
             current_search_count,
 
-            global_best_length: get_best_length(),
+            global_best_length: getBestLength(),
         });
     }
 
@@ -284,7 +284,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     ) {
         inner_emit_finish_one_iteration({
             ...data,
-            global_best_length: get_best_length(),
+            global_best_length: getBestLength(),
             current_iterations: get_number_of_iterations(),
             convergence_coefficient,
         });
@@ -311,8 +311,8 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             const { best_length, best_route, average_length } =
                 await GreedyRoutesGenerator({
                     ...shared,
-                    get_best_route,
-                    get_best_length,
+                    getBestRoute,
+                    getBestLength,
 
                     onRouteCreated,
                     emit_finish_one_route,
@@ -348,8 +348,8 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                         beta_zero,
                         lastrandom_selection_probability,
                         max_results_of_k_opt,
-                        get_best_length,
-                        get_best_route,
+                        getBestLength,
+                        getBestRoute,
                         greedy_length,
                         pheromone_exceeds_maximum_range: () =>
                             pheromone_exceeds_maximum_range,
@@ -385,8 +385,8 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                     ...shared,
 
                     routes_and_lengths: routes_and_lengths_of_one_iteration,
-                    get_best_length: get_best_length,
-                    get_best_route: get_best_route,
+                    getBestLength: getBestLength,
+                    getBestRoute: getBestRoute,
                     pheromoneStore,
                     node_coordinates,
                 });
@@ -472,7 +472,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     };
 
     function onRouteCreated(route: number[], length: number) {
-        if (length < get_best_length()) {
+        if (length < getBestLength()) {
             set_global_best(route, length);
         }
         if (collection_of_optimal_routes) {
@@ -502,7 +502,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         max_results_of_2_opt,
 
         max_results_of_k_opt,
-        get_output_data_and_consume_iteration_data,
+        getOutputDataAndConsumeIterationData,
         get_search_count_of_best,
         get_time_of_best,
         get_random_selection_probability,
@@ -512,8 +512,8 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         runIterations,
 
         get_number_of_iterations,
-        get_best_length,
-        get_best_route,
+        getBestLength,
+        getBestRoute,
         get_current_search_count,
         beta_zero,
         node_coordinates,
@@ -530,8 +530,8 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             get_random_selection_probability,
             get_search_count_of_best,
 
-            get_best_route,
-            get_best_length,
+            getBestRoute,
+            getBestLength,
 
             get_current_search_count,
             pheromoneStore,
