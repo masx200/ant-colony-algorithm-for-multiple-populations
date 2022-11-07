@@ -48,7 +48,7 @@ import { update_last_random_selection_probability } from "./update_last_random_s
 
 export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     let greedy_length = Infinity;
-    const emitter = EventEmitterTargetClass(/* { sync: true } */);
+    const emitter = EventEmitterTargetClass();
     const {
         on: on_finish_greedy_iteration,
         emit: emit_finish_greedy_iteration,
@@ -475,9 +475,8 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         if (length < getBestLength()) {
             set_global_best(route, length);
         }
-        if (collection_of_optimal_routes) {
-            collection_of_optimal_routes.add(route, length);
-        }
+
+        collection_of_optimal_routes.add(route, length);
     }
 
     function get_search_count_of_best() {
@@ -521,6 +520,9 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         count_of_ants,
         [Symbol.toStringTag]: "TSPRunner",
         runOneIteration,
+        updateBestRoute,
+        smoothPheromones,
+        rewardCommonRoutes,
     };
     function getShared(): SharedOptions {
         return {
@@ -538,6 +540,11 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             count_of_nodes,
             set_global_best,
         };
+    }
+    function smoothPheromones(similarity: number) {}
+    function rewardCommonRoutes(common: number[][]): void {}
+    function updateBestRoute(route: number[], length: number): void {
+        onRouteCreated(route, length);
     }
     return result;
 }

@@ -1,3 +1,4 @@
+import { RunnerMultipleCommunicative } from "../src/RunnerMultipleCommunicative";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 import { NodeCoordinates } from "./NodeCoordinates";
 import { ReadOnlyPheromone } from "./ReadOnlyPheromone";
@@ -32,4 +33,4 @@ export type TSP_Runner = Required<TSPRunnerOptions> &
         count_of_ants: number;
 
         getOutputDataAndConsumeIterationData: () => TSP_Output_Data;
-    };
+    } & RunnerMultipleCommunicative;
