@@ -145,10 +145,10 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         max_size_of_collection_of_optimal_routes
     );
 
-    let lastrandom_selection_probability = 0;
+    let last_random_selection_probability = 0;
     let total_time_ms = 0;
     let pheromone_exceeds_maximum_range = false;
-    function clear_pheromone_cache() {
+    function resetPheromoneExceedsRange() {
         pheromone_exceeds_maximum_range = false;
     }
 
@@ -177,34 +177,34 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         length: number;
         route: number[];
     } = { length: Infinity, route: [] };
-    const getBestRoute = () => {
+    function getBestRoute() {
         return global_best.route;
-    };
+    }
 
-    const getBestLength = () => {
+    function getBestLength() {
         return global_best.length;
-    };
+    }
     let current_search_count = 0;
 
     let time_of_best_ms = 0;
     let search_count_of_best = 0;
 
-    const get_total_time_ms = () => {
+    function get_total_time_ms() {
         return total_time_ms;
-    };
+    }
 
-    const get_current_search_count = () => {
+    function get_current_search_count() {
         return current_search_count;
-    };
+    }
 
-    const get_number_of_iterations = () => {
+    function get_number_of_iterations() {
         if (current_search_count < max_routes_of_greedy) {
             return current_search_count / max_routes_of_greedy;
         }
         return (
             (current_search_count - max_routes_of_greedy) / count_of_ants + 1
         );
-    };
+    }
 
     function emit_finish_one_route(data: PureDataOfFinishOneRoute) {
         total_time_ms += data.time_ms_of_one_route;
@@ -234,14 +234,14 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     const is_count_not_large = count_of_nodes <= max_cities_of_state_transition;
     on_finish_one_iteration(() => {
         update_latest_and_optimal_routes();
-        clear_pheromone_cache();
+        resetPheromoneExceedsRange();
         if (!is_count_not_large) {
             neighbors_from_optimal_routes_and_latest_routes.clear();
         }
     });
     on_finish_greedy_iteration(() => {
         update_latest_and_optimal_routes();
-        clear_pheromone_cache();
+        resetPheromoneExceedsRange();
     });
 
     const routes_segments_cache: Cached_hash_table_of_path_lengths_and_path_segments =
@@ -257,7 +257,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
 
     const { max_number_of_stagnation, relative_Information_Entropy_Factor } =
         options;
-    const runOneIteration = async () => {
+    async function runOneIteration() {
         if (current_search_count === 0) {
             const { best_length, best_route, average_length } =
                 await GreedyRoutesGenerator({
@@ -297,7 +297,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                         pheromoneStore,
                         alpha_zero,
                         beta_zero,
-                        lastrandom_selection_probability,
+                        last_random_selection_probability,
                         max_results_of_k_opt,
                         getBestLength,
                         getBestRoute,
@@ -326,7 +326,6 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 const last_convergence_coefficient = convergence_coefficient;
                 const {
                     coefficient_of_diversity_increase,
-
                     population_relative_information_entropy,
                     iterate_best_length,
                     optimal_length_of_iteration,
@@ -365,7 +364,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                     population_relative_information_entropy,
 
                     random_selection_probability:
-                        lastrandom_selection_probability,
+                        last_random_selection_probability,
                     time_ms_of_one_iteration: time_ms_of_one_iteration,
                     convergence_coefficient,
                 });
@@ -384,10 +383,10 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 number_of_stagnation++;
 
                 time_ms_of_one_iteration = 0;
-                lastrandom_selection_probability =
+                last_random_selection_probability =
                     update_last_random_selection_probability({
                         coefficient_of_diversity_increase,
-                        lastrandom_selection_probability,
+                        last_random_selection_probability,
                     });
 
                 if (last_convergence_coefficient < convergence_coefficient) {
@@ -412,15 +411,15 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 );
             }
         }
-    };
-    const runIterations = async (iterations: number) => {
+    }
+    async function runIterations(iterations: number) {
         assert_number(iterations);
         assert_true(iterations > 0);
 
         for (let i = 0; i < iterations; i++) {
             await runOneIteration();
         }
-    };
+    }
 
     function onRouteCreated(route: number[], length: number) {
         if (length < getBestLength()) {
@@ -437,7 +436,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         return time_of_best_ms;
     }
     function get_random_selection_probability() {
-        return lastrandom_selection_probability;
+        return last_random_selection_probability;
     }
 
     const neighbors_from_optimal_routes_and_latest_routes =
