@@ -36,7 +36,6 @@ import { use_initialize_tsp_runner } from "./use_initialize_tsp_runner";
 import { run_tsp_by_search_rounds } from "./run_tsp-by-search-rounds";
 import { run_tsp_by_search_time as run_tsp_by_search_time } from "./run_tsp_by_search_time";
 import { generate_greedy_preview_echarts_options } from "./generate_greedy_preview_echarts_options";
-import { use_tsp_before_start } from "./use_tsp_before_start";
 import { TSP_cities_map } from "./TSP_cities_map";
 import { TSP_Worker_Remote } from "./TSP_Worker_Remote";
 import { use_data_of_greedy_iteration } from "./use_data_of_greedy_iteration";
@@ -170,8 +169,6 @@ export default defineComponent({
         } = use_history_of_best(readonly(data_of_best));
 
         const initializeTSP_runner = use_initialize_tsp_runner();
-
-        const TSP_before_Start = use_tsp_before_start(initializeTSP_runner);
 
         const is_running = ref(false);
 
@@ -354,7 +351,7 @@ export default defineComponent({
                 disable_switching.value = true;
                 const count_of_ants = count_of_ants_value;
                 assert_number(count_of_ants);
-                const runner = await TSP_before_Start({
+                const runner = await initializeTSP_runner({
                     ...input_options,
 
                     distance_round,
