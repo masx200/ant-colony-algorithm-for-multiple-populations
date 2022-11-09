@@ -33,6 +33,7 @@
         "cross-points",
         "similarity/*.ts",
         "k-opt",
-        "*/*.ts"
+        "*/*.ts",
+        "classic-acs"
     ]
 }
