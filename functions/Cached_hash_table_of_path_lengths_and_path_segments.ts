@@ -7,6 +7,7 @@ export function update_Cached_hash_table_of_path_lengths_and_path_segments(
         length: number;
     }>
 ) {
+    map.clear();
     for (const { route, length } of routes_and_lengths) {
         if (!map.has(length)) {
             map.set(
