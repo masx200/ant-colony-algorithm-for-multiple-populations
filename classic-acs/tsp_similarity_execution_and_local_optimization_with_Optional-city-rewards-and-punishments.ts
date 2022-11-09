@@ -48,7 +48,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         path_selection_parameter_q0_min = DefaultOptions.path_selection_parameter_q0_min,
     } = options;
     let similarity = 0;
-    const route_selection_parameters_Q0 = path_selection_parameter_q0_min;
+    let route_selection_parameters_Q0 = path_selection_parameter_q0_min;
     const collection_of_optimal_routes = create_collection_of_optimal_routes(
         max_size_of_collection_of_optimal_routes
     );
@@ -322,6 +322,12 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 current_routes,
                 get_best_route()
             );
+            route_selection_parameters_Q0 =
+                path_selection_parameter_q0_min +
+                (path_selection_parameter_q0_max -
+                    path_selection_parameter_q0_min) *
+                    (1 - Math.pow(similarity, 3));
+
             const endtime_of_process_iteration = Number(new Date());
 
             time_ms_of_one_iteration +=
