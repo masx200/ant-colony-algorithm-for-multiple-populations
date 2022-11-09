@@ -10,7 +10,7 @@ import { MatrixSymmetryCreate, MatrixFill } from "@masx200/sparse-2d-matrix";
 import { run_greedy_once_thread_with_time } from "../functions/run_greedy_once_thread_with_time";
 import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
 import { calc_population_relative_information_entropy } from "../functions/calc_population-relative-information-entropy";
-import { sum, uniq, uniqBy } from "lodash-es";
+import { minBy, sum, uniq, uniqBy } from "lodash-es";
 import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
 import { closed_total_path_length } from "../functions/closed-total-path-length";
 import { creategetdistancebyindex } from "../functions/creategetdistancebyindex";
@@ -217,7 +217,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             pheromoneStore.set(city1, city2, changed_pheromone);
         }
     }
-    function global_pheromone_update() {
+    function global_pheromone_update(iterate_best_length: number) {
         const best_route = get_best_route();
         const best_length = get_best_length();
 
@@ -226,7 +226,8 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             const changed_pheromone =
                 (1 - global_pheromone_volatilization_coefficient) *
                     pheromoneStore.get(city1, city2) +
-                global_pheromone_volatilization_coefficient * delta_pheromone;
+                global_pheromone_volatilization_coefficient * delta_pheromone +
+                similarity * (1 / iterate_best_length);
             pheromoneStore.set(city1, city2, changed_pheromone);
         }
     }
@@ -304,17 +305,16 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             const current_routes = routes_and_lengths_of_one_iteration.map(
                 (a) => a.route
             );
-
-            global_pheromone_update();
+            const iterate_best_length = Math.min(
+                ...routes_and_lengths_of_one_iteration.map((a) => a.length)
+            );
+            global_pheromone_update(iterate_best_length);
             const population_relative_information_entropy =
                 calc_population_relative_information_entropy(current_routes);
             const average_length_of_iteration =
                 sum(routes_and_lengths_of_one_iteration.map((a) => a.length)) /
                 routes_and_lengths_of_one_iteration.length;
             const worst_length_of_iteration = Math.max(
-                ...routes_and_lengths_of_one_iteration.map((a) => a.length)
-            );
-            const iterate_best_length = Math.min(
                 ...routes_and_lengths_of_one_iteration.map((a) => a.length)
             );
 
