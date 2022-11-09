@@ -25,6 +25,7 @@ import { create_collection_of_optimal_routes } from "../collections/collection-o
 import { select_available_cities_from_optimal_and_latest } from "../functions/select_available_cities_from_optimal_and_latest";
 import { run_local_optimization } from "./run_local_optimization";
 import { create_run_iterations } from "../functions/create_run_iterations";
+import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 /**acs+三种局部优化方法+对可选城市的奖惩 */
 export function tsp_similarity_execution_and_local_optimization_with_Optional_city_rewards_and_punishments(
     options: COMMON_TSP_Options
@@ -46,7 +47,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         path_selection_parameter_q0_max = DefaultOptions.path_selection_parameter_q0_max,
         path_selection_parameter_q0_min = DefaultOptions.path_selection_parameter_q0_min,
     } = options;
-    let similarity=0
+    let similarity = 0;
     const route_selection_parameters_Q0 = path_selection_parameter_q0_min;
     const collection_of_optimal_routes = create_collection_of_optimal_routes(
         max_size_of_collection_of_optimal_routes
@@ -315,6 +316,11 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             );
             const iterate_best_length = Math.min(
                 ...routes_and_lengths_of_one_iteration.map((a) => a.length)
+            );
+
+            similarity = similarityOfMultipleRoutes(
+                current_routes,
+                get_best_route()
             );
             const endtime_of_process_iteration = Number(new Date());
 
