@@ -46,6 +46,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         path_selection_parameter_q0_max = DefaultOptions.path_selection_parameter_q0_max,
         path_selection_parameter_q0_min = DefaultOptions.path_selection_parameter_q0_min,
     } = options;
+    let similarity=0
     const route_selection_parameters_Q0 = path_selection_parameter_q0_min;
     const collection_of_optimal_routes = create_collection_of_optimal_routes(
         max_size_of_collection_of_optimal_routes
