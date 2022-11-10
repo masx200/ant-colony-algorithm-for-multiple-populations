@@ -15,7 +15,7 @@ export function use_data_of_one_iteration() {
         "局部优化长度",
         "收敛性系数",
     ];
-    const onreceive_delta_dataofoneIteration = function (
+    function onreceive_delta_dataofoneIteration(
         delta_data: DataOfFinishOneIteration[]
     ) {
         for (let i = 0; i < delta_data.length; i++) {
@@ -36,11 +36,11 @@ export function use_data_of_one_iteration() {
                 data.convergence_coefficient,
             ]);
         }
-    };
+    }
 
-    const clearDataOfOneIteration = function clearDataOfOneIteration(): void {
+    function clearDataOfOneIteration(): void {
         dataofoneiteration.length = 0;
-    };
+    }
     const dataofoneiteration = reactive<DataOfFinishOneIteration[]>([]);
     const oneiterationtablebody: [
         number,
