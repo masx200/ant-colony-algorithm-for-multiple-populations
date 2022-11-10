@@ -13,10 +13,10 @@ export function MultiPopulationScheduler(
 ): MultiPopulationScheduler {
     const options = Object.assign(structuredClone(DefaultOptions), input);
     return {
-        runIterations(iterations) {},
-        runOneIteration() {},
-        getBestLength() {},
-        getBestRoute() {},
-        getOutputDataAndConsumeIterationData() {},
+        async runIterations(iterations: number) {},
+        async runOneIteration() {},
+        getBestLength(): number {},
+        getBestRoute(): number[] {},
+        getOutputDataAndConsumeIterationData(): COMMON_TSP_Output {},
     };
 }
