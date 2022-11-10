@@ -10,7 +10,7 @@ import { MatrixSymmetryCreate, MatrixFill } from "@masx200/sparse-2d-matrix";
 import { run_greedy_once_thread_with_time } from "../functions/run_greedy_once_thread_with_time";
 import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
 import { calc_population_relative_information_entropy } from "../functions/calc_population-relative-information-entropy";
-import { minBy, sum, uniq, uniqBy } from "lodash-es";
+import { sum, uniq, uniqBy } from "lodash-es";
 import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
 import { closed_total_path_length } from "../functions/closed-total-path-length";
 import { creategetdistancebyindex } from "../functions/creategetdistancebyindex";
