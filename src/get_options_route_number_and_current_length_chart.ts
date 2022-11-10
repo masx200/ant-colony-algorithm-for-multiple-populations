@@ -10,7 +10,7 @@ export function get_options_route_number_and_current_length_chart(
 
     const data: [number, number][] = dataofoneroute.map((a) => [
         a.current_search_count,
-        a.length,
+        a.current_route_length,
     ]);
     return create_line_chart_options({
         yAxis_min: 0,

@@ -4,5 +4,5 @@ export type DataOfFinishOneRoute = {
     current_search_count: number;
     time_ms_of_one_route: number;
 
-    length: number;
+    current_route_length: number;
 };

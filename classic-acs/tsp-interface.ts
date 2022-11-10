@@ -1,11 +1,14 @@
+import { DataOfFinishOneIteration } from "../functions/DataOfFinishOneIteration";
+import { DataOfFinishOneRoute } from "../functions/DataOfFinishOneRoute";
 import { NodeCoordinates } from "../functions/NodeCoordinates";
+import { TSP_Output_Data } from "../functions/TSP_Output_Data";
 import { RunnerMultipleCommunicative } from "../src/RunnerMultipleCommunicative";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
-export interface COMMON_TSP_EXECUTION extends RunnerMultipleCommunicative {
+export type COMMON_TSP_EXECUTION = {
     runOneIteration: () => Promise<void>;
     getOutputDataAndConsumeIterationData: () => COMMON_TSP_Output;
-}
-export interface COMMON_TSP_Output {
+} & RunnerMultipleCommunicative;
+export type COMMON_TSP_Output = {
     total_time_ms: number;
     current_iterations: number;
     current_search_count: number;
@@ -15,16 +18,16 @@ export interface COMMON_TSP_Output {
     global_best_route: number[];
     global_best_length: number;
     search_count_of_best: number;
-}
-export interface COMMON_DataOfOneRoute {
+} & TSP_Output_Data;
+export type COMMON_DataOfOneRoute = {
     global_best_length: number;
 
     current_search_count: number;
     time_ms_of_one_route: number;
 
     current_route_length: number;
-}
-export interface COMMON_DataOfOneIteration {
+} & DataOfFinishOneRoute;
+export type COMMON_DataOfOneIteration = {
     current_iterations: number;
     global_best_length: number;
     iterate_best_length: number;
@@ -32,7 +35,7 @@ export interface COMMON_DataOfOneIteration {
     average_length_of_iteration: number;
     worst_length_of_iteration: number;
     time_ms_of_one_iteration: number;
-}
+} & DataOfFinishOneIteration;
 export type COMMON_TSP_Options = {
     distance_round?: boolean;
     alpha_zero?: number | undefined;
