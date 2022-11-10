@@ -1,6 +1,7 @@
 import { TSP_Output_Data } from "../functions/TSP_Output_Data";
 
 export interface RunnerMultipleCommunicative {
+    runOneIteration: () => Promise<void>;
     runIterations: (iterations: number) => Promise<void>;
     getOutputDataAndConsumeIterationData: () => TSP_Output_Data;
 
