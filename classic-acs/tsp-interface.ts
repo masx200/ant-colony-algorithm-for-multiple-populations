@@ -45,5 +45,4 @@ export type COMMON_TSP_Options = {
 
     local_pheromone_volatilization_coefficient?: number;
     global_pheromone_volatilization_coefficient?: number;
-    route_selection_parameters_Q0?: number;
 } & TSPRunnerOptions;
