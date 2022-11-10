@@ -3,13 +3,13 @@ import { construct_one_route_all } from "./construct_one_route_all";
 import { EachRouteGeneratorOptions } from "./Fun_EachRouteGenerator";
 import { SharedOptions } from "./SharedOptions";
 
-export async function EachRouteGenerator(
+export function EachRouteGenerator(
     options: EachRouteGeneratorOptions & SharedOptions
-): Promise<{
+): {
     route: number[];
     length: number;
     time_ms: number;
-}> {
+} {
     const starttime_of_one_route = Number(new Date());
     const {
         pheromone_exceeds_maximum_range,

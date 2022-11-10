@@ -14,4 +14,5 @@ export interface DataOfFinishOneIteration {
 
     iterate_best_length: number;
     id_Of_Population: number;
+    Intra_population_similarity: number;
 }

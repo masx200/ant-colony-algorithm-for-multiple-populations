@@ -44,6 +44,7 @@ import { TSP_Runner } from "./TSP_Runner";
 import { update_convergence_coefficient } from "./update_convergence_coefficient";
 import { update_last_random_selection_probability } from "./update_last_random_selection_probability";
 import { uniqBy } from "lodash";
+import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 
 export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     let greedy_length = Infinity;
@@ -72,7 +73,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     const { id_Of_Population } = options;
     assert_number(count_of_ants);
     assert_true(count_of_ants >= 2);
-
+    let Intra_population_similarity = 0;
     const data_of_routes: DataOfFinishOneRoute[] = [];
     const delta_data_of_iterations: DataOfFinishOneIteration[] = [];
     const data_of_greedy: DataOfFinishGreedyIteration[] = [];
@@ -287,26 +288,24 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 route: number[];
                 length: number;
                 time_ms: number;
-            }[] = await Promise.all(
-                Array.from({ length: count_of_ants }).map(() =>
-                    EachRouteGenerator({
-                        ...shared,
-                        current_search_count,
+            }[] = Array.from({ length: count_of_ants }).map(() =>
+                EachRouteGenerator({
+                    ...shared,
+                    current_search_count,
 
-                        count_of_nodes,
-                        node_coordinates,
-                        pheromoneStore,
-                        alpha_zero,
-                        beta_zero,
-                        last_random_selection_probability,
-                        max_results_of_k_opt,
-                        getBestLength,
-                        getBestRoute,
-                        greedy_length,
-                        pheromone_exceeds_maximum_range: () =>
-                            pheromone_exceeds_maximum_range,
-                    })
-                )
+                    count_of_nodes,
+                    node_coordinates,
+                    pheromoneStore,
+                    alpha_zero,
+                    beta_zero,
+                    last_random_selection_probability,
+                    max_results_of_k_opt,
+                    getBestLength,
+                    getBestRoute,
+                    greedy_length,
+                    pheromone_exceeds_maximum_range: () =>
+                        pheromone_exceeds_maximum_range,
+                })
             );
 
             for (const {
@@ -355,6 +354,13 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 const worst_length_of_iteration = Math.max(
                     ...routes_and_lengths_of_one_iteration.map((a) => a.length)
                 );
+                const current_routes = routes_and_lengths_of_one_iteration.map(
+                    (a) => a.route
+                );
+                Intra_population_similarity = similarityOfMultipleRoutes(
+                    current_routes,
+                    getBestRoute()
+                );
                 emit_finish_one_iteration({
                     id_Of_Population,
                     worst_length_of_iteration,
@@ -364,7 +370,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                     optimal_length_of_iteration,
 
                     population_relative_information_entropy,
-
+                    Intra_population_similarity,
                     random_selection_probability:
                         last_random_selection_probability,
                     time_ms_of_one_iteration: time_ms_of_one_iteration,

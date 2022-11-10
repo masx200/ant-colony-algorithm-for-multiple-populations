@@ -50,7 +50,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         path_selection_parameter_q0_min = DefaultOptions.path_selection_parameter_q0_min,
     } = options;
     const { id_Of_Population } = options;
-    let similarity = 0;
+    let Intra_population_similarity = 0;
     const data_of_greedy: DataOfFinishGreedyIteration[] = [];
     let route_selection_parameters_Q0 = path_selection_parameter_q0_min;
     const collection_of_optimal_routes = create_collection_of_optimal_routes(
@@ -231,7 +231,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 (1 - global_pheromone_volatilization_coefficient) *
                     pheromoneStore.get(city1, city2) +
                 global_pheromone_volatilization_coefficient * delta_pheromone +
-                similarity * (1 / iterate_best_length);
+                Intra_population_similarity * (1 / iterate_best_length);
             pheromoneStore.set(city1, city2, changed_pheromone);
         }
     }
@@ -329,7 +329,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 ...routes_and_lengths_of_one_iteration.map((a) => a.length)
             );
 
-            similarity = similarityOfMultipleRoutes(
+            Intra_population_similarity = similarityOfMultipleRoutes(
                 current_routes,
                 get_best_route()
             );
@@ -337,7 +337,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 path_selection_parameter_q0_min +
                 (path_selection_parameter_q0_max -
                     path_selection_parameter_q0_min) *
-                    (1 - Math.pow(similarity, 3));
+                    (1 - Math.pow(Intra_population_similarity, 3));
 
             const endtime_of_process_iteration = Number(new Date());
 
@@ -355,6 +355,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 average_length_of_iteration,
                 worst_length_of_iteration,
                 iterate_best_length,
+                Intra_population_similarity,
                 optimal_length_of_iteration,
                 convergence_coefficient: -Infinity,
                 random_selection_probability: -Infinity,
