@@ -13,9 +13,13 @@ export function MultiPopulationScheduler(
 ): MultiPopulationScheduler {
     const options = Object.assign(structuredClone(DefaultOptions), input);
     const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         number_of_populations_of_the_first_category,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         number_of_the_second_type_of_population,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         node_coordinates,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         population_communication_iterate_cycle,
     } = options;
     return {
