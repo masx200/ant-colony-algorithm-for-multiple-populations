@@ -13,4 +13,5 @@ export interface DataOfFinishOneIteration {
     convergence_coefficient: number;
 
     iterate_best_length: number;
+    id_Of_Population: number;
 }

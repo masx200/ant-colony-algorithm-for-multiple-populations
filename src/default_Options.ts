@@ -16,6 +16,7 @@ export const default_max_results_of_k_exchange = 10;
 export { DefaultOptions };
 
 const DefaultOptions: Required<TSPDefaultOptions> = {
+    id_Of_Population: 0,
     max_results_of_k_exchange: default_max_results_of_k_exchange,
     max_cities_of_state_transition: 40,
     max_results_of_2_opt: default_max_results_of_2_opt,

@@ -23,6 +23,7 @@ export interface TSPDefaultOptions {
     path_selection_parameter_q0_min: number;
     path_selection_parameter_q0_max: number;
     alpha_for_the_second_type_of_population: number;
+    id_Of_Population: number;
     beta_for_the_second_type_of_population: number;
 }
 
