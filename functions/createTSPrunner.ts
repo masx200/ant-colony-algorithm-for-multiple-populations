@@ -69,7 +69,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             (k) => [k, Reflect.get(input, k) ?? Reflect.get(DefaultOptions, k)]
         )
     ) as Required<TSPRunnerOptions>;
-
+    const { id_Of_Population } = options;
     assert_number(count_of_ants);
     assert_true(count_of_ants >= 2);
 
@@ -356,6 +356,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                     ...routes_and_lengths_of_one_iteration.map((a) => a.length)
                 );
                 emit_finish_one_iteration({
+                    id_Of_Population,
                     worst_length_of_iteration,
 
                     iterate_best_length,

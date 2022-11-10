@@ -12,5 +12,11 @@ export function MultiPopulationScheduler(
     input: TSPRunnerOptions
 ): MultiPopulationScheduler {
     const options = Object.assign(structuredClone(DefaultOptions), input);
-    return {};
+    return {
+        runIterations(iterations) {},
+        runOneIteration() {},
+        getBestLength() {},
+        getBestRoute() {},
+        getOutputDataAndConsumeIterationData() {},
+    };
 }

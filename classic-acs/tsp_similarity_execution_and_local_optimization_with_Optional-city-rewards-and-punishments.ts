@@ -29,8 +29,9 @@ import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRo
 import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
 /**acs+三种局部优化方法+对可选城市的奖惩 */
 export function tsp_similarity_execution_and_local_optimization_with_Optional_city_rewards_and_punishments(
-    options: COMMON_TSP_Options
+    input: COMMON_TSP_Options
 ): COMMON_TSP_EXECUTION {
+    const options = Object.assign(structuredClone(DefaultOptions), input);
     const {
         max_cities_of_state_transition = DefaultOptions.max_cities_of_state_transition,
         max_size_of_collection_of_optimal_routes = DefaultOptions.max_size_of_collection_of_optimal_routes,
@@ -48,6 +49,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         path_selection_parameter_q0_max = DefaultOptions.path_selection_parameter_q0_max,
         path_selection_parameter_q0_min = DefaultOptions.path_selection_parameter_q0_min,
     } = options;
+    const { id_Of_Population } = options;
     let similarity = 0;
     const data_of_greedy: DataOfFinishGreedyIteration[] = [];
     let route_selection_parameters_Q0 = path_selection_parameter_q0_min;
@@ -345,6 +347,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 starttime_of_process_iteration;
             total_time_ms += time_ms_of_one_iteration;
             delta_data_of_iterations.push({
+                id_Of_Population,
                 global_best_length: get_best_length(),
                 current_iterations: get_number_of_iterations(),
                 time_ms_of_one_iteration,

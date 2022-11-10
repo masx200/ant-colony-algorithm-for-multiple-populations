@@ -18,6 +18,7 @@ export function use_data_of_one_iteration(): {
         number,
         number,
         number,
+        number,
         number
     ][];
 } {
@@ -33,6 +34,7 @@ export function use_data_of_one_iteration(): {
 
         "局部优化长度",
         "收敛性系数",
+        "种群的序号",
     ];
     function onreceive_delta_dataofoneIteration(
         delta_data: DataOfFinishOneIteration[]
@@ -53,6 +55,7 @@ export function use_data_of_one_iteration(): {
 
                 data.optimal_length_of_iteration,
                 data.convergence_coefficient,
+                data.id_Of_Population,
             ]);
         }
     }
@@ -62,6 +65,7 @@ export function use_data_of_one_iteration(): {
     }
     const dataofoneiteration = reactive<DataOfFinishOneIteration[]>([]);
     const oneiterationtablebody: [
+        number,
         number,
         number,
         number,
