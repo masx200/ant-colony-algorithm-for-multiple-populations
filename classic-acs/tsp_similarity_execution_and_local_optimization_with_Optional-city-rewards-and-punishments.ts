@@ -26,6 +26,7 @@ import { select_available_cities_from_optimal_and_latest } from "../functions/se
 import { run_local_optimization } from "./run_local_optimization";
 import { create_run_iterations } from "../functions/create_run_iterations";
 import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
+import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
 /**acs+三种局部优化方法+对可选城市的奖惩 */
 export function tsp_similarity_execution_and_local_optimization_with_Optional_city_rewards_and_punishments(
     options: COMMON_TSP_Options
@@ -48,6 +49,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         path_selection_parameter_q0_min = DefaultOptions.path_selection_parameter_q0_min,
     } = options;
     let similarity = 0;
+    const data_of_greedy: DataOfFinishGreedyIteration[] = [];
     let route_selection_parameters_Q0 = path_selection_parameter_q0_min;
     const collection_of_optimal_routes = create_collection_of_optimal_routes(
         max_size_of_collection_of_optimal_routes
@@ -249,6 +251,15 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             greedy_length = best_length;
             pheromoneZero = 1 / count_of_nodes / greedy_length;
             MatrixFill(pheromoneStore, pheromoneZero);
+            data_of_greedy.push({
+                current_iterations: 1,
+                time_ms_of_one_iteration: time_ms,
+                worst_length_of_iteration: best_length,
+                global_best_length: best_length,
+                optimal_length_of_iteration: best_length,
+                optimal_route_of_iteration: best_route,
+                average_length_of_iteration: best_length,
+            });
         }
         if (!is_count_not_large) {
             update_neighbors_from_optimal_routes();
@@ -257,11 +268,9 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             route: number[];
             length: number;
             time_ms: number;
-        }[] = await Promise.all(
-            Array.from({ length: count_of_ants }).map(() => {
-                return generate_paths_using_state_transition_probabilities();
-            })
-        );
+        }[] = Array.from({ length: count_of_ants }).map(() => {
+            return generate_paths_using_state_transition_probabilities();
+        });
         for (const {
             route,
             length,
@@ -343,6 +352,9 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 average_length_of_iteration,
                 worst_length_of_iteration,
                 iterate_best_length,
+                optimal_length_of_iteration,
+                convergence_coefficient: -Infinity,
+                random_selection_probability: -Infinity,
             });
         }
     }
@@ -409,6 +421,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             time_of_best_ms,
             total_time_ms,
             search_count_of_best,
+            data_of_greedy,
             global_best_length: get_best_length(),
             current_search_count,
             current_iterations: get_number_of_iterations(),
