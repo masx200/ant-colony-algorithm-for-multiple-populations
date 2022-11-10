@@ -320,7 +320,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 emit_finish_one_route({
                     time_ms_of_one_route: time_ms_of_one_route,
 
-                    length,
+                    current_route_length: length,
                 });
             }
             if (routes_and_lengths_of_one_iteration.length === count_of_ants) {
