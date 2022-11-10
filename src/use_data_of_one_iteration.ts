@@ -1,7 +1,26 @@
 import { reactive } from "vue";
 import { DataOfFinishOneIteration } from "../functions/DataOfFinishOneIteration";
 
-export function use_data_of_one_iteration() {
+export function use_data_of_one_iteration(): {
+    oneiterationtableheads: string[];
+    onreceive_delta_dataofoneIteration: (
+        delta_data: DataOfFinishOneIteration[]
+    ) => void;
+    clearDataOfOneIteration: () => void;
+    dataofoneiteration: DataOfFinishOneIteration[];
+    oneiterationtablebody: [
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number
+    ][];
+} {
     const oneiterationtableheads = [
         "序号",
         "信息熵",
