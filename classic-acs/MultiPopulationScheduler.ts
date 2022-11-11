@@ -1,9 +1,9 @@
 import { create_run_iterations } from "../functions/create_run_iterations";
 import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueArrayOfCircularPath";
-import { create_TSP_Worker_comlink } from "../src/create_TSP_Worker_comlink";
 import { DefaultOptions } from "../src/default_Options";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 import { TSP_Worker_Remote } from "../src/TSP_Worker_Remote";
+import { createWorkerRemoteAndInfo } from "./createWorkerRemoteAndInfo";
 import { COMMON_TSP_Output } from "./tsp-interface";
 export interface MultiPopulationScheduler {
     runOneIteration: () => Promise<void>;
@@ -13,7 +13,7 @@ export interface MultiPopulationScheduler {
     getTotalTimeMs: () => number;
     getBestRoute: () => number[];
 }
-export type WorkerRemoteAndInfo = TSP_Worker_Remote & {
+export type WorkerRemoteAndInfo = TSP_Worker_Remote["remote"] & {
     ClassOfPopulation: string;
     id_Of_Population: number;
 };
@@ -31,47 +31,19 @@ export async function MultiPopulationScheduler(
     } = options;
 
     const remoteworkers: WorkerRemoteAndInfo[] = [];
-    for (
-        let index = 0;
-        index < number_of_populations_of_the_first_category;
-        index++
-    ) {
-        const remote: WorkerRemoteAndInfo = Object.assign(
-            await create_TSP_Worker_comlink(
-                structuredClone({
-                    ...options,
-                    ClassOfPopulation: "动态信息素更新",
-                })
-            ),
-            {
-                ClassOfPopulation: "动态信息素更新",
-                id_Of_Population: remoteworkers.length,
-            }
-        );
-        remoteworkers.push(remote);
-    }
-    for (
-        let index = 0;
-        index < number_of_the_second_type_of_population;
-        index++
-    ) {
-        const remote: TSP_Worker_Remote & {
-            ClassOfPopulation: string;
-            id_Of_Population: number;
-        } = Object.assign(
-            await create_TSP_Worker_comlink(
-                structuredClone({
-                    ...options,
-                    ClassOfPopulation: "相似度的自适应",
-                })
-            ),
-            {
-                ClassOfPopulation: "相似度的自适应",
-                id_Of_Population: remoteworkers.length,
-            }
-        );
-        remoteworkers.push(remote);
-    }
+    await createWorkerRemoteAndInfo(
+        number_of_populations_of_the_first_category,
+        options,
+        remoteworkers,
+        "动态信息素更新"
+    );
+    await createWorkerRemoteAndInfo(
+        number_of_the_second_type_of_population,
+        options,
+        remoteworkers,
+        "相似度的自适应"
+    );
+
     let current_iterations = 0;
     const runIterations = create_run_iterations(runOneIteration);
     const global_best: {
@@ -102,7 +74,7 @@ export async function MultiPopulationScheduler(
     async function runOneIteration() {
         await Promise.all(
             remoteworkers.map((remote) => {
-                return remote.remote.runOneIteration();
+                return remote.runOneIteration();
             })
         );
         current_iterations += remoteworkers.length;
@@ -110,8 +82,8 @@ export async function MultiPopulationScheduler(
         const routesAndLengths = await Promise.all(
             remoteworkers.map(async (remote) => {
                 return {
-                    length: await remote.remote.getBestLength(),
-                    route: await remote.remote.getBestRoute(),
+                    length: await remote.getBestLength(),
+                    route: await remote.getBestRoute(),
                 };
             })
         );
@@ -119,7 +91,7 @@ export async function MultiPopulationScheduler(
             onRouteCreated(route, length);
         });
         const totaltimemsall = await Promise.all(
-            remoteworkers.map((remote) => remote.remote.getTotalTimeMs())
+            remoteworkers.map((remote) => remote.getTotalTimeMs())
         );
         total_time_ms = totaltimemsall.reduce((p, c) => p + c, 0);
     }
