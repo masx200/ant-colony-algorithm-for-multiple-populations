@@ -191,7 +191,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     let time_of_best_ms = 0;
     let search_count_of_best = 0;
 
-    function get_total_time_ms() {
+    function getTotalTimeMs() {
         return total_time_ms;
     }
 
@@ -465,7 +465,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         get_random_selection_probability,
         count_of_nodes,
 
-        get_total_time_ms,
+        getTotalTimeMs,
         runIterations,
 
         get_number_of_iterations,

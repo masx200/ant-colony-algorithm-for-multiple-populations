@@ -14,7 +14,7 @@ export type TSP_Runner = Required<TSPRunnerOptions> &
 
         runOneIteration: () => Promise<void>;
 
-        get_total_time_ms: () => number;
+        getTotalTimeMs: () => number;
 
         runIterations: (iterations: number) => Promise<void>;
 

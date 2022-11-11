@@ -98,7 +98,7 @@ export async function MultiPopulationScheduler(
     function getBestLength() {
         return global_best.length;
     }
-    const total_time_ms = 0;
+    let total_time_ms = 0;
     async function runOneIteration() {
         await Promise.all(
             remoteworkers.map((remote) => {
@@ -118,6 +118,10 @@ export async function MultiPopulationScheduler(
         routesAndLengths.forEach(({ route, length }) => {
             onRouteCreated(route, length);
         });
+        const totaltimemsall = await Promise.all(
+            remoteworkers.map((remote) => remote.remote.getTotalTimeMs())
+        );
+        total_time_ms = totaltimemsall.reduce((p, c) => p + c, 0);
     }
     return {
         getTotalTimeMs() {
