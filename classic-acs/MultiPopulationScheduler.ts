@@ -100,10 +100,22 @@ export async function MultiPopulationScheduler(
     async function runOneIteration() {
         await Promise.all(
             remoteworkers.map((remote) => {
-                remote.remote.runOneIteration();
+                return remote.remote.runOneIteration();
             })
         );
         current_iterations += remoteworkers.length;
+
+        const routesAndLengths = await Promise.all(
+            remoteworkers.map(async (remote) => {
+                return {
+                    length: await remote.remote.getBestLength(),
+                    route: await remote.remote.getBestRoute(),
+                };
+            })
+        );
+        routesAndLengths.forEach(({ route, length }) => {
+            onRouteCreated(route, length);
+        });
     }
     return {
         async runIterations(iterations: number) {
