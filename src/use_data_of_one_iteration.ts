@@ -8,20 +8,7 @@ export function use_data_of_one_iteration(): {
     ) => void;
     clearDataOfOneIteration: () => void;
     dataofoneiteration: DataOfFinishOneIteration[];
-    oneiterationtablebody: [
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number
-    ][];
+    oneiterationtablebody: string[][];
 } {
     const oneiterationtableheads = [
         "序号",
@@ -44,22 +31,24 @@ export function use_data_of_one_iteration(): {
         for (let i = 0; i < delta_data.length; i++) {
             const data = delta_data[i];
             dataofoneiteration.push(data);
-            oneiterationtablebody.push([
-                data.current_iterations,
-                data.population_relative_information_entropy,
-                data.random_selection_probability,
+            oneiterationtablebody.push(
+                [
+                    data.current_iterations,
+                    data.population_relative_information_entropy,
+                    data.random_selection_probability,
 
-                data.time_ms_of_one_iteration / 1000,
-                data.iterate_best_length,
-                data.average_length_of_iteration,
-                data.worst_length_of_iteration,
-                data.global_best_length,
+                    data.time_ms_of_one_iteration / 1000,
+                    data.iterate_best_length,
+                    data.average_length_of_iteration,
+                    data.worst_length_of_iteration,
+                    data.global_best_length,
 
-                data.optimal_length_of_iteration,
-                data.convergence_coefficient,
-                data.id_Of_Population,
-                data.Intra_population_similarity,
-            ]);
+                    data.optimal_length_of_iteration,
+                    data.convergence_coefficient,
+                    data.id_Of_Population,
+                    data.Intra_population_similarity,
+                ].map(String)
+            );
         }
     }
 
@@ -67,20 +56,7 @@ export function use_data_of_one_iteration(): {
         dataofoneiteration.length = 0;
     }
     const dataofoneiteration = reactive<DataOfFinishOneIteration[]>([]);
-    const oneiterationtablebody: [
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number
-    ][] = reactive([]);
+    const oneiterationtablebody: string[][] = reactive([]);
 
     return {
         oneiterationtableheads,
