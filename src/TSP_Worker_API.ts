@@ -1,7 +1,7 @@
-import { TSP_Runner } from "../functions/TSP_Runner";
+import { RunnerMultipleCommunicative } from "./RunnerMultipleCommunicative";
 
 import { TSPRunnerOptions } from "./TSPRunnerOptions";
 
-export type TSP_Worker_API = TSP_Runner & {
+export type TSP_Worker_API = RunnerMultipleCommunicative & {
     init_runner: (options: TSPRunnerOptions) => void;
 };

@@ -71,7 +71,7 @@ export async function MultiPopulationScheduler(
         );
         remoteworkers.push(remote);
     }
-    const current_iterations = 0;
+    let current_iterations = 0;
     const runIterations = create_run_iterations(runOneIteration);
     const global_best: {
         length: number;
@@ -97,7 +97,14 @@ export async function MultiPopulationScheduler(
     function getBestLength() {
         return global_best.length;
     }
-    async function runOneIteration() {}
+    async function runOneIteration() {
+        await Promise.all(
+            remoteworkers.map((remote) => {
+                remote.remote.runOneIteration();
+            })
+        );
+        current_iterations += remoteworkers.length;
+    }
     return {
         async runIterations(iterations: number) {
             return runIterations(iterations);
