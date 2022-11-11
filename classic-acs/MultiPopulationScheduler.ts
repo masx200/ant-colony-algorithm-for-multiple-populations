@@ -1,4 +1,5 @@
 import { create_run_iterations } from "../functions/create_run_iterations";
+import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueArrayOfCircularPath";
 import { create_TSP_Worker_comlink } from "../src/create_TSP_Worker_comlink";
 import { DefaultOptions } from "../src/default_Options";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
@@ -72,19 +73,38 @@ export async function MultiPopulationScheduler(
     }
     const current_iterations = 0;
     const runIterations = create_run_iterations(runOneIteration);
+    const global_best: {
+        length: number;
+        route: number[];
+    } = { length: Infinity, route: [] };
+    function getBestRoute() {
+        return global_best.route;
+    }
+    function set_global_best(route: number[], length: number) {
+        if (length < global_best.length) {
+            const formatted_route = generateUniqueArrayOfCircularPath(route);
 
+            global_best.length = length;
+            global_best.route = formatted_route;
+        }
+    }
+    function onRouteCreated(route: number[], length: number) {
+        if (length < getBestLength()) {
+            set_global_best(route, length);
+        }
+    }
+
+    function getBestLength() {
+        return global_best.length;
+    }
     async function runOneIteration() {}
     return {
         async runIterations(iterations: number) {
             return runIterations(iterations);
         },
         runOneIteration,
-        getBestLength(): number {
-            throw Error("not implemented");
-        },
-        getBestRoute(): number[] {
-            throw Error("not implemented");
-        },
+        getBestLength: getBestLength,
+        getBestRoute: getBestRoute,
         getOutputDataAndConsumeIterationData(): COMMON_TSP_Output {
             throw Error("not implemented");
         },
