@@ -1,3 +1,4 @@
+import { create_run_iterations } from "../functions/create_run_iterations";
 import { create_TSP_Worker_comlink } from "../src/create_TSP_Worker_comlink";
 import { DefaultOptions } from "../src/default_Options";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
@@ -70,13 +71,14 @@ export async function MultiPopulationScheduler(
         remoteworkers.push(remote);
     }
     const current_iterations = 0;
+    const runIterations = create_run_iterations(runOneIteration);
+
+    async function runOneIteration() {}
     return {
         async runIterations(iterations: number) {
-            throw Error("not implemented");
+            return runIterations(iterations);
         },
-        async runOneIteration() {
-            throw Error("not implemented");
-        },
+        runOneIteration,
         getBestLength(): number {
             throw Error("not implemented");
         },
