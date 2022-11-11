@@ -24,6 +24,7 @@ export function use_data_of_one_iteration(): {
         "收敛性系数",
         "种群的序号",
         "内部相似度",
+        "种群的类别",
     ];
     function onreceive_delta_dataofoneIteration(
         delta_data: DataOfFinishOneIteration[]
@@ -47,6 +48,7 @@ export function use_data_of_one_iteration(): {
                     data.convergence_coefficient,
                     data.id_Of_Population,
                     data.Intra_population_similarity,
+                    data.ClassOfPopulation,
                 ].map(String)
             );
         }

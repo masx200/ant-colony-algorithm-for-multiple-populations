@@ -13,6 +13,7 @@ export interface DataOfFinishOneIteration {
     convergence_coefficient: number;
 
     iterate_best_length: number;
-    id_Of_Population: number;
+    id_Of_Population?: number;
     Intra_population_similarity: number;
+    ClassOfPopulation?: string;
 }
