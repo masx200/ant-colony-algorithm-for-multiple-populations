@@ -37,7 +37,12 @@ export async function MultiPopulationScheduler(
         index++
     ) {
         const remote: WorkerRemoteAndInfo = Object.assign(
-            await create_TSP_Worker_comlink(structuredClone(options)),
+            await create_TSP_Worker_comlink(
+                structuredClone({
+                    ...options,
+                    ClassOfPopulation: "动态信息素更新",
+                })
+            ),
             {
                 ClassOfPopulation: "动态信息素更新",
                 id_Of_Population: remoteworkers.length,
@@ -54,7 +59,12 @@ export async function MultiPopulationScheduler(
             ClassOfPopulation: string;
             id_Of_Population: number;
         } = Object.assign(
-            await create_TSP_Worker_comlink(structuredClone(options)),
+            await create_TSP_Worker_comlink(
+                structuredClone({
+                    ...options,
+                    ClassOfPopulation: "相似度的自适应",
+                })
+            ),
             {
                 ClassOfPopulation: "相似度的自适应",
                 id_Of_Population: remoteworkers.length,
