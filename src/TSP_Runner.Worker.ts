@@ -1,14 +1,20 @@
 import { expose } from "comlink";
-import { createTSPrunner } from "../functions/createTSPrunner";
-import { TSP_Runner } from "../functions/TSP_Runner";
+
+import { ClassOfPopulationToConstructor } from "./ClassOfPopulationToConstructor";
 
 import { TSPRunnerOptions } from "./TSPRunnerOptions";
 import { TSP_Worker_API } from "./TSP_Worker_API";
-let runner: TSP_Runner | undefined = undefined;
+import { assert_true } from "../test/assert_true";
+import { RunnerMultipleCommunicative } from "./RunnerMultipleCommunicative";
+let runner: RunnerMultipleCommunicative | undefined = undefined;
 function init_runner(options: TSPRunnerOptions) {
     if (runner) {
         throw new Error("cannot init runner twice");
     }
+    assert_true(typeof options.ClassOfPopulation === "string");
+    const createTSPrunner =
+        ClassOfPopulationToConstructor[options.ClassOfPopulation]?.();
+    assert_true(typeof createTSPrunner === "function");
     runner = createTSPrunner(options);
     Object.assign(API, runner);
 }

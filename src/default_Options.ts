@@ -42,4 +42,5 @@ const DefaultOptions: Required<TSPDefaultOptions> = {
     path_selection_parameter_q0_min: 0.4,
     alpha_for_the_second_type_of_population: 1,
     beta_for_the_second_type_of_population: 2,
+    ClassOfPopulation: "",
 };

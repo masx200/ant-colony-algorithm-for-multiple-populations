@@ -25,6 +25,7 @@ export interface TSPDefaultOptions {
     alpha_for_the_second_type_of_population: number;
     id_Of_Population: number;
     beta_for_the_second_type_of_population: number;
+    ClassOfPopulation?: string;
 }
 
 export type TSPRunnerOptions = {
