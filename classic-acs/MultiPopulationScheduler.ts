@@ -10,6 +10,7 @@ export interface MultiPopulationScheduler {
     getOutputDataAndConsumeIterationData: () => COMMON_TSP_Output;
     runIterations: (iterations: number) => Promise<void>;
     getBestLength: () => number;
+    getTotalTimeMs: () => number;
     getBestRoute: () => number[];
 }
 export type WorkerRemoteAndInfo = TSP_Worker_Remote & {
@@ -97,6 +98,7 @@ export async function MultiPopulationScheduler(
     function getBestLength() {
         return global_best.length;
     }
+    const total_time_ms = 0;
     async function runOneIteration() {
         await Promise.all(
             remoteworkers.map((remote) => {
@@ -118,6 +120,9 @@ export async function MultiPopulationScheduler(
         });
     }
     return {
+        getTotalTimeMs() {
+            return total_time_ms;
+        },
         async runIterations(iterations: number) {
             return runIterations(iterations);
         },
@@ -125,7 +130,13 @@ export async function MultiPopulationScheduler(
         getBestLength: getBestLength,
         getBestRoute: getBestRoute,
         getOutputDataAndConsumeIterationData(): COMMON_TSP_Output {
-            throw Error("not implemented");
+            const result: COMMON_TSP_Output = {
+                current_iterations,
+                global_best_length: getBestLength(),
+                global_best_route: getBestRoute(),
+                total_time_ms,
+            };
+            return result;
         },
     };
 }
