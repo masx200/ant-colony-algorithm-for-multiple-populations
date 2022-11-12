@@ -418,7 +418,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         return result;
     }
 
-    function getOutputDataAndConsumeIterationAndRouteData(): COMMON_TSP_Output {
+    async function getOutputDataAndConsumeIterationAndRouteData(): Promise<COMMON_TSP_Output> {
         const output: COMMON_TSP_Output = {
             data_of_routes: Array.from(data_of_routes),
             delta_data_of_iterations: Array.from(delta_data_of_iterations),

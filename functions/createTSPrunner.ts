@@ -45,6 +45,7 @@ import { update_convergence_coefficient } from "./update_convergence_coefficient
 import { update_last_random_selection_probability } from "./update_last_random_selection_probability";
 import { uniqBy } from "lodash";
 import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
+import { COMMON_TSP_Output } from "../classic-acs/tsp-interface";
 
 export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     let greedy_length = Infinity;
@@ -94,7 +95,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     on_finish_greedy_iteration((data) => {
         data_of_greedy.push(data);
     });
-    function getOutputDataAndConsumeIterationAndRouteData() {
+    async function getOutputDataAndConsumeIterationAndRouteData(): Promise<COMMON_TSP_Output> {
         const output_data: TSP_Output_Data = {
             data_of_greedy,
             delta_data_of_iterations: Array.from(delta_data_of_iterations),

@@ -1,9 +1,9 @@
+import { COMMON_TSP_Output } from "../classic-acs/tsp-interface";
 import { RunnerMultipleCommunicative } from "../src/RunnerMultipleCommunicative";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 import { NodeCoordinates } from "./NodeCoordinates";
 import { ReadOnlyPheromone } from "./ReadOnlyPheromone";
 import { SharedOptions } from "./SharedOptions";
-import { TSP_Output_Data } from "./TSP_Output_Data";
 
 export type TSP_Runner = Required<TSPRunnerOptions> &
     SharedOptions & {
@@ -32,5 +32,5 @@ export type TSP_Runner = Required<TSPRunnerOptions> &
         beta_zero: number;
         count_of_ants: number;
 
-        getOutputDataAndConsumeIterationAndRouteData: () => TSP_Output_Data;
+        getOutputDataAndConsumeIterationAndRouteData: () => Promise<COMMON_TSP_Output>;
     } & RunnerMultipleCommunicative;

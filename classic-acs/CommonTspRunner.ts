@@ -5,7 +5,7 @@ export interface CommonTspRunner {
     getSearchCountOfBest(): number;
     getCountOfIterations: () => number;
     runOneIteration: () => Promise<void>;
-    getOutputDataAndConsumeIterationAndRouteData: () => COMMON_TSP_Output;
+    getOutputDataAndConsumeIterationAndRouteData: () => Promise<COMMON_TSP_Output>;
     runIterations: (iterations: number) => Promise<void>;
     getCurrentSearchCount(): number;
     getBestLength: () => number;
