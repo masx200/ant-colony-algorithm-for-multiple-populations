@@ -123,7 +123,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 return current_search_count;
             },
             get current_iterations() {
-                return get_number_of_iterations();
+                return getCountOfIterations();
             },
         };
         return output_data;
@@ -199,7 +199,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         return current_search_count;
     }
 
-    function get_number_of_iterations() {
+    function getCountOfIterations() {
         if (current_search_count < max_routes_of_greedy) {
             return current_search_count / max_routes_of_greedy;
         }
@@ -229,7 +229,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         inner_emit_finish_one_iteration({
             ...data,
             global_best_length: getBestLength(),
-            current_iterations: get_number_of_iterations(),
+            current_iterations: getCountOfIterations(),
             convergence_coefficient,
         });
     }
@@ -468,7 +468,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         getTotalTimeMs,
         runIterations,
 
-        get_number_of_iterations,
+        getCountOfIterations,
         getBestLength,
         getBestRoute,
         getCurrentSearchCount,

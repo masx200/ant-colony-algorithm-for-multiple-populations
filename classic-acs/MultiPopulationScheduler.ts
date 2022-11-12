@@ -3,23 +3,16 @@ import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueAr
 import { DefaultOptions } from "../src/default_Options";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 import { TSP_Worker_Remote } from "../src/TSP_Worker_Remote";
+import { CommonTspRunner } from "./CommonTspRunner";
 import { createWorkerRemoteAndInfo } from "./createWorkerRemoteAndInfo";
 import { COMMON_TSP_Output } from "./tsp-interface";
-export interface MultiPopulationScheduler {
-    runOneIteration: () => Promise<void>;
-    getOutputDataAndConsumeIterationData: () => COMMON_TSP_Output;
-    runIterations: (iterations: number) => Promise<void>;
-    getCurrentSearchCount(): number;
-    getBestLength: () => number;
-    getTotalTimeMs: () => number;
-    getBestRoute: () => number[];
-}
+export type MultiPopulationScheduler = CommonTspRunner;
 export type WorkerRemoteAndInfo = TSP_Worker_Remote["remote"] & {
     ClassOfPopulation: string;
     id_Of_Population: number;
 };
 
-export async function MultiPopulationScheduler(
+export async function MultiPopulationSchedulerCreate(
     input: TSPRunnerOptions
 ): Promise<MultiPopulationScheduler> {
     const options = Object.assign(structuredClone(DefaultOptions), input);
@@ -78,7 +71,6 @@ export async function MultiPopulationScheduler(
                 return remote.runOneIteration();
             })
         );
-        current_iterations += remoteworkers.length;
 
         const routesAndLengths = await Promise.all(
             remoteworkers.map(async (remote) => {
@@ -88,23 +80,29 @@ export async function MultiPopulationScheduler(
                 };
             })
         );
-        routesAndLengths.forEach(({ route, length }) => {
-            onRouteCreated(route, length);
-        });
         const totaltimemsall = await Promise.all(
             remoteworkers.map((remote) => remote.getTotalTimeMs())
         );
-        total_time_ms = totaltimemsall.reduce((p, c) => p + c, 0);
         const current_search_countsall = await Promise.all(
             remoteworkers.map((remote) => remote.getCurrentSearchCount())
         );
+        routesAndLengths.forEach(({ route, length }) => {
+            onRouteCreated(route, length);
+        });
+
+        total_time_ms = totaltimemsall.reduce((p, c) => p + c, 0);
+
         current_search_count = current_search_countsall.reduce(
             (p, c) => p + c,
             0
         );
+        current_iterations += remoteworkers.length;
     }
     let current_search_count = 0;
     return {
+        getCountOfIterations() {
+            return current_iterations;
+        },
         getCurrentSearchCount() {
             return current_search_count;
         },

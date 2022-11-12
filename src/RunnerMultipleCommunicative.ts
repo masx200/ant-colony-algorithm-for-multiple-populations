@@ -1,6 +1,7 @@
+import { CommonTspRunner } from "../classic-acs/CommonTspRunner";
 import { TSP_Output_Data } from "../functions/TSP_Output_Data";
 
-export interface RunnerMultipleCommunicative {
+export interface RunnerMultipleCommunicative extends CommonTspRunner {
     getTotalTimeMs: () => number;
     runOneIteration: () => Promise<void>;
     runIterations: (iterations: number) => Promise<void>;

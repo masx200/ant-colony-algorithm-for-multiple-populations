@@ -18,7 +18,7 @@ export type TSP_Runner = Required<TSPRunnerOptions> &
 
         runIterations: (iterations: number) => Promise<void>;
 
-        get_number_of_iterations: () => number;
+        getCountOfIterations: () => number;
 
         getBestLength: () => number;
         getBestRoute: () => number[];

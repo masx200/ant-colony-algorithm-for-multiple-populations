@@ -90,7 +90,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
     let pheromoneZero = Number.EPSILON;
     let greedy_length = Infinity;
     let total_time_ms = 0;
-    const get_number_of_iterations = () => {
+    const getCountOfIterations = () => {
         return current_search_count / count_of_ants;
     };
 
@@ -349,7 +349,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             delta_data_of_iterations.push({
                 // id_Of_Population,
                 global_best_length: get_best_length(),
-                current_iterations: get_number_of_iterations(),
+                current_iterations: getCountOfIterations(),
                 time_ms_of_one_iteration,
                 population_relative_information_entropy,
                 average_length_of_iteration,
@@ -428,7 +428,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             data_of_greedy,
             global_best_length: get_best_length(),
             current_search_count,
-            current_iterations: get_number_of_iterations(),
+            current_iterations: getCountOfIterations(),
             global_best_route: get_best_route(),
         };
         delta_data_of_iterations.length = 0;
@@ -478,6 +478,9 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             }
     }
     return {
+        getCountOfIterations() {
+            return getCountOfIterations();
+        },
         getCurrentSearchCount() {
             return current_search_count;
         },
