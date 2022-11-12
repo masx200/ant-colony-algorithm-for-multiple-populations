@@ -141,6 +141,9 @@ export async function MultiPopulationSchedulerCreate(
         };
         return result;
     }
+    function PerformCommunicationBetweenPopulations() {
+        throw new Error("Function not implemented.");
+    }
     return {
         getCountOfIterations() {
             return current_iterations;
@@ -165,7 +168,4 @@ export async function MultiPopulationSchedulerCreate(
             return time_of_best_ms;
         },
     };
-    function PerformCommunicationBetweenPopulations() {
-        throw new Error("Function not implemented.");
-    }
 }

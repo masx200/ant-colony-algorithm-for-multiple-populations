@@ -454,34 +454,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     const get_neighbors_from_optimal_routes_and_latest_routes =
         neighbors_from_optimal_routes_and_latest_routes.get;
     const shared = getShared();
-    const result: TSP_Runner = {
-        ...shared,
-        max_results_of_2_opt,
 
-        max_results_of_k_opt,
-        getOutputDataAndConsumeIterationAndRouteData,
-        getSearchCountOfBest,
-        getTimeOfBest,
-        get_random_selection_probability,
-        count_of_nodes,
-
-        getTotalTimeMs,
-        runIterations,
-
-        getCountOfIterations,
-        getBestLength,
-        getBestRoute,
-        getCurrentSearchCount,
-        beta_zero,
-        node_coordinates,
-        alpha_zero,
-        count_of_ants,
-        [Symbol.toStringTag]: "TSPRunner",
-        runOneIteration,
-        updateBestRoute,
-        smoothPheromones,
-        rewardCommonRoutes,
-    };
     function getShared(): SharedOptions {
         return {
             ...options,
@@ -545,5 +518,33 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     function updateBestRoute(route: number[], length: number): void {
         onRouteCreated(route, length);
     }
+    const result: TSP_Runner = {
+        ...shared,
+        max_results_of_2_opt,
+
+        max_results_of_k_opt,
+        getOutputDataAndConsumeIterationAndRouteData,
+        getSearchCountOfBest,
+        getTimeOfBest,
+        get_random_selection_probability,
+        count_of_nodes,
+
+        getTotalTimeMs,
+        runIterations,
+
+        getCountOfIterations,
+        getBestLength,
+        getBestRoute,
+        getCurrentSearchCount,
+        beta_zero,
+        node_coordinates,
+        alpha_zero,
+        count_of_ants,
+        [Symbol.toStringTag]: "TSPRunner",
+        runOneIteration,
+        updateBestRoute,
+        smoothPheromones,
+        rewardCommonRoutes,
+    };
     return result;
 }
