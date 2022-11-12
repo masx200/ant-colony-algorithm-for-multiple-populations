@@ -3,15 +3,15 @@ import { DataOfFinishOneRoute } from "../functions/DataOfFinishOneRoute";
 
 export function use_data_of_one_route(): {
     dataofoneroute: DataOfFinishOneRoute[];
-    onreceivedataofoneroute: (datas: DataOfFinishOneRoute[]) => void;
+    onReceiveDeltaDataOfOneRoute: (delta_data: DataOfFinishOneRoute[]) => void;
     clearDataOfOneRoute: () => void;
 } {
-    function onreceivedataofoneroute(datas: DataOfFinishOneRoute[]): void {
-        if (datas.length > dataofoneroute.length) {
-            for (let i = dataofoneroute.length; i < datas.length; i++) {
-                const data = datas[i];
-                dataofoneroute.push(data);
-            }
+    function onReceiveDeltaDataOfOneRoute(
+        delta_data: DataOfFinishOneRoute[]
+    ): void {
+        for (let i = 0; i < delta_data.length; i++) {
+            const data = delta_data[i];
+            dataofoneroute.push(data);
         }
     }
 
@@ -23,7 +23,7 @@ export function use_data_of_one_route(): {
     const result = {
         dataofoneroute,
 
-        onreceivedataofoneroute,
+        onReceiveDeltaDataOfOneRoute,
         clearDataOfOneRoute,
     };
     return result;

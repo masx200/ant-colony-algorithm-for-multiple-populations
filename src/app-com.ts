@@ -137,7 +137,7 @@ export default defineComponent({
         const percentage = ref(0);
         const {
             oneiterationtableheads,
-            onreceive_delta_dataofoneIteration,
+            onReceiveDeltaDataOfOneIteration,
             clearDataOfOneIteration,
             dataofoneiteration,
             oneiterationtablebody,
@@ -146,7 +146,7 @@ export default defineComponent({
         const {
             dataofoneroute,
 
-            onreceivedataofoneroute,
+            onReceiveDeltaDataOfOneRoute,
             clearDataOfOneRoute,
         } = use_data_of_one_route();
         const {
@@ -292,8 +292,8 @@ export default defineComponent({
 
             on_receive_Data_Of_total(data);
             on_receive_Data_Of_Global_Best(data);
-            onreceive_delta_dataofoneIteration(data.delta_data_of_iterations);
-            onreceivedataofoneroute(data.data_of_routes);
+            onReceiveDeltaDataOfOneIteration(data.delta_data_of_iterations);
+            onReceiveDeltaDataOfOneRoute(data.data_of_routes);
         }
         const TSP_terminate = () => {
             data_of_greedy_iteration.clearData();

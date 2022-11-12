@@ -3,7 +3,7 @@ import { DataOfFinishOneIteration } from "../functions/DataOfFinishOneIteration"
 
 export function use_data_of_one_iteration(): {
     oneiterationtableheads: string[];
-    onreceive_delta_dataofoneIteration: (
+    onReceiveDeltaDataOfOneIteration: (
         delta_data: DataOfFinishOneIteration[]
     ) => void;
     clearDataOfOneIteration: () => void;
@@ -26,7 +26,7 @@ export function use_data_of_one_iteration(): {
         "内部相似度",
         "种群的类别",
     ];
-    function onreceive_delta_dataofoneIteration(
+    function onReceiveDeltaDataOfOneIteration(
         delta_data: DataOfFinishOneIteration[]
     ) {
         for (let i = 0; i < delta_data.length; i++) {
@@ -62,7 +62,7 @@ export function use_data_of_one_iteration(): {
 
     return {
         oneiterationtableheads,
-        onreceive_delta_dataofoneIteration,
+        onReceiveDeltaDataOfOneIteration,
         clearDataOfOneIteration,
         dataofoneiteration,
         oneiterationtablebody,
