@@ -5,7 +5,7 @@ export interface RunnerMultipleCommunicative extends CommonTspRunner {
     getTotalTimeMs: () => number;
     runOneIteration: () => Promise<void>;
     runIterations: (iterations: number) => Promise<void>;
-    getOutputDataAndConsumeIterationData: () => TSP_Output_Data;
+    getOutputDataAndConsumeIterationAndRouteData: () => TSP_Output_Data;
     getCurrentSearchCount(): number;
     updateBestRoute(route: number[], length: number): void;
     smoothPheromones(similarity: number): void;

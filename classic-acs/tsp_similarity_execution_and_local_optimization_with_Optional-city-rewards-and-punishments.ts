@@ -418,9 +418,9 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         return result;
     }
 
-    function getOutputDataAndConsumeIterationData(): COMMON_TSP_Output {
+    function getOutputDataAndConsumeIterationAndRouteData(): COMMON_TSP_Output {
         const output: COMMON_TSP_Output = {
-            data_of_routes,
+            data_of_routes: Array.from(data_of_routes),
             delta_data_of_iterations: Array.from(delta_data_of_iterations),
             time_of_best_ms,
             total_time_ms,
@@ -432,6 +432,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             global_best_route: get_best_route(),
         };
         delta_data_of_iterations.length = 0;
+        data_of_routes.length = 0;
         return output;
     }
     const runIterations = create_run_iterations(runOneIteration);
@@ -506,7 +507,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             return runIterations(iterations);
         },
         runOneIteration: runOneIteration,
-        getOutputDataAndConsumeIterationData:
-            getOutputDataAndConsumeIterationData,
+        getOutputDataAndConsumeIterationAndRouteData:
+            getOutputDataAndConsumeIterationAndRouteData,
     };
 }

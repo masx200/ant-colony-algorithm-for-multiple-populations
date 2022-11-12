@@ -32,5 +32,5 @@ export type TSP_Runner = Required<TSPRunnerOptions> &
         beta_zero: number;
         count_of_ants: number;
 
-        getOutputDataAndConsumeIterationData: () => TSP_Output_Data;
+        getOutputDataAndConsumeIterationAndRouteData: () => TSP_Output_Data;
     } & RunnerMultipleCommunicative;

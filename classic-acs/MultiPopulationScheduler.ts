@@ -115,7 +115,7 @@ export async function MultiPopulationSchedulerCreate(
         runOneIteration,
         getBestLength: getBestLength,
         getBestRoute: getBestRoute,
-        getOutputDataAndConsumeIterationData(): COMMON_TSP_Output {
+        getOutputDataAndConsumeIterationAndRouteData(): COMMON_TSP_Output {
             const result: COMMON_TSP_Output = {
                 current_iterations,
                 current_search_count,

@@ -6,7 +6,7 @@ import { RunnerMultipleCommunicative } from "../src/RunnerMultipleCommunicative"
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 export type COMMON_TSP_EXECUTION = {
     runOneIteration: () => Promise<void>;
-    getOutputDataAndConsumeIterationData: () => COMMON_TSP_Output;
+    getOutputDataAndConsumeIterationAndRouteData: () => COMMON_TSP_Output;
 } & RunnerMultipleCommunicative;
 export type COMMON_TSP_Output = {
     total_time_ms: number;

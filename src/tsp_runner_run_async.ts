@@ -67,11 +67,13 @@ export async function tsp_runner_run_async({
         run_iterations = Math.min(run_iterations, rest_iterations);
         if (Number(new Date()) - last_update_time > drawChartMaxWait) {
             on_update_output_data(
-                await runner.getOutputDataAndConsumeIterationData()
+                await runner.getOutputDataAndConsumeIterationAndRouteData()
             );
             last_update_time = Number(new Date());
         }
         await sleep_requestAnimationFrame_async_or_settimeout();
     }
-    on_update_output_data(await runner.getOutputDataAndConsumeIterationData());
+    on_update_output_data(
+        await runner.getOutputDataAndConsumeIterationAndRouteData()
+    );
 }
