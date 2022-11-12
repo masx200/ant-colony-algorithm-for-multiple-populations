@@ -97,11 +97,8 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     function getOutputDataAndConsumeIterationData() {
         const output_data: TSP_Output_Data = {
             data_of_greedy,
-            get delta_data_of_iterations() {
-                const result = Array.from(delta_data_of_iterations);
-                delta_data_of_iterations.length = 0;
-                return result;
-            },
+            delta_data_of_iterations: Array.from(delta_data_of_iterations),
+
             data_of_routes,
 
             get search_count_of_best() {
@@ -126,6 +123,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 return getCountOfIterations();
             },
         };
+        delta_data_of_iterations.length = 0;
         return output_data;
     }
     let convergence_coefficient = 1;
