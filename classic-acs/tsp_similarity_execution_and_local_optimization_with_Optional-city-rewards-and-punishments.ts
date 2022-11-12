@@ -478,6 +478,9 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             }
     }
     return {
+        getCurrentSearchCount() {
+            return current_search_count;
+        },
         getTotalTimeMs() {
             return total_time_ms;
         },

@@ -9,6 +9,7 @@ export interface MultiPopulationScheduler {
     runOneIteration: () => Promise<void>;
     getOutputDataAndConsumeIterationData: () => COMMON_TSP_Output;
     runIterations: (iterations: number) => Promise<void>;
+    getCurrentSearchCount(): number;
     getBestLength: () => number;
     getTotalTimeMs: () => number;
     getBestRoute: () => number[];
@@ -94,8 +95,19 @@ export async function MultiPopulationScheduler(
             remoteworkers.map((remote) => remote.getTotalTimeMs())
         );
         total_time_ms = totaltimemsall.reduce((p, c) => p + c, 0);
+        const current_search_countsall = await Promise.all(
+            remoteworkers.map((remote) => remote.getCurrentSearchCount())
+        );
+        current_search_count = current_search_countsall.reduce(
+            (p, c) => p + c,
+            0
+        );
     }
+    let current_search_count = 0;
     return {
+        getCurrentSearchCount() {
+            return current_search_count;
+        },
         getTotalTimeMs() {
             return total_time_ms;
         },
@@ -108,6 +120,7 @@ export async function MultiPopulationScheduler(
         getOutputDataAndConsumeIterationData(): COMMON_TSP_Output {
             const result: COMMON_TSP_Output = {
                 current_iterations,
+                current_search_count,
                 global_best_length: getBestLength(),
                 global_best_route: getBestRoute(),
                 total_time_ms,

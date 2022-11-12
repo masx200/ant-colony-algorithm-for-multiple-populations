@@ -14,7 +14,7 @@ export type SharedOptions = Required<TSPRunnerOptions> & {
     getBestLength: () => number;
 
     set_global_best: (route: number[], length: number) => void;
-    get_current_search_count: () => number;
+    getCurrentSearchCount: () => number;
     count_of_nodes: number;
     max_results_of_2_opt: number;
 

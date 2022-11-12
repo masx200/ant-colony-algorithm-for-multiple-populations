@@ -22,7 +22,7 @@ export type TSP_Runner = Required<TSPRunnerOptions> &
 
         getBestLength: () => number;
         getBestRoute: () => number[];
-        get_current_search_count: () => number;
+        getCurrentSearchCount: () => number;
         pheromoneStore: ReadOnlyPheromone;
 
         [Symbol.toStringTag]: string;

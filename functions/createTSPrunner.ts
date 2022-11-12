@@ -195,7 +195,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         return total_time_ms;
     }
 
-    function get_current_search_count() {
+    function getCurrentSearchCount() {
         return current_search_count;
     }
 
@@ -471,7 +471,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         get_number_of_iterations,
         getBestLength,
         getBestRoute,
-        get_current_search_count,
+        getCurrentSearchCount,
         beta_zero,
         node_coordinates,
         alpha_zero,
@@ -493,7 +493,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             getBestRoute,
             getBestLength,
 
-            get_current_search_count,
+            getCurrentSearchCount,
             pheromoneStore,
             count_of_nodes,
             set_global_best,
