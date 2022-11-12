@@ -9,8 +9,8 @@ export type TSP_Runner = Required<TSPRunnerOptions> &
     SharedOptions & {
         count_of_nodes: number;
         get_random_selection_probability(): number;
-        get_time_of_best(): number;
-        get_search_count_of_best(): number;
+        getTimeOfBest(): number;
+        getSearchCountOfBest(): number;
 
         runOneIteration: () => Promise<void>;
 

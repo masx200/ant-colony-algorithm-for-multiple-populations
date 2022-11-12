@@ -53,6 +53,8 @@ export async function MultiPopulationSchedulerCreate(
 
             global_best.length = length;
             global_best.route = formatted_route;
+            time_of_best_ms = total_time_ms;
+            search_count_of_best = current_search_count + 1;
         }
     }
     function onRouteCreated(route: number[], length: number) {
@@ -98,7 +100,9 @@ export async function MultiPopulationSchedulerCreate(
         );
         current_iterations += remoteworkers.length;
     }
+    let time_of_best_ms = 0;
     let current_search_count = 0;
+    let search_count_of_best = 0;
     return {
         getCountOfIterations() {
             return current_iterations;
@@ -122,8 +126,16 @@ export async function MultiPopulationSchedulerCreate(
                 global_best_length: getBestLength(),
                 global_best_route: getBestRoute(),
                 total_time_ms,
+                time_of_best_ms,
+                search_count_of_best,
             };
             return result;
+        },
+        getSearchCountOfBest() {
+            return search_count_of_best;
+        },
+        getTimeOfBest() {
+            return time_of_best_ms;
         },
     };
 }

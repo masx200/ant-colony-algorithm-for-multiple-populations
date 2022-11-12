@@ -1,6 +1,8 @@
 import { COMMON_TSP_Output } from "./tsp-interface";
 
 export interface CommonTspRunner {
+    getTimeOfBest(): number;
+    getSearchCountOfBest(): number;
     getCountOfIterations: () => number;
     runOneIteration: () => Promise<void>;
     getOutputDataAndConsumeIterationAndRouteData: () => COMMON_TSP_Output;

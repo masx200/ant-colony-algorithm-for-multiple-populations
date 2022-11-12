@@ -436,10 +436,10 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         collection_of_optimal_routes.add(route, length);
     }
 
-    function get_search_count_of_best() {
+    function getSearchCountOfBest() {
         return search_count_of_best;
     }
-    function get_time_of_best() {
+    function getTimeOfBest() {
         return time_of_best_ms;
     }
     function get_random_selection_probability() {
@@ -459,8 +459,8 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
 
         max_results_of_k_opt,
         getOutputDataAndConsumeIterationAndRouteData,
-        get_search_count_of_best,
-        get_time_of_best,
+        getSearchCountOfBest,
+        getTimeOfBest,
         get_random_selection_probability,
         count_of_nodes,
 
@@ -487,7 +487,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             get_convergence_coefficient,
             get_neighbors_from_optimal_routes_and_latest_routes,
             get_random_selection_probability,
-            get_search_count_of_best,
+            getSearchCountOfBest,
 
             getBestRoute,
             getBestLength,

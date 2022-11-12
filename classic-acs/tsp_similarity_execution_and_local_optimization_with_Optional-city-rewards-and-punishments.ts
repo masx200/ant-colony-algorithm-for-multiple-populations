@@ -509,5 +509,11 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         runOneIteration: runOneIteration,
         getOutputDataAndConsumeIterationAndRouteData:
             getOutputDataAndConsumeIterationAndRouteData,
+        getTimeOfBest() {
+            return time_of_best_ms;
+        },
+        getSearchCountOfBest() {
+            return search_count_of_best;
+        },
     };
 }
