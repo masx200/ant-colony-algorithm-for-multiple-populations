@@ -99,10 +99,48 @@ export async function MultiPopulationSchedulerCreate(
             0
         );
         current_iterations += remoteworkers.length;
+        if (current_iterations % population_communication_iterate_cycle === 0)
+            PerformCommunicationBetweenPopulations();
     }
     let time_of_best_ms = 0;
     let current_search_count = 0;
     let search_count_of_best = 0;
+    async function getOutputDataAndConsumeIterationAndRouteData(): Promise<COMMON_TSP_Output> {
+        const dataOfChildren = await Promise.all(
+            remoteworkers.map((remote) =>
+                remote.getOutputDataAndConsumeIterationAndRouteData()
+            )
+        );
+        const data_of_routes: COMMON_TSP_Output["data_of_routes"] =
+            dataOfChildren.map((data) => data.data_of_routes).flat();
+        const delta_data_of_iterations: COMMON_TSP_Output["delta_data_of_iterations"] =
+            dataOfChildren
+                .map((data, index) =>
+                    data.delta_data_of_iterations.map((di) => {
+                        di.ClassOfPopulation =
+                            remoteworkers[index].ClassOfPopulation;
+                        di.id_Of_Population =
+                            remoteworkers[index].id_Of_Population;
+                        return di;
+                    })
+                )
+                .flat();
+        const result: COMMON_TSP_Output = {
+            data_of_greedy: dataOfChildren
+                .map((data) => data.data_of_greedy)
+                .flat(),
+            current_iterations,
+            data_of_routes,
+            delta_data_of_iterations,
+            current_search_count,
+            global_best_length: getBestLength(),
+            global_best_route: getBestRoute(),
+            total_time_ms,
+            time_of_best_ms,
+            search_count_of_best,
+        };
+        return result;
+    }
     return {
         getCountOfIterations() {
             return current_iterations;
@@ -119,18 +157,7 @@ export async function MultiPopulationSchedulerCreate(
         runOneIteration,
         getBestLength: getBestLength,
         getBestRoute: getBestRoute,
-        async getOutputDataAndConsumeIterationAndRouteData(): Promise<COMMON_TSP_Output> {
-            const result: COMMON_TSP_Output = {
-                current_iterations,
-                current_search_count,
-                global_best_length: getBestLength(),
-                global_best_route: getBestRoute(),
-                total_time_ms,
-                time_of_best_ms,
-                search_count_of_best,
-            };
-            return result;
-        },
+        getOutputDataAndConsumeIterationAndRouteData,
         getSearchCountOfBest() {
             return search_count_of_best;
         },
@@ -138,4 +165,7 @@ export async function MultiPopulationSchedulerCreate(
             return time_of_best_ms;
         },
     };
+    function PerformCommunicationBetweenPopulations() {
+        throw new Error("Function not implemented.");
+    }
 }
