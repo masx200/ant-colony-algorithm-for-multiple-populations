@@ -1,11 +1,11 @@
-import assert from "assert";
 import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
+import { assert_true } from "../test/assert_true";
 export function similarityOfTwoRoutes(
     route1: number[],
     route2: number[]
 ): number {
-    assert(route1.length > 0);
-    assert.equal(route1.length, route2.length);
+    assert_true(route1.length > 0);
+    assert_true(route1.length === route2.length);
     const A: number[][] = Array(route1.length)
         .fill(0)
         .map(() => Array(route1.length).fill(0));

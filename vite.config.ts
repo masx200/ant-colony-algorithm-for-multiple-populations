@@ -11,15 +11,12 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { resolve } from "path";
 import { VitePWA } from "vite-plugin-pwa";
 import { PluginItem } from "@babel/core";
-import { httpResolve } from "@masx200/rollup-plugin-http-resolve";
 
 export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
     const isdrop = mode === "production" && command === "build";
     const config: UserConfig = {
-        resolve: { alias: { assert: "https://esm.sh/assert@2.0.0" } },
         worker: {
             plugins: [
-                httpResolve() as PluginOption,
                 babel({
                     sourceMaps: true,
                     babelHelpers: "bundled",
@@ -48,7 +45,6 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
                 ? path.resolve(__dirname)
                 : path.resolve(__dirname, "src"),
         plugins: [
-            httpResolve(),
             AutoImport({
                 resolvers: [ElementPlusResolver()],
             }),
@@ -97,10 +93,7 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
             rollupOptions: {
                 input: resolve(__dirname, "src", "index.html"),
 
-                plugins: [
-                    //@ts-ignore
-                    httpResolve(),
-                ],
+                plugins: [],
             },
             cssCodeSplit: false,
             minify: "esbuild",
