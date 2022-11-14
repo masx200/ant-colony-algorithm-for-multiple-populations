@@ -37,3 +37,8 @@ app.mount(appcontainer);
         }
     }
 })();
+self.addEventListener("unhandledrejection", (e) => {
+    console.log(self);
+    console.error(e);
+    throw e.reason;
+});

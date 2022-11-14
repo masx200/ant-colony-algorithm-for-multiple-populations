@@ -17,7 +17,13 @@ function init_runner(options: TSPRunnerOptions) {
     assert_true(typeof createTSPrunner === "function");
     runner = createTSPrunner(options);
     Object.assign(API, runner);
+    console.log(API);
 }
 
 const API: TSP_Worker_API = { init_runner } as TSP_Worker_API;
 expose(API);
+self.addEventListener("unhandledrejection", (e) => {
+    console.log(self);
+    console.error(e);
+    throw e.reason;
+});
