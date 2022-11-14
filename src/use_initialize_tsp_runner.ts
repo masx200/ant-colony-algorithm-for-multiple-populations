@@ -1,5 +1,4 @@
-import { create_TSP_Worker_comlink } from "./create_TSP_Worker_comlink";
-
+import { createMultiPopulationSchedulerWorker } from "../classic-acs/createMultiPopulationSchedulerWorker";
 import { Fun_initialize_TSP_runner } from "./Fun_initialize_TSP_runner";
 
 export function use_initialize_tsp_runner(): Fun_initialize_TSP_runner {
@@ -9,7 +8,7 @@ export function use_initialize_tsp_runner(): Fun_initialize_TSP_runner {
 
         ...rest
     }) {
-        const runner = await create_TSP_Worker_comlink({
+        const runner = await createMultiPopulationSchedulerWorker({
             node_coordinates,
             count_of_ants,
             ...rest,

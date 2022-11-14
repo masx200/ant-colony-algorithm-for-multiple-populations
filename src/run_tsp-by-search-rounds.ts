@@ -5,7 +5,7 @@ import {
     default_count_of_ants,
     default_search_rounds,
 } from "./default_Options";
-import { tsp_runner_run_async } from "./tsp_runner_run_async";
+import { RunnerRemote, tsp_runner_run_async } from "./tsp_runner_run_async";
 
 export async function run_tsp_by_search_rounds({
     runner,
@@ -16,7 +16,7 @@ export async function run_tsp_by_search_rounds({
     is_running,
 }: {
     on_update_output_data(data: TSP_Output_Data): void;
-    runner: Parameters<typeof tsp_runner_run_async>[0]["runner"];
+    runner: RunnerRemote;
 
     onprogress: (percentage: number) => void;
     searchrounds: Ref<number>;

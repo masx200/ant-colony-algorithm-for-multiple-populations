@@ -2,15 +2,11 @@ import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 
 import { worker_error_listener } from "../functions/worker_error_listener";
 import { create_Worker_comlink } from "../src/create_Worker_comlink";
-import { Remote } from "comlink";
 import { MultiPopulationSchedulerAPI } from "./MultiPopulationSchedulerAPI";
+import { MultiPopulationSchedulerRemote } from "./MultiPopulationSchedulerRemote";
 export async function createMultiPopulationSchedulerWorker(
     options: TSPRunnerOptions
-): Promise<{
-    remote: Remote<MultiPopulationSchedulerAPI>;
-    worker: Worker;
-    terminate: () => void;
-}> {
+): Promise<MultiPopulationSchedulerRemote> {
     const {
         worker,
         terminate,

@@ -37,7 +37,6 @@ import { run_tsp_by_search_rounds } from "./run_tsp-by-search-rounds";
 import { run_tsp_by_search_time as run_tsp_by_search_time } from "./run_tsp_by_search_time";
 import { generate_greedy_preview_echarts_options } from "./generate_greedy_preview_echarts_options";
 import { TSP_cities_map } from "./TSP_cities_map";
-import { TSP_Worker_Remote } from "./TSP_Worker_Remote";
 import { use_data_of_greedy_iteration } from "./use_data_of_greedy_iteration";
 import LineChart from "./LineChart.vue";
 
@@ -47,6 +46,7 @@ import { get_options_iterations_and_information_entropy_chart } from "./get_opti
 import { get_options_route_number_and_current_length_chart } from "./get_options_route_number_and_current_length_chart";
 
 import { TSP_Output_Data } from "../functions/TSP_Output_Data";
+import { MultiPopulationSchedulerRemote } from "../classic-acs/MultiPopulationSchedulerRemote";
 export default defineComponent({
     components: {
         MultiplePopulationsConfigs,
@@ -332,7 +332,7 @@ export default defineComponent({
         };
         const search_time_seconds = ref(default_search_time_seconds);
 
-        async function create_runner(): Promise<TSP_Worker_Remote> {
+        async function create_runner(): Promise<MultiPopulationSchedulerRemote> {
             const count_of_ants_value = count_of_ants_ref.value;
             const element = selecteleref.value;
             const node_coordinates = TSP_cities_map.get(element?.value || "");
