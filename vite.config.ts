@@ -17,6 +17,7 @@ const checker = vpchecker;
 export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
     const isdrop = mode === "production" && command === "build";
     const config: UserConfig = {
+        resolve: { alias: { assert: "https://esm.sh/assert@2.0.0" } },
         worker: {
             plugins: [
                 babel({
