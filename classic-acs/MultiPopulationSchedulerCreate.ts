@@ -197,6 +197,7 @@ export async function MultiPopulationSchedulerCreate(
             }
         }
     }
+    console.log(remoteWorkers);
     return {
         getCountOfIterations() {
             return current_iterations;
