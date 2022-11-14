@@ -20,6 +20,7 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
         resolve: { alias: { assert: "https://esm.sh/assert@2.0.0" } },
         worker: {
             plugins: [
+                httpResolve() as PluginOption,
                 babel({
                     sourceMaps: true,
                     babelHelpers: "bundled",
