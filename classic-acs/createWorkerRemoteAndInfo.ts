@@ -1,7 +1,7 @@
 import { NodeCoordinates } from "@masx200/tsp-lib-test-data";
 import { create_TSP_Worker_comlink } from "../src/create_TSP_Worker_comlink";
 import { TSPDefaultOptions } from "../src/TSPRunnerOptions";
-import { WorkerRemoteAndInfo } from "./MultiPopulationScheduler";
+import { WorkerRemoteAndInfo } from "./MultiPopulationSchedulerCreate";
 
 export async function createWorkerRemoteAndInfo(
     number_of_populations_of_the_first_category: number,
