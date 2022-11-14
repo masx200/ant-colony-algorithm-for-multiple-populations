@@ -38,7 +38,7 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
                         ["@babel/plugin-proposal-async-generator-functions"],
                     ],
                 }) as PluginOption,
-            ],
+            ] as PluginOption[],
         },
         esbuild: {
             legalComments: "none",
