@@ -122,9 +122,8 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         if (length < get_best_length()) {
             set_global_best(route, length);
         }
-        if (collection_of_optimal_routes) {
-            collection_of_optimal_routes.add(route, length);
-        }
+
+        collection_of_optimal_routes.add(route, length);
     }
     const data_of_routes: COMMON_DataOfOneRoute[] = [];
     const delta_data_of_iterations: COMMON_DataOfOneIteration[] = [];
