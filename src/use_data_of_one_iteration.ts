@@ -35,7 +35,7 @@ export function use_data_of_one_iteration(): {
             dataofoneiteration.push(data);
             oneiterationtablebody.push(
                 [
-                    data.current_iterations,
+                    oneiterationtablebody.length + 1,
                     data.population_relative_information_entropy,
                     data.random_selection_probability,
 
