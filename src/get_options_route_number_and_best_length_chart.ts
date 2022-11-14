@@ -14,6 +14,7 @@ export function get_options_route_number_and_best_length_chart(
         i + 1,
         a.global_best_length,
     ]);
+    // console.log(data);
     return create_line_chart_options({
         yAxis_min: 0,
         title_text,
