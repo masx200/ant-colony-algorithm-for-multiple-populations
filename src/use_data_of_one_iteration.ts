@@ -22,9 +22,10 @@ export function use_data_of_one_iteration(): {
 
         "局部优化长度",
         "收敛性系数",
-        "种群的序号",
+
         "内部相似度",
         "种群的类别",
+        "种群的序号",
     ];
     function onReceiveDeltaDataOfOneIteration(
         delta_data: DataOfFinishOneIteration[]
@@ -46,9 +47,10 @@ export function use_data_of_one_iteration(): {
 
                     data.optimal_length_of_iteration,
                     data.convergence_coefficient,
-                    data.id_Of_Population,
+
                     data.Intra_population_similarity,
                     data.ClassOfPopulation,
+                    data.id_Of_Population,
                 ].map(String)
             );
         }

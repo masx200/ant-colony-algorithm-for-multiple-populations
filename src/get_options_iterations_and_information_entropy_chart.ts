@@ -8,8 +8,8 @@ export function get_options_iterations_and_information_entropy_chart(
 ): ECBasicOption & ECOption {
     const title_text = "迭代轮次和相对信息熵";
 
-    const data: [number, number][] = dataofoneiteration.map((a) => [
-        a.current_iterations,
+    const data: [number, number][] = dataofoneiteration.map((a, i) => [
+        i + 1,
         a.population_relative_information_entropy,
     ]);
     return create_line_chart_options({
