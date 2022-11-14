@@ -115,17 +115,26 @@ export async function MultiPopulationSchedulerCreate(
     let time_of_best_ms = 0;
     let current_search_count = 0;
     let search_count_of_best = 0;
+
+    let best_length_of_history_route_data = Infinity;
     async function getOutputDataAndConsumeIterationAndRouteData(): Promise<COMMON_TSP_Output> {
         const dataOfChildren = await Promise.all(
             remoteWorkers.map((remote) =>
                 remote.getOutputDataAndConsumeIterationAndRouteData()
             )
         );
-        const data_of_routes: COMMON_TSP_Output["data_of_routes"] = zip(
-            ...dataOfChildren.map((data) => data.data_of_routes)
-        )
-            .flat()
-            .filter(Boolean) as COMMON_DataOfOneRoute[];
+        const data_of_routes: COMMON_TSP_Output["data_of_routes"] = (
+            zip(...dataOfChildren.map((data) => data.data_of_routes))
+                .flat()
+                .filter(Boolean) as COMMON_DataOfOneRoute[]
+        ).map((data) => {
+            best_length_of_history_route_data = Math.min(
+                data.global_best_length,
+                best_length_of_history_route_data
+            );
+            data.global_best_length = best_length_of_history_route_data;
+            return data;
+        });
         const delta_data_of_iterations: COMMON_TSP_Output["delta_data_of_iterations"] =
             zip(
                 ...dataOfChildren.map((data, index) =>
