@@ -11,7 +11,7 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { resolve } from "path";
 import { VitePWA } from "vite-plugin-pwa";
 import { PluginItem } from "@babel/core";
-
+import { httpResolve } from "@masx200/rollup-plugin-http-resolve";
 const checker = vpchecker;
 
 export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
@@ -48,6 +48,7 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
                 ? path.resolve(__dirname)
                 : path.resolve(__dirname, "src"),
         plugins: [
+            httpResolve(),
             AutoImport({
                 resolvers: [ElementPlusResolver()],
             }),
