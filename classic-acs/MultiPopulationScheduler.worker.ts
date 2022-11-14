@@ -11,7 +11,7 @@ async function init_runner(options: TSPRunnerOptions) {
 
     runner = await MultiPopulationSchedulerCreate(options);
     Object.assign(API, runner);
-    console.log(API);
+    // console.log(API);
 }
 
 const API: MultiPopulationSchedulerAPI = {
@@ -19,7 +19,7 @@ const API: MultiPopulationSchedulerAPI = {
 } as MultiPopulationSchedulerAPI;
 expose(API);
 self.addEventListener("unhandledrejection", (e) => {
-    console.log(self);
-    console.error(e);
+    // console.log(self);
+    // console.error(e);
     throw e.reason;
 });

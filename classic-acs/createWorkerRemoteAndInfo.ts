@@ -16,22 +16,26 @@ export async function createWorkerRemoteAndInfo(
         index < number_of_populations_of_the_first_category;
         index++
     ) {
-        const remote: WorkerRemoteAndInfo = Object.assign(
-            Object.create(
-                (
-                    await create_TSP_Worker_comlink(
-                        structuredClone({
-                            ...options,
-                            ClassOfPopulation: ClassOfPopulation,
-                        })
-                    )
-                ).remote
-            ),
-            {
-                ClassOfPopulation: ClassOfPopulation,
-                id_Of_Population: remoteworkers.length,
-            }
+        const remote: WorkerRemoteAndInfo = Object.create(
+            (
+                await create_TSP_Worker_comlink(
+                    structuredClone({
+                        ...options,
+                        ClassOfPopulation: ClassOfPopulation,
+                    })
+                )
+            ).remote
         );
+        Object.defineProperty(remote, "ClassOfPopulation", {
+            value: ClassOfPopulation,
+        });
+        Object.defineProperty(remote, "id_Of_Population", {
+            value: remoteworkers.length,
+        });
+
+        // console.log(remote);
+        // console.log(remote.ClassOfPopulation);
+        // console.log(remote.id_Of_Population);
         remoteworkers.push(remote);
     }
 }
