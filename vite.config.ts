@@ -2,7 +2,7 @@ import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import ElementPlus from "unplugin-element-plus/vite";
 import path from "path";
-import vpchecker from "vite-plugin-checker";
+import checker from "vite-plugin-checker";
 import vuePlugin from "@vitejs/plugin-vue";
 import { babel } from "@rollup/plugin-babel";
 import { ConfigEnv, defineConfig, PluginOption, UserConfig } from "vite";
@@ -12,7 +12,6 @@ import { resolve } from "path";
 import { VitePWA } from "vite-plugin-pwa";
 import { PluginItem } from "@babel/core";
 import { httpResolve } from "@masx200/rollup-plugin-http-resolve";
-const checker = vpchecker;
 
 export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
     const isdrop = mode === "production" && command === "build";
@@ -97,6 +96,11 @@ export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
         build: {
             rollupOptions: {
                 input: resolve(__dirname, "src", "index.html"),
+
+                plugins: [
+                    //@ts-ignore
+                    httpResolve(),
+                ],
             },
             cssCodeSplit: false,
             minify: "esbuild",
