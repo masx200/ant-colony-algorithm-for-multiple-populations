@@ -4,10 +4,15 @@ import { DefaultOptions } from "../src/default_Options";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 import { TSP_Worker_Remote } from "../src/TSP_Worker_Remote";
 import { createWorkerRemoteAndInfo } from "./createWorkerRemoteAndInfo";
-import { COMMON_TSP_Output } from "./tsp-interface";
+import {
+    COMMON_DataOfOneIteration,
+    COMMON_DataOfOneRoute,
+    COMMON_TSP_Output,
+} from "./tsp-interface";
 import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 import { extractCommonRoute } from "../common/extractCommonRoute";
 import { MultiPopulationScheduler } from "./MultiPopulationScheduler";
+import { zip } from "lodash-es";
 export type WorkerRemoteAndInfo = TSP_Worker_Remote["remote"] & {
     ClassOfPopulation: string;
     id_Of_Population: number;
@@ -116,11 +121,14 @@ export async function MultiPopulationSchedulerCreate(
                 remote.getOutputDataAndConsumeIterationAndRouteData()
             )
         );
-        const data_of_routes: COMMON_TSP_Output["data_of_routes"] =
-            dataOfChildren.map((data) => data.data_of_routes).flat();
+        const data_of_routes: COMMON_TSP_Output["data_of_routes"] = zip(
+            ...dataOfChildren.map((data) => data.data_of_routes)
+        )
+            .flat()
+            .filter(Boolean) as COMMON_DataOfOneRoute[];
         const delta_data_of_iterations: COMMON_TSP_Output["delta_data_of_iterations"] =
-            dataOfChildren
-                .map((data, index) =>
+            zip(
+                ...dataOfChildren.map((data, index) =>
                     data.delta_data_of_iterations.map((di) => {
                         di.ClassOfPopulation =
                             remoteWorkers[index].ClassOfPopulation;
@@ -129,7 +137,10 @@ export async function MultiPopulationSchedulerCreate(
                         return di;
                     })
                 )
-                .flat();
+            )
+                .flat()
+                .filter(Boolean) as COMMON_DataOfOneIteration[];
+
         const result: COMMON_TSP_Output = {
             data_of_greedy: dataOfChildren
                 .map((data) => data.data_of_greedy)
