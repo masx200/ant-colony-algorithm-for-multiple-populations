@@ -1,4 +1,3 @@
-import { create_run_iterations } from "../functions/create_run_iterations";
 import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueArrayOfCircularPath";
 import { DefaultOptions } from "../src/default_Options";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
@@ -46,7 +45,7 @@ export async function MultiPopulationSchedulerCreate(
     );
 
     let current_iterations = 0;
-    const runIterations = create_run_iterations(runOneIteration);
+    async function runIterations(iterations: number) {}
     const global_best: {
         length: number;
         route: number[];
@@ -106,7 +105,11 @@ export async function MultiPopulationSchedulerCreate(
             0
         );
         current_iterations += remoteWorkers.length;
-        if (current_iterations % population_communication_iterate_cycle === 0) {
+        if (
+            (current_iterations % population_communication_iterate_cycle) *
+                remoteWorkers.length ===
+            0
+        ) {
             const routes = routesAndLengths.map((a) => a.route);
             const lengths = routesAndLengths.map((a) => a.length);
 
