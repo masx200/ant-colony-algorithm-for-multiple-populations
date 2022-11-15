@@ -112,6 +112,12 @@ export async function MultiPopulationSchedulerCreate(
                         remoteWorkers.length) ===
                 0
             ) {
+                console.log(
+                    "PerformCommunicationBetweenPopulations",
+                    current_iterations,
+                    population_communication_iterate_cycle *
+                        remoteWorkers.length
+                );
                 const routes = routesAndLengths.map((a) => a.route);
                 const lengths = routesAndLengths.map((a) => a.length);
 
