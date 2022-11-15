@@ -13,6 +13,9 @@ import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRo
 import { extractCommonRoute } from "../common/extractCommonRoute";
 import { MultiPopulationScheduler } from "./MultiPopulationScheduler";
 import { zip } from "lodash-es";
+import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
+import { DataOfFinishOneIteration } from "../functions/DataOfFinishOneIteration";
+import { DataOfFinishOneRoute } from "../functions/DataOfFinishOneRoute";
 export type WorkerRemoteAndInfo = TSP_Worker_Remote["remote"] & {
     ClassOfPopulation: string;
     id_Of_Population: number;
@@ -117,7 +120,20 @@ export async function MultiPopulationSchedulerCreate(
     let search_count_of_best = 0;
 
     let best_length_of_history_route_data = Infinity;
-    async function getOutputDataAndConsumeIterationAndRouteData(): Promise<COMMON_TSP_Output> {
+    async function getOutputDataAndConsumeIterationAndRouteData(): Promise<{
+        data_of_greedy: DataOfFinishGreedyIteration[];
+        current_iterations: number;
+        data_of_routes: COMMON_DataOfOneRoute[] & DataOfFinishOneRoute[];
+        delta_data_of_iterations: COMMON_DataOfOneIteration[] &
+            DataOfFinishOneIteration[];
+        current_search_count: number;
+        global_best_length: number;
+        global_best_route: number[];
+        total_time_ms: number;
+        time_of_best_ms: number;
+        search_count_of_best: number;
+        IterationDataOfIndividualPopulations: COMMON_DataOfOneIteration[][];
+    }> {
         const dataOfChildren = await Promise.all(
             remoteWorkers.map((remote) =>
                 remote.getOutputDataAndConsumeIterationAndRouteData()
@@ -135,22 +151,21 @@ export async function MultiPopulationSchedulerCreate(
             data.global_best_length = best_length_of_history_route_data;
             return data;
         });
+        const IterationDataOfIndividualPopulations = dataOfChildren.map(
+            (data, index) =>
+                data.delta_data_of_iterations.map((di) => {
+                    di.ClassOfPopulation =
+                        remoteWorkers[index].ClassOfPopulation;
+                    di.id_Of_Population = remoteWorkers[index].id_Of_Population;
+                    return di;
+                })
+        );
         const delta_data_of_iterations: COMMON_TSP_Output["delta_data_of_iterations"] =
-            zip(
-                ...dataOfChildren.map((data, index) =>
-                    data.delta_data_of_iterations.map((di) => {
-                        di.ClassOfPopulation =
-                            remoteWorkers[index].ClassOfPopulation;
-                        di.id_Of_Population =
-                            remoteWorkers[index].id_Of_Population;
-                        return di;
-                    })
-                )
-            )
+            zip(...IterationDataOfIndividualPopulations)
                 .flat()
                 .filter(Boolean) as COMMON_DataOfOneIteration[];
 
-        const result: COMMON_TSP_Output = {
+        const result = {
             data_of_greedy: dataOfChildren
                 .map((data) => data.data_of_greedy)
                 .flat(),
@@ -163,15 +178,16 @@ export async function MultiPopulationSchedulerCreate(
             total_time_ms,
             time_of_best_ms,
             search_count_of_best,
+            IterationDataOfIndividualPopulations,
         };
-        // console.log(result);
+
         return result;
     }
     let countOfNotSatisfiedOfCommunication = 0;
     async function PerformCommunicationBetweenPopulations(
         routes: number[][],
         lengths: number[]
-    ) {
+    ): Promise<void> {
         const bestRoute = getBestRoute();
         const similarityOfAllPopulations = similarityOfMultipleRoutes(
             routes,
@@ -218,15 +234,15 @@ export async function MultiPopulationSchedulerCreate(
             }
         }
     }
-    // console.log(remoteWorkers);
+
     return {
-        getCountOfIterations() {
+        getCountOfIterations(): number {
             return current_iterations;
         },
-        getCurrentSearchCount() {
+        getCurrentSearchCount(): number {
             return current_search_count;
         },
-        getTotalTimeMs() {
+        getTotalTimeMs(): number {
             return total_time_ms;
         },
         runIterations,
@@ -234,10 +250,10 @@ export async function MultiPopulationSchedulerCreate(
         getBestLength: getBestLength,
         getBestRoute: getBestRoute,
         getOutputDataAndConsumeIterationAndRouteData,
-        getSearchCountOfBest() {
+        getSearchCountOfBest(): number {
             return search_count_of_best;
         },
-        getTimeOfBest() {
+        getTimeOfBest(): number {
             return time_of_best_ms;
         },
     };
