@@ -42,10 +42,9 @@ import LineChart from "./LineChart.vue";
 
 import { get_options_route_of_node_coordinates } from "./get_options_route_of_node_coordinates";
 import { get_options_route_number_and_best_length_chart } from "./get_options_route_number_and_best_length_chart";
-import { get_options_route_number_and_current_length_chart } from "./get_options_route_number_and_current_length_chart";
 
 import { MultiPopulationSchedulerRemote } from "../classic-acs/MultiPopulationSchedulerRemote";
-import { MultiPopulationOutput } from "../classic-acs/MultiPopulationScheduler";
+import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
 import { useOptionsOfIterationsAndInformationEntropyChart } from "./useOptionsOfIterationsAndInformationEntropyChart";
 export default defineComponent({
     components: {
@@ -213,7 +212,6 @@ export default defineComponent({
             }
             data_change_listener();
 
-            finish_one_route_listener();
             await submit_select_node_coordinates();
         });
 
@@ -231,7 +229,6 @@ export default defineComponent({
         };
         onMounted(() => {
             watch(dataofoneroute, () => {
-                finish_one_route_listener();
                 data_change_listener();
             });
         });
@@ -241,13 +238,6 @@ export default defineComponent({
             options_of_best_path_length_chart.value = options;
         };
 
-        const finish_one_route_listener = () => {
-            const options =
-                get_options_route_number_and_current_length_chart(
-                    dataofoneroute
-                );
-            options_of_current_path_length_chart.value = options;
-        };
         const onprogress = (p: number) => {
             assert_number(p);
             const value = Math.min(100, Math.max(0, p));

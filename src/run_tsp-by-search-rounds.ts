@@ -1,5 +1,5 @@
 import { Ref } from "vue";
-import { MultiPopulationOutput } from "../classic-acs/MultiPopulationScheduler";
+import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
 import { assert_number } from "../test/assert_number";
 import {
     default_count_of_ants,

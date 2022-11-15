@@ -1,4 +1,4 @@
-import { MultiPopulationOutput } from "../classic-acs/MultiPopulationScheduler";
+import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
 import { assert_true } from "../test/assert_true";
 import { drawChartMaxWait, drawChartWait } from "./drawChartMaxWait";
 import { RunWay } from "./RunWay";

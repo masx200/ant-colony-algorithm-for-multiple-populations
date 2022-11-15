@@ -1,5 +1,5 @@
 import { Ref } from "vue";
-import { MultiPopulationOutput } from "../classic-acs/MultiPopulationScheduler";
+import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
 import { assert_number } from "../test/assert_number";
 import { RunnerRemote, tsp_runner_run_async } from "./tsp_runner_run_async";
 

@@ -13,9 +13,7 @@ import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRo
 import { extractCommonRoute } from "../common/extractCommonRoute";
 import { MultiPopulationScheduler } from "./MultiPopulationScheduler";
 import { zip } from "lodash-es";
-import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
-import { DataOfFinishOneIteration } from "../functions/DataOfFinishOneIteration";
-import { DataOfFinishOneRoute } from "../functions/DataOfFinishOneRoute";
+import { MultiPopulationOutput } from "./MultiPopulationOutput";
 export type WorkerRemoteAndInfo = TSP_Worker_Remote["remote"] & {
     ClassOfPopulation: string;
     id_Of_Population: number;
@@ -120,27 +118,17 @@ export async function MultiPopulationSchedulerCreate(
     let search_count_of_best = 0;
 
     let best_length_of_history_route_data = Infinity;
-    async function getOutputDataAndConsumeIterationAndRouteData(): Promise<{
-        data_of_greedy: DataOfFinishGreedyIteration[];
-        current_iterations: number;
-        data_of_routes: COMMON_DataOfOneRoute[] & DataOfFinishOneRoute[];
-        delta_data_of_iterations: COMMON_DataOfOneIteration[] &
-            DataOfFinishOneIteration[];
-        current_search_count: number;
-        global_best_length: number;
-        global_best_route: number[];
-        total_time_ms: number;
-        time_of_best_ms: number;
-        search_count_of_best: number;
-        IterationDataOfIndividualPopulations: COMMON_DataOfOneIteration[][];
-    }> {
+    async function getOutputDataAndConsumeIterationAndRouteData(): Promise<MultiPopulationOutput> {
         const dataOfChildren = await Promise.all(
             remoteWorkers.map((remote) =>
                 remote.getOutputDataAndConsumeIterationAndRouteData()
             )
         );
+        const RouteDataOfIndividualPopulations = dataOfChildren.map(
+            (data) => data.data_of_routes
+        );
         const data_of_routes: COMMON_TSP_Output["data_of_routes"] = (
-            zip(...dataOfChildren.map((data) => data.data_of_routes))
+            zip(...RouteDataOfIndividualPopulations)
                 .flat()
                 .filter(Boolean) as COMMON_DataOfOneRoute[]
         ).map((data) => {
@@ -179,6 +167,7 @@ export async function MultiPopulationSchedulerCreate(
             time_of_best_ms,
             search_count_of_best,
             IterationDataOfIndividualPopulations,
+            RouteDataOfIndividualPopulations,
         };
 
         return result;
