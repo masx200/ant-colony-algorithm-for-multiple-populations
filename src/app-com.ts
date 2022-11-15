@@ -42,11 +42,11 @@ import LineChart from "./LineChart.vue";
 
 import { get_options_route_of_node_coordinates } from "./get_options_route_of_node_coordinates";
 import { get_options_route_number_and_best_length_chart } from "./get_options_route_number_and_best_length_chart";
-import { get_options_iterations_and_information_entropy_chart } from "./get_options_iterations_and_information_entropy_chart";
 import { get_options_route_number_and_current_length_chart } from "./get_options_route_number_and_current_length_chart";
 
-import { TSP_Output_Data } from "../functions/TSP_Output_Data";
 import { MultiPopulationSchedulerRemote } from "../classic-acs/MultiPopulationSchedulerRemote";
+import { MultiPopulationOutput } from "../classic-acs/MultiPopulationScheduler";
+import { useOptionsOfIterationsAndInformationEntropyChart } from "./useOptionsOfIterationsAndInformationEntropyChart";
 export default defineComponent({
     components: {
         MultiplePopulationsConfigs,
@@ -55,6 +55,10 @@ export default defineComponent({
         LineChart,
     },
     setup() {
+        const {
+            options_of_iterations_and_information_entropy_chart,
+            onUpdateIterationDataOfIndividualPopulations,
+        } = useOptionsOfIterationsAndInformationEntropyChart();
         const selected_value = ref(TSP_cities_data[0]);
         const selected_node_coordinates = ref<NodeCoordinates>();
         const show_progress = ref(true);
@@ -139,7 +143,6 @@ export default defineComponent({
             oneiterationtableheads,
             onReceiveDeltaDataOfOneIteration,
             clearDataOfOneIteration,
-            dataofoneiteration,
             oneiterationtablebody,
         } = use_data_of_one_iteration();
 
@@ -179,8 +182,6 @@ export default defineComponent({
 
         const options_of_best_route_chart: Ref<ECBasicOption> = ref({});
 
-        const options_of_iterations_and_information_entropy_chart: Ref<ECBasicOption> =
-            ref({});
         const options_of_current_path_length_chart: Ref<ECBasicOption> = ref(
             {}
         );
@@ -210,7 +211,7 @@ export default defineComponent({
                 element.selectedIndex = 0;
             }
             data_change_listener();
-            finish_one_iteration_listener();
+
             finish_one_route_listener();
             await submit_select_node_coordinates();
         });
@@ -228,9 +229,6 @@ export default defineComponent({
             options_of_best_route_chart.value = options;
         };
         onMounted(() => {
-            watch(dataofoneiteration, () => {
-                finish_one_iteration_listener();
-            });
             watch(dataofoneroute, () => {
                 finish_one_route_listener();
                 data_change_listener();
@@ -240,13 +238,6 @@ export default defineComponent({
             const options =
                 get_options_route_number_and_best_length_chart(dataofoneroute);
             options_of_best_path_length_chart.value = options;
-        };
-        const finish_one_iteration_listener = () => {
-            const options =
-                get_options_iterations_and_information_entropy_chart(
-                    dataofoneiteration
-                );
-            options_of_iterations_and_information_entropy_chart.value = options;
         };
 
         const finish_one_route_listener = () => {
@@ -286,7 +277,7 @@ export default defineComponent({
         const greedy_iteration_table_body = data_of_greedy_iteration.tablebody;
         const on_receive_data_of_greedy =
             data_of_greedy_iteration.onreceivedata;
-        function on_update_output_data(data: TSP_Output_Data) {
+        function on_update_output_data(data: MultiPopulationOutput) {
             on_receive_data_of_greedy(data.data_of_greedy[0]);
             onglobal_best_routeChange(data.global_best_route);
 
@@ -294,6 +285,10 @@ export default defineComponent({
             on_receive_Data_Of_Global_Best(data);
             onReceiveDeltaDataOfOneIteration(data.delta_data_of_iterations);
             onReceiveDeltaDataOfOneRoute(data.data_of_routes);
+
+            onUpdateIterationDataOfIndividualPopulations(
+                data.IterationDataOfIndividualPopulations
+            );
         }
         const TSP_terminate = () => {
             data_of_greedy_iteration.clearData();

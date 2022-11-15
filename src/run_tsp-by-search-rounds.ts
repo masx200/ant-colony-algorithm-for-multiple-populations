@@ -1,5 +1,5 @@
 import { Ref } from "vue";
-import { TSP_Output_Data } from "../functions/TSP_Output_Data";
+import { MultiPopulationOutput } from "../classic-acs/MultiPopulationScheduler";
 import { assert_number } from "../test/assert_number";
 import {
     default_count_of_ants,
@@ -15,7 +15,7 @@ export async function run_tsp_by_search_rounds({
     count_of_ants_ref,
     is_running,
 }: {
-    on_update_output_data(data: TSP_Output_Data): void;
+    on_update_output_data(data: MultiPopulationOutput): void;
     runner: RunnerRemote;
 
     onprogress: (percentage: number) => void;

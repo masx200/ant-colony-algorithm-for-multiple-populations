@@ -1,5 +1,5 @@
 import { Ref } from "vue";
-import { TSP_Output_Data } from "../functions/TSP_Output_Data";
+import { MultiPopulationOutput } from "../classic-acs/MultiPopulationScheduler";
 import { assert_number } from "../test/assert_number";
 import { RunnerRemote, tsp_runner_run_async } from "./tsp_runner_run_async";
 
@@ -11,7 +11,7 @@ export async function run_tsp_by_search_time({
 
     onprogress,
 }: {
-    on_update_output_data(data: TSP_Output_Data): void;
+    on_update_output_data(data: MultiPopulationOutput): void;
     runner: RunnerRemote;
 
     search_time_seconds: Ref<number>;

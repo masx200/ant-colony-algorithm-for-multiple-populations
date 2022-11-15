@@ -1,12 +1,11 @@
-import { COMMON_TSP_Output } from "../classic-acs/tsp-interface";
-import { TSP_Output_Data } from "../functions/TSP_Output_Data";
+import { MultiPopulationOutput } from "../classic-acs/MultiPopulationScheduler";
 import { assert_true } from "../test/assert_true";
 import { drawChartMaxWait, drawChartWait } from "./drawChartMaxWait";
 import { RunWay } from "./RunWay";
 import { sleep_requestAnimationFrame_async_or_settimeout } from "./sleep_requestAnimationFrame_async_or_settimeout";
 export type RunnerRemote = {
     runIterations: (iterations: number) => Promise<void>;
-    getOutputDataAndConsumeIterationAndRouteData: () => Promise<COMMON_TSP_Output>;
+    getOutputDataAndConsumeIterationAndRouteData: () => Promise<MultiPopulationOutput>;
 };
 
 export async function tsp_runner_run_async({
@@ -16,7 +15,7 @@ export async function tsp_runner_run_async({
     iterations_of_search = Infinity,
     onprogress,
 }: {
-    on_update_output_data(data: TSP_Output_Data): void;
+    on_update_output_data(data: MultiPopulationOutput): void;
     time_of_search_ms?: number;
     runner: RunnerRemote;
     iterations_of_search?: number;

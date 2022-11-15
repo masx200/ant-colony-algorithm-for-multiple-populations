@@ -33,9 +33,6 @@ export async function createWorkerRemoteAndInfo(
             value: remoteworkers.length,
         });
 
-        // console.log(remote);
-        // console.log(remote.ClassOfPopulation);
-        // console.log(remote.id_Of_Population);
         remoteworkers.push(remote);
     }
 }
