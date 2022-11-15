@@ -501,9 +501,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         getBestLength() {
             return get_best_length();
         },
-        runIterations(iterations: number) {
-            return runIterations(iterations);
-        },
+        runIterations,
         runOneIteration: runOneIteration,
         getOutputDataAndConsumeIterationAndRouteData:
             getOutputDataAndConsumeIterationAndRouteData,
