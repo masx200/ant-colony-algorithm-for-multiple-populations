@@ -39,15 +39,33 @@ export async function tsp_runner_run_async({
         type_of_search === RunWay.time ? rest_time > 0 : rest_iterations > 0
     ) {
         if (type_of_search === RunWay.round) {
-            const last_time = Number(new Date());
-            await runner.runIterations(run_iterations);
-            rest_iterations -= run_iterations;
-            duration = Number(new Date()) - last_time;
+            if (rest_iterations > 5) {
+                const last_time = Number(new Date());
+                await runner.runIterations(5);
+                rest_iterations -= 5;
+                duration = Number(new Date()) - last_time;
 
-            onprogress &&
-                onprogress(
-                    Math.min(100, 100 * (1 - rest_iterations / all_iterations))
-                );
+                onprogress &&
+                    onprogress(
+                        Math.min(
+                            100,
+                            100 * (1 - rest_iterations / all_iterations)
+                        )
+                    );
+            } else {
+                const last_time = Number(new Date());
+                await runner.runIterations(run_iterations);
+                rest_iterations -= run_iterations;
+                duration = Number(new Date()) - last_time;
+
+                onprogress &&
+                    onprogress(
+                        Math.min(
+                            100,
+                            100 * (1 - rest_iterations / all_iterations)
+                        )
+                    );
+            }
         } else {
             const last_time = Number(new Date());
             await runner.runIterations(run_iterations);
