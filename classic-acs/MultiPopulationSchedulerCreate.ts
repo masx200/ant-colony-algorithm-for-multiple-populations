@@ -46,10 +46,78 @@ export async function MultiPopulationSchedulerCreate(
 
     let current_iterations = 0;
     async function runIterations(iterations: number) {
+        const splitted_iterations: number[] = [];
 
+        const rest_iterations_period =
+            current_iterations %
+                (population_communication_iterate_cycle *
+                    remoteWorkers.length) ===
+            0
+                ? 0
+                : Math.floor(
+                      (population_communication_iterate_cycle *
+                          remoteWorkers.length -
+                          (current_iterations %
+                              (population_communication_iterate_cycle *
+                                  remoteWorkers.length))) /
+                          remoteWorkers.length
+                  );
+        if (rest_iterations_period > 0) {
+            splitted_iterations.push(
+                Math.min(rest_iterations_period, iterations)
+            );
 
+            iterations -= Math.min(rest_iterations_period, iterations);
+        }
+        while (iterations > population_communication_iterate_cycle) {
+            iterations -= population_communication_iterate_cycle;
+            splitted_iterations.push(population_communication_iterate_cycle);
+        }
+        if (iterations > 0) splitted_iterations.push(iterations);
+        for (const iteration of splitted_iterations) {
+            await Promise.all(
+                remoteWorkers.map((remote) => {
+                    return remote.runIterations(iteration);
+                })
+            );
 
+            const routesAndLengths = await Promise.all(
+                remoteWorkers.map(async (remote) => {
+                    return {
+                        length: await remote.getBestLength(),
+                        route: await remote.getBestRoute(),
+                    };
+                })
+            );
+            const totaltimemsall = await Promise.all(
+                remoteWorkers.map((remote) => remote.getTotalTimeMs())
+            );
+            const current_search_countsall = await Promise.all(
+                remoteWorkers.map((remote) => remote.getCurrentSearchCount())
+            );
+            routesAndLengths.forEach(({ route, length }) => {
+                onRouteCreated(route, length);
+            });
 
+            total_time_ms = totaltimemsall.reduce((p, c) => p + c, 0);
+
+            current_search_count = current_search_countsall.reduce(
+                (p, c) => p + c,
+                0
+            );
+            current_iterations += remoteWorkers.length;
+            if (
+                current_iterations %
+                    (population_communication_iterate_cycle *
+                        remoteWorkers.length) ===
+                0
+            ) {
+                const routes = routesAndLengths.map((a) => a.route);
+                const lengths = routesAndLengths.map((a) => a.length);
+
+                await PerformCommunicationBetweenPopulations(routes, lengths);
+            }
+        }
     }
     const global_best: {
         length: number;
