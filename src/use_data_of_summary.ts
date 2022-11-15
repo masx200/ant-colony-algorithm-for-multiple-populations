@@ -55,9 +55,9 @@ export function use_data_of_summary() {
         });
     const data_of_best = ref<DataOfBestChange>();
     const data_of_total = ref<DataOfTotal>();
-    const on_receive_Data_Of_total = function (data: DataOfTotal) {
+    function on_receive_Data_Of_total(data: DataOfTotal) {
         data_of_total.value = data;
-    };
+    }
 
     return {
         on_receive_Data_Of_total,
