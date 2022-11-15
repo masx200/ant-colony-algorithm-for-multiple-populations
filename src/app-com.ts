@@ -46,6 +46,7 @@ import { get_options_route_number_and_best_length_chart } from "./get_options_ro
 import { MultiPopulationSchedulerRemote } from "../classic-acs/MultiPopulationSchedulerRemote";
 import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
 import { useOptionsOfIterationsAndInformationEntropyChart } from "./useOptionsOfIterationsAndInformationEntropyChart";
+import { useOptionsOfRoutesAndInformationEntropyChart } from "./useOptionsOfRoutesAndInformationEntropyChart";
 export default defineComponent({
     components: {
         MultiplePopulationsConfigs,
@@ -59,6 +60,11 @@ export default defineComponent({
             options_of_iterations_and_information_entropy_chart,
             onUpdateIterationDataOfIndividualPopulations,
         } = useOptionsOfIterationsAndInformationEntropyChart();
+        const {
+            options_of_current_path_length_chart,
+
+            onUpdateRouteDataOfIndividualPopulations,
+        } = useOptionsOfRoutesAndInformationEntropyChart();
         const selected_value = ref(TSP_cities_data[0]);
         const selected_node_coordinates = ref<NodeCoordinates>();
         const show_progress = ref(true);
@@ -182,9 +188,6 @@ export default defineComponent({
 
         const options_of_best_route_chart: Ref<ECBasicOption> = ref({});
 
-        const options_of_current_path_length_chart: Ref<ECBasicOption> = ref(
-            {}
-        );
         const options_of_best_path_length_chart: Ref<ECBasicOption> = ref({});
         const submit = async () => {
             const options = await generate_greedy_preview_echarts_options({
@@ -279,6 +282,9 @@ export default defineComponent({
 
             onUpdateIterationDataOfIndividualPopulations(
                 data.IterationDataOfIndividualPopulations
+            );
+            onUpdateRouteDataOfIndividualPopulations(
+                data.RouteDataOfIndividualPopulations
             );
         }
         const TSP_terminate = () => {
