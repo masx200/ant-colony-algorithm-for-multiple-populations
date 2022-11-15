@@ -18,7 +18,7 @@ export function createMultipleLinesChartOptions({
         title: { text: title_text },
         xAxis: { min: xAxis_min, max: "dataMax" },
         yAxis: { min: yAxis_min, max: "dataMax" },
-        series: datas.map((data) => {
+        series: datas.map((data, i) => {
             return {
                 label: {
                     show: false,
@@ -28,6 +28,8 @@ export function createMultipleLinesChartOptions({
                         show: true,
                         formatter(parm) {
                             return (
+                                i +
+                                "-" +
                                 "(" +
                                 Array.from([parm.data].flat()).join(",") +
                                 ")"
