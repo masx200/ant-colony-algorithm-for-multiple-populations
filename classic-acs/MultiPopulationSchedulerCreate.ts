@@ -46,7 +46,7 @@ export async function MultiPopulationSchedulerCreate(
 
     let current_iterations = 0;
     async function runIterations(iterations: number) {
-        console.log("iterations", iterations);
+        // console.log("iterations", iterations);
         const splitted_iterations: number[] = [];
 
         const rest_iterations_period =
@@ -75,7 +75,7 @@ export async function MultiPopulationSchedulerCreate(
             splitted_iterations.push(population_communication_iterate_cycle);
         }
         if (iterations > 0) splitted_iterations.push(iterations);
-        console.log("splitted_iterations", splitted_iterations);
+        // console.log("splitted_iterations", splitted_iterations);
         for (const iteration of splitted_iterations) {
             await Promise.all(
                 remoteWorkers.map((remote) => {
@@ -114,12 +114,12 @@ export async function MultiPopulationSchedulerCreate(
                         remoteWorkers.length) ===
                 0
             ) {
-                console.log(
-                    "PerformCommunicationBetweenPopulations",
-                    current_iterations,
-                    population_communication_iterate_cycle *
-                        remoteWorkers.length
-                );
+                // console.log(
+                //     "PerformCommunicationBetweenPopulations",
+                //     current_iterations,
+                //     population_communication_iterate_cycle *
+                //         remoteWorkers.length
+                // );
                 const routes = routesAndLengths.map((a) => a.route);
                 const lengths = routesAndLengths.map((a) => a.length);
 
