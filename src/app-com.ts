@@ -56,6 +56,7 @@ export default defineComponent({
     },
     setup() {
         const {
+            optionsOfIterationsAndPopulationSimilarityChart,
             options_of_iterations_and_information_entropy_chart,
             onUpdateIterationDataOfIndividualPopulations,
         } = useOptionsOfIterationsAndInformationEntropyChart();
@@ -399,7 +400,7 @@ export default defineComponent({
             show_chart_of_latest,
             show_chart_of_entropy,
             round_result,
-
+            optionsOfIterationsAndPopulationSimilarityChart,
             greedy_iteration_table_heads,
             greedy_iteration_table_body,
             max_routes_of_greedy,
