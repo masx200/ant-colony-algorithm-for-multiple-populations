@@ -84,6 +84,7 @@ export default defineComponent({
         const show_chart_of_latest = ref(false);
         const show_chart_of_entropy = ref(false);
         const show_summary_of_iterations = ref(true);
+        const show_summary_of_similarity = ref(true);
         const details_shows_should_hide = [
             show_history_routes_of_best,
             show_array_routes_of_best,
@@ -91,7 +92,7 @@ export default defineComponent({
             show_summary_of_iterations,
             show_chart_of_entropy,
             show_chart_of_latest,
-
+            show_summary_of_similarity,
             show_summary_of_routes,
             show_routes_of_best,
             show_chart_of_best,
@@ -412,6 +413,7 @@ export default defineComponent({
             alpha_zero,
             beta_zero,
             can_run,
+            show_summary_of_similarity,
             similarityOfAllPopulationsTableHeads,
             show_routes_of_best,
             show_summary_of_routes,

@@ -28,12 +28,17 @@
             </option>
         </select>
         <br />
-        <button v-text="'重置'" @click="resethandler" /><br />
-        <button
-            v-text="'停止'"
-            @click="stop_handler"
-            :disabled="disable_stop"
-        />
+        <el-row>
+            <el-col :span="12"
+                ><el-button @click="resethandler">重置</el-button>><br
+            /></el-col>
+            <el-col :span="12">
+                <el-button @click="stop_handler" :disabled="disable_stop"
+                    >停止</el-button
+                ></el-col
+            >
+        </el-row>
+
         <hr />
         <span v-text="'显示进度条'"></span>
         <el-switch
@@ -364,11 +369,18 @@
         />
         <!-- 拆分表格 -->
         <hr />
-        <Data-table
-            title="总体的相似度"
-            :tableheads="similarityOfAllPopulationsTableHeads"
-            :tablebody="similarityOfAllPopulationsHistoryRef"
-        />
+        <details
+            :open="show_summary_of_similarity"
+            @toggle="show_summary_of_similarity = $event.target.open"
+        >
+            <summary>总体的相似度</summary>
+            <Data-table
+                title="总体的相似度"
+                :tableheads="similarityOfAllPopulationsTableHeads"
+                :tablebody="similarityOfAllPopulationsHistoryRef"
+            />
+        </details>
+
         <!-- 拆分表格 -->
         <hr />
         <details
