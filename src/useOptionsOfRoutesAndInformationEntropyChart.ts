@@ -1,7 +1,7 @@
 import { ECBasicOption } from "echarts/types/dist/shared";
 import { computed, Ref, ref } from "vue";
 import { DataOfFinishOneRoute } from "../functions/DataOfFinishOneRoute";
-import { getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations } from "./getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations";
+// import { getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations } from "./getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations";
 import { get_options_route_number_and_current_length_chart } from "./get_options_route_number_and_current_length_chart";
 export function useOptionsOfRoutesAndInformationEntropyChart() {
     const RouteDataOfIndividualPopulationsRef = ref(
@@ -13,12 +13,12 @@ export function useOptionsOfRoutesAndInformationEntropyChart() {
                 RouteDataOfIndividualPopulationsRef.value
             )
     );
-    const OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations: Ref<ECBasicOption> =
-        computed(() =>
-            getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations(
-                RouteDataOfIndividualPopulationsRef.value
-            )
-        );
+    // const OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations: Ref<ECBasicOption> =
+    //     computed(() =>
+    //         getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations(
+    //             RouteDataOfIndividualPopulationsRef.value
+    //         )
+    //     );
 
     function onUpdateRouteDataOfIndividualPopulations(
         RouteDataOfIndividualPopulations: DataOfFinishOneRoute[][]
@@ -33,7 +33,7 @@ export function useOptionsOfRoutesAndInformationEntropyChart() {
         }
     }
     return {
-        OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
+        // OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
         options_of_current_path_length_chart,
         onUpdateRouteDataOfIndividualPopulations,
     };

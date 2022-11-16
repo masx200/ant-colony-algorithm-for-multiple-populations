@@ -319,7 +319,7 @@
                 ></LineChart>
             </div>
         </details>
-        <hr />
+        <!-- <hr />
         <details
             class="width-100-percent"
             :open="show_chart_of_best"
@@ -333,7 +333,7 @@
                     OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations
                 "
             ></LineChart>
-        </details>
+        </details> -->
         <hr />
         <details
             class="width-100-percent"

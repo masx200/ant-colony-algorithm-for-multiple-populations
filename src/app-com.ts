@@ -62,7 +62,7 @@ export default defineComponent({
         } = useOptionsOfIterationsAndInformationEntropyChart();
         const {
             options_of_current_path_length_chart,
-            OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
+            // OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
             onUpdateRouteDataOfIndividualPopulations,
         } = useOptionsOfRoutesAndInformationEntropyChart();
         const selected_value = ref(TSP_cities_data[0]);
@@ -426,7 +426,7 @@ export default defineComponent({
             is_running,
             options_of_iterations_and_information_entropy_chart,
             resethandler: resethandler,
-            OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
+            // OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
             oneiterationtableheads,
             oneiterationtablebody,
             count_of_ants_ref,
