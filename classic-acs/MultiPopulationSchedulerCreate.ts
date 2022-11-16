@@ -282,8 +282,8 @@ export async function MultiPopulationSchedulerCreate(
             );
         } else if (similarityOfAllPopulations > 0.9) {
             // console.log(
-                // "PerformCommunicationBetweenPopulations",
-                // similarityOfAllPopulations
+            // "PerformCommunicationBetweenPopulations",
+            // similarityOfAllPopulations
             // );
             const randomHalf = remoteWorkers
                 .map((w, i) => ({
