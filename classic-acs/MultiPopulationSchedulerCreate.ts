@@ -239,6 +239,7 @@ export async function MultiPopulationSchedulerCreate(
                 .filter(Boolean) as COMMON_DataOfOneIteration[];
 
         const result = {
+            similarityOfAllPopulationsHistory,
             data_of_greedy: dataOfChildren
                 .map((data) => data.data_of_greedy)
                 .flat(),
@@ -257,6 +258,7 @@ export async function MultiPopulationSchedulerCreate(
 
         return result;
     }
+    const similarityOfAllPopulationsHistory: number[] = [];
     // let countOfNotSatisfiedOfCommunication = 0;
     async function PerformCommunicationBetweenPopulations(
         routes: number[][],
@@ -267,6 +269,7 @@ export async function MultiPopulationSchedulerCreate(
             routes,
             bestRoute
         );
+        similarityOfAllPopulationsHistory.push(similarityOfAllPopulations);
         if (similarityOfAllPopulations < 0.7) {
             console.log(
                 "PerformCommunicationBetweenPopulations",
