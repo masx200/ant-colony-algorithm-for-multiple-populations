@@ -268,6 +268,10 @@ export async function MultiPopulationSchedulerCreate(
             bestRoute
         );
         if (similarityOfAllPopulations < 0.3) {
+            console.log(
+                "PerformCommunicationBetweenPopulations",
+                similarityOfAllPopulations
+            );
             const commonRoute = extractCommonRoute(routes);
 
             const backHalf = remoteWorkers
@@ -284,6 +288,10 @@ export async function MultiPopulationSchedulerCreate(
                 )
             );
         } else if (similarityOfAllPopulations > 0.7) {
+            console.log(
+                "PerformCommunicationBetweenPopulations",
+                similarityOfAllPopulations
+            );
             const randomHalf = remoteWorkers
                 .map((w, i) => ({
                     remote: w,
@@ -300,6 +308,10 @@ export async function MultiPopulationSchedulerCreate(
             countOfNotSatisfiedOfCommunication++;
             if (countOfNotSatisfiedOfCommunication >= 3) {
                 countOfNotSatisfiedOfCommunication = 0;
+                console.log(
+                    "PerformCommunicationBetweenPopulations",
+                    similarityOfAllPopulations
+                );
                 await Promise.all(
                     remoteWorkers.map((remote) =>
                         remote.updateBestRoute(getBestRoute(), getBestLength())
