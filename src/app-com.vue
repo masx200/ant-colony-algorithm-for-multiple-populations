@@ -30,7 +30,7 @@
         <br />
         <el-row>
             <el-col :span="12"
-                ><el-button @click="resethandler">重置</el-button>><br
+                ><el-button @click="resethandler"> 重置 </el-button><br
             /></el-col>
             <el-col :span="12">
                 <el-button @click="stop_handler" :disabled="disable_stop"
@@ -356,6 +356,7 @@
 
         <!-- //汇总结果 -->
         <Data-table
+            style="margin: 0 auto"
             title="最优解的统计"
             :tableheads="summary_best_TableHeads"
             :tablebody="summary_best_TableBody"
@@ -363,6 +364,7 @@
         <!-- 拆分表格 -->
         <hr />
         <Data-table
+            style="margin: 0 auto"
             title="总体的统计"
             :tableheads="summary_total_TableHeads"
             :tablebody="summary_total_TableBody"
@@ -375,6 +377,7 @@
         >
             <summary>总体的相似度</summary>
             <Data-table
+                style="margin: 0 auto"
                 title="总体的相似度"
                 :tableheads="similarityOfAllPopulationsTableHeads"
                 :tablebody="similarityOfAllPopulationsHistoryRef"
@@ -397,6 +400,7 @@
         >
             <summary>最优路径的数组展示</summary>
             <Data-table
+                style="margin: 0 auto"
                 title="全局最优路径"
                 :tableheads="global_best_routeHeads"
                 :tablebody="global_best_routeBody"
@@ -411,6 +415,7 @@
         >
             <summary>最优路径的变化历史</summary>
             <Data-table
+                style="margin: 0 auto"
                 title="最优路径的变化"
                 :tableheads="TableHeadsOfHistoryOfBest"
                 :tablebody="TableBodyOfHistoryOfBest"
@@ -419,6 +424,7 @@
         </details>
 
         <Data-table
+            style="margin: 0 auto"
             title="贪心路径统计"
             :tableheads="greedy_iteration_table_heads"
             :tablebody="greedy_iteration_table_body"
