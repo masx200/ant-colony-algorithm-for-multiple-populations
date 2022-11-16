@@ -364,6 +364,13 @@
         />
         <!-- 拆分表格 -->
         <hr />
+        <Data-table
+            title="总体的相似度"
+            :tableheads="similarityOfAllPopulationsTableHeads"
+            :tablebody="similarityOfAllPopulationsHistoryRef"
+        />
+        <!-- 拆分表格 -->
+        <hr />
         <details
             style="
                 width: 95%;

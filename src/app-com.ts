@@ -271,7 +271,14 @@ export default defineComponent({
         const greedy_iteration_table_body = data_of_greedy_iteration.tablebody;
         const on_receive_data_of_greedy =
             data_of_greedy_iteration.onreceivedata;
+        const similarityOfAllPopulationsHistoryRef = ref([] as number[][]);
+        const similarityOfAllPopulationsTableHeads = ["序号", "总体的相似度"];
         function on_update_output_data(data: MultiPopulationOutput) {
+            similarityOfAllPopulationsHistoryRef.value =
+                data.similarityOfAllPopulationsHistory.map((v, i) => [
+                    i + 1,
+                    v,
+                ]);
             on_receive_data_of_greedy(data.data_of_greedy[0]);
             onglobal_best_routeChange(data.global_best_route);
 
@@ -287,7 +294,7 @@ export default defineComponent({
                 data.RouteDataOfIndividualPopulations
             );
         }
-        const TSP_terminate = () => {
+        function TSP_terminate() {
             data_of_greedy_iteration.clearData();
             clearDataOfHistoryOfBest();
             TSP_Reset([
@@ -295,7 +302,7 @@ export default defineComponent({
                 clearDataOfOneIteration,
                 clear_data_of_best,
             ]);
-        };
+        }
 
         const resetold = () => {
             TSP_terminate();
@@ -385,6 +392,7 @@ export default defineComponent({
         return {
             selected_value,
             show_history_routes_of_best,
+            similarityOfAllPopulationsHistoryRef,
             show_progress,
             show_array_routes_of_best,
             show_configurations,
@@ -404,7 +412,7 @@ export default defineComponent({
             alpha_zero,
             beta_zero,
             can_run,
-
+            similarityOfAllPopulationsTableHeads,
             show_routes_of_best,
             show_summary_of_routes,
             options_of_best_route_chart,
