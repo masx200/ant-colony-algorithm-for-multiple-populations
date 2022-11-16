@@ -46,7 +46,6 @@ export async function MultiPopulationSchedulerCreate(
 
     let current_iterations = 0;
     async function runIterations(iterations: number) {
-        // console.log("iterations", iterations);
         const splitted_iterations: number[] = [];
 
         const rest_iterations_period =
@@ -75,7 +74,7 @@ export async function MultiPopulationSchedulerCreate(
             splitted_iterations.push(population_communication_iterate_cycle);
         }
         if (iterations > 0) splitted_iterations.push(iterations);
-        // console.log("splitted_iterations", splitted_iterations);
+
         for (const iteration of splitted_iterations) {
             await Promise.all(
                 remoteWorkers.map((remote) => {
@@ -114,12 +113,6 @@ export async function MultiPopulationSchedulerCreate(
                         remoteWorkers.length) ===
                 0
             ) {
-                // console.log(
-                //     "PerformCommunicationBetweenPopulations",
-                //     current_iterations,
-                //     population_communication_iterate_cycle *
-                //         remoteWorkers.length
-                // );
                 const routes = routesAndLengths.map((a) => a.route);
                 const lengths = routesAndLengths.map((a) => a.length);
 
@@ -259,7 +252,7 @@ export async function MultiPopulationSchedulerCreate(
         return result;
     }
     const similarityOfAllPopulationsHistory: number[] = [];
-    // let countOfNotSatisfiedOfCommunication = 0;
+
     async function PerformCommunicationBetweenPopulations(
         routes: number[][],
         lengths: number[]
@@ -270,21 +263,7 @@ export async function MultiPopulationSchedulerCreate(
             bestRoute
         );
         similarityOfAllPopulationsHistory.push(similarityOfAllPopulations);
-        if (similarityOfAllPopulations < 0.7) {
-            // console.log(
-            //     "PerformCommunicationBetweenPopulations",
-            //     similarityOfAllPopulations
-            // );
-            await Promise.all(
-                remoteWorkers.map((remote) =>
-                    remote.updateBestRoute(getBestRoute(), getBestLength())
-                )
-            );
-        } else if (similarityOfAllPopulations > 0.9) {
-            // console.log(
-            // "PerformCommunicationBetweenPopulations",
-            // similarityOfAllPopulations
-            // );
+        if (similarityOfAllPopulations > 0.85) {
             const randomHalf = remoteWorkers
                 .map((w, i) => ({
                     remote: w,
@@ -298,12 +277,6 @@ export async function MultiPopulationSchedulerCreate(
                 )
             );
         } else {
-            // console.log(
-            //     "PerformCommunicationBetweenPopulations",
-            //     similarityOfAllPopulations
-            // );
-            const commonRoute = extractCommonRoute(routes);
-
             const backHalf = remoteWorkers
                 .map((w, i) => ({
                     remote: w,
@@ -311,17 +284,21 @@ export async function MultiPopulationSchedulerCreate(
                 }))
                 .sort((a, b) => a.length - b.length)
                 .slice(Math.floor(remoteWorkers.length / 2));
+            const commonRoute = extractCommonRoute(routes);
+
+            await Promise.all(
+                backHalf
+                    .map(({ remote }) => remote)
+                    .map((remote) =>
+                        remote.updateBestRoute(getBestRoute(), getBestLength())
+                    )
+            );
 
             await Promise.all(
                 backHalf.map(({ remote }) =>
                     remote.rewardCommonRoutes(commonRoute)
                 )
             );
-            // countOfNotSatisfiedOfCommunication++;
-            // if (countOfNotSatisfiedOfCommunication >= 3) {
-            //     countOfNotSatisfiedOfCommunication = 0;
-
-            // }
         }
     }
 
