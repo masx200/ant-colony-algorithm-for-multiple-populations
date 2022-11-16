@@ -113,10 +113,7 @@ export async function MultiPopulationSchedulerCreate(
                         remoteWorkers.length) ===
                 0
             ) {
-                const routes = routesAndLengths.map((a) => a.route);
-                const lengths = routesAndLengths.map((a) => a.length);
-
-                await PerformCommunicationBetweenPopulations(routes, lengths);
+                await PerformCommunicationBetweenPopulations(routesAndLengths);
             }
         }
     }
@@ -185,10 +182,7 @@ export async function MultiPopulationSchedulerCreate(
                     remoteWorkers.length) ===
             0
         ) {
-            const routes = routesAndLengths.map((a) => a.route);
-            const lengths = routesAndLengths.map((a) => a.length);
-
-            await PerformCommunicationBetweenPopulations(routes, lengths);
+            await PerformCommunicationBetweenPopulations(routesAndLengths);
         }
     }
     let time_of_best_ms = 0;
@@ -231,7 +225,7 @@ export async function MultiPopulationSchedulerCreate(
                 .flat()
                 .filter(Boolean) as COMMON_DataOfOneIteration[];
 
-        const result = {
+        const result: MultiPopulationOutput = {
             similarityOfAllPopulationsHistory,
             data_of_greedy: dataOfChildren
                 .map((data) => data.data_of_greedy)
@@ -254,9 +248,13 @@ export async function MultiPopulationSchedulerCreate(
     const similarityOfAllPopulationsHistory: number[] = [];
 
     async function PerformCommunicationBetweenPopulations(
-        routes: number[][],
-        lengths: number[]
+        routesAndLengths: {
+            length: number;
+            route: number[];
+        }[]
     ): Promise<void> {
+        const routes = routesAndLengths.map((a) => a.route);
+        const lengths = routesAndLengths.map((a) => a.length);
         const bestRoute = getBestRoute();
         const similarityOfAllPopulations = similarityOfMultipleRoutes(
             routes,

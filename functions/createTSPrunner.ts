@@ -71,7 +71,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             (k) => [k, Reflect.get(input, k) ?? Reflect.get(DefaultOptions, k)]
         )
     ) as Required<TSPRunnerOptions>;
-    
+
     assert_number(count_of_ants);
     assert_true(count_of_ants >= 2);
     let Intra_population_similarity = 0;
@@ -362,7 +362,6 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                     getBestRoute()
                 );
                 emit_finish_one_iteration({
-                    
                     worst_length_of_iteration,
 
                     iterate_best_length,
