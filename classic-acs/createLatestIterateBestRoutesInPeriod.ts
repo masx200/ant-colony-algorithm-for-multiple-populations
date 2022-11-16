@@ -1,7 +1,7 @@
 import { maxBy } from "lodash-es";
 
 export function createLatestIterateBestRoutesInPeriod() {
-    function handleLatestIterateBestRoutesInPeriod(
+    function onUpdateIterateBestRoutesInPeriod(
         routes_and_lengths_of_one_iteration: {
             route: number[];
             length: number;
@@ -27,6 +27,6 @@ export function createLatestIterateBestRoutesInPeriod() {
     }
     return {
         getLatestIterateBestRoutesInPeriod,
-        handleLatestIterateBestRoutesInPeriod,
+        onUpdateIterateBestRoutesInPeriod,
     };
 }

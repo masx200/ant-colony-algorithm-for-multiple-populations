@@ -308,7 +308,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                         pheromone_exceeds_maximum_range,
                 })
             );
-            handleLatestIterateBestRoutesInPeriod(
+            onUpdateIterateBestRoutesInPeriod(
                 routes_and_lengths_of_one_iteration
             );
             for (const {
@@ -523,7 +523,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     }
     const {
         getLatestIterateBestRoutesInPeriod,
-        handleLatestIterateBestRoutesInPeriod,
+        onUpdateIterateBestRoutesInPeriod,
     } = createLatestIterateBestRoutesInPeriod();
     const result: TSP_Runner = {
         ...shared,

@@ -26,6 +26,7 @@ export interface TSPDefaultOptions {
     id_Of_Population: number;
     beta_for_the_second_type_of_population: number;
     ClassOfPopulation?: string;
+    pheromone_volatilization_coefficient_of_communication: number;
 }
 
 export type TSPRunnerOptions = {

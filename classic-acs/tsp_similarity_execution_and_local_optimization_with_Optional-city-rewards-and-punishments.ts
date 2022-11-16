@@ -273,9 +273,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         }[] = Array.from({ length: count_of_ants }).map(() => {
             return generate_paths_using_state_transition_probabilities();
         });
-        handleLatestIterateBestRoutesInPeriod(
-            routes_and_lengths_of_one_iteration
-        );
+        onUpdateIterateBestRoutesInPeriod(routes_and_lengths_of_one_iteration);
         for (const {
             route,
             length,
@@ -454,15 +452,15 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         );
         for (const [i, j] of segments) {
             const value =
-                (1 - global_pheromone_volatilization_coefficient) *
+                (1 - pheromone_volatilization_coefficient_of_communication) *
                     pheromoneStore.get(i, j) +
-                global_pheromone_volatilization_coefficient *
+                pheromone_volatilization_coefficient_of_communication *
                     Value *
                     (1 - similarity);
             pheromoneStore.set(i, j, value);
         }
     }
-
+    const { pheromone_volatilization_coefficient_of_communication } = options;
     function rewardCommonRoutes(common: number[][]): void {
         const maxValue = Math.max(...pheromoneStore.values());
         const n = count_of_nodes;
@@ -471,9 +469,10 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 if (i !== j) {
                     if (common[i][j] > 0) {
                         const value =
-                            (1 - global_pheromone_volatilization_coefficient) *
+                            (1 -
+                                pheromone_volatilization_coefficient_of_communication) *
                                 pheromoneStore.get(i, j) +
-                            global_pheromone_volatilization_coefficient *
+                            pheromone_volatilization_coefficient_of_communication *
                                 common[i][j] *
                                 maxValue;
                         pheromoneStore.set(i, j, value);
@@ -483,7 +482,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
     }
     const {
         getLatestIterateBestRoutesInPeriod,
-        handleLatestIterateBestRoutesInPeriod,
+        onUpdateIterateBestRoutesInPeriod,
     } = createLatestIterateBestRoutesInPeriod();
     return {
         getLatestIterateBestRoutesInPeriod,
