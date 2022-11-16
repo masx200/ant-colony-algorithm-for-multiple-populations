@@ -267,7 +267,7 @@ export async function MultiPopulationSchedulerCreate(
             routes,
             bestRoute
         );
-        if (similarityOfAllPopulations < 0.3) {
+        if (similarityOfAllPopulations < 0.6) {
             console.log(
                 "PerformCommunicationBetweenPopulations",
                 similarityOfAllPopulations
@@ -287,7 +287,7 @@ export async function MultiPopulationSchedulerCreate(
                     remote.rewardCommonRoutes(commonRoute)
                 )
             );
-        } else if (similarityOfAllPopulations > 0.7) {
+        } else if (similarityOfAllPopulations > 0.8) {
             console.log(
                 "PerformCommunicationBetweenPopulations",
                 similarityOfAllPopulations
