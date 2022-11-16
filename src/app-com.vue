@@ -6,7 +6,7 @@
             :indeterminate="indeterminate"
             v-show="show_progress"
         />
-        <h1>多种群:自适应+蚁群+k-opt+动态计算信息素-TSP-测试</h1>
+        <h1>多种群:自适应+蚁群+k-opt+动态计算信息素-TSP-测试+种群相似度</h1>
         <hr />
         <span>选择城市地图</span>
         <br />
@@ -53,22 +53,7 @@
             @toggle="show_configurations = $event.target.open"
         >
             <summary>蚁群的参数配置</summary>
-            <hr />
-            <div
-                style="
-                    border-top: thick;
-                    border-color: #2196f3;
-                    border-width: thick;
-                    padding: 10px;
-                    border: 5px solid #2196f3;
-                "
-            >
-                <MultiplePopulationsConfigs
-                    :input_options="input_options"
-                    :disable_switching="disable_switching"
-                />
-            </div>
-            <hr />
+
             <div
                 style="
                     border-top: thick;
@@ -223,6 +208,22 @@
                     :max="10"
                 /><br />
             </div>
+            <hr />
+            <div
+                style="
+                    border-top: thick;
+                    border-color: #2196f3;
+                    border-width: thick;
+                    padding: 10px;
+                    border: 5px solid #2196f3;
+                "
+            >
+                <MultiplePopulationsConfigs
+                    :input_options="input_options"
+                    :disable_switching="disable_switching"
+                />
+            </div>
+            <hr />
         </details>
 
         <hr />
