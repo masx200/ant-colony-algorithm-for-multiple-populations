@@ -386,10 +386,10 @@
             :open="show_summary_of_similarity"
             @toggle="show_summary_of_similarity = $event.target.open"
         >
-            <summary>总体的相似度</summary>
+            <summary>总体的相似度和种群交流的方式</summary>
             <Data-table
                 style="margin: 0 auto"
-                title="总体的相似度"
+                title="总体的相似度和种群交流的方式"
                 :tableheads="similarityOfAllPopulationsTableHeads"
                 :tablebody="similarityOfAllPopulationsHistoryRef"
             />

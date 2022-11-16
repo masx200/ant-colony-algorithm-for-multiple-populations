@@ -5,4 +5,5 @@ export type MultiPopulationOutput = COMMON_TSP_Output & {
     similarityOfAllPopulationsHistory: number[];
     IterationDataOfIndividualPopulations: COMMON_DataOfOneIteration[][];
     RouteDataOfIndividualPopulations: DataOfFinishOneRoute[][];
+    HistoryOfTheWayPopulationsCommunicate: string[];
 };

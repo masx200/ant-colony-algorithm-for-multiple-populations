@@ -276,13 +276,21 @@ export default defineComponent({
         const greedy_iteration_table_body = data_of_greedy_iteration.tablebody;
         const on_receive_data_of_greedy =
             data_of_greedy_iteration.onreceivedata;
-        const similarityOfAllPopulationsHistoryRef = ref([] as number[][]);
-        const similarityOfAllPopulationsTableHeads = ["序号", "总体的相似度"];
+        const similarityOfAllPopulationsHistoryRef = ref(
+            [] as (number | string)[][]
+        );
+
+        const similarityOfAllPopulationsTableHeads = [
+            "序号",
+            "总体的相似度",
+            "种群交流的方式",
+        ];
         function on_update_output_data(data: MultiPopulationOutput) {
             similarityOfAllPopulationsHistoryRef.value =
                 data.similarityOfAllPopulationsHistory.map((v, i) => [
                     i + 1,
                     v,
+                    data.HistoryOfTheWayPopulationsCommunicate[i],
                 ]);
             on_receive_data_of_greedy(data.data_of_greedy[0]);
             onglobal_best_routeChange(data.global_best_route);

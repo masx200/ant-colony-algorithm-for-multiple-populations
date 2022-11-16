@@ -252,6 +252,7 @@ export async function MultiPopulationSchedulerCreate(
                 .filter(Boolean) as COMMON_DataOfOneIteration[];
 
         const result: MultiPopulationOutput = {
+            HistoryOfTheWayPopulationsCommunicate,
             similarityOfAllPopulationsHistory,
             data_of_greedy: dataOfChildren
                 .map((data) => data.data_of_greedy)
@@ -272,7 +273,7 @@ export async function MultiPopulationSchedulerCreate(
         return result;
     }
     const similarityOfAllPopulationsHistory: number[] = [];
-
+    const HistoryOfTheWayPopulationsCommunicate: string[] = [];
     async function PerformCommunicationBetweenPopulations(
         routesAndLengths: {
             length: number;
@@ -289,6 +290,7 @@ export async function MultiPopulationSchedulerCreate(
         );
         similarityOfAllPopulationsHistory.push(similarityOfAllPopulations);
         if (similarityOfAllPopulations > 0.85) {
+            HistoryOfTheWayPopulationsCommunicate.push("增加多样性");
             const randomHalf = remoteWorkers
                 .map((w, i) => ({
                     remote: w,
@@ -302,6 +304,7 @@ export async function MultiPopulationSchedulerCreate(
                 )
             );
         } else {
+            HistoryOfTheWayPopulationsCommunicate.push("提高收敛速度");
             const backHalf = remoteWorkers
                 .map((w, i) => ({
                     remote: w,
