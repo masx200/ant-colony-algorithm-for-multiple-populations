@@ -325,7 +325,22 @@
             :open="show_chart_of_best"
             @toggle="show_chart_of_best = $event.target.open"
         >
-            <summary>路径序号和最优路径长度</summary>
+            <summary>分别的路径序号和最优路径长度</summary>
+            <LineChart
+                class="single-chart"
+                style=""
+                :options="
+                    OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations
+                "
+            ></LineChart>
+        </details>
+        <hr />
+        <details
+            class="width-100-percent"
+            :open="show_chart_of_best"
+            @toggle="show_chart_of_best = $event.target.open"
+        >
+            <summary>总体的路径序号和最优路径长度</summary>
             <LineChart
                 class="single-chart"
                 style=""
