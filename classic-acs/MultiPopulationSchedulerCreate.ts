@@ -257,7 +257,7 @@ export async function MultiPopulationSchedulerCreate(
 
         return result;
     }
-    let countOfNotSatisfiedOfCommunication = 0;
+    // let countOfNotSatisfiedOfCommunication = 0;
     async function PerformCommunicationBetweenPopulations(
         routes: number[][],
         lengths: number[]
@@ -267,7 +267,7 @@ export async function MultiPopulationSchedulerCreate(
             routes,
             bestRoute
         );
-        if (similarityOfAllPopulations < 0.6) {
+        if (similarityOfAllPopulations < 0.7) {
             console.log(
                 "PerformCommunicationBetweenPopulations",
                 similarityOfAllPopulations
@@ -287,7 +287,7 @@ export async function MultiPopulationSchedulerCreate(
                     remote.rewardCommonRoutes(commonRoute)
                 )
             );
-        } else if (similarityOfAllPopulations > 0.8) {
+        } else if (similarityOfAllPopulations > 0.9) {
             console.log(
                 "PerformCommunicationBetweenPopulations",
                 similarityOfAllPopulations
@@ -305,19 +305,19 @@ export async function MultiPopulationSchedulerCreate(
                 )
             );
         } else {
-            countOfNotSatisfiedOfCommunication++;
-            if (countOfNotSatisfiedOfCommunication >= 3) {
-                countOfNotSatisfiedOfCommunication = 0;
-                console.log(
-                    "PerformCommunicationBetweenPopulations",
-                    similarityOfAllPopulations
-                );
-                await Promise.all(
-                    remoteWorkers.map((remote) =>
-                        remote.updateBestRoute(getBestRoute(), getBestLength())
-                    )
-                );
-            }
+            // countOfNotSatisfiedOfCommunication++;
+            // if (countOfNotSatisfiedOfCommunication >= 3) {
+            //     countOfNotSatisfiedOfCommunication = 0;
+            console.log(
+                "PerformCommunicationBetweenPopulations",
+                similarityOfAllPopulations
+            );
+            await Promise.all(
+                remoteWorkers.map((remote) =>
+                    remote.updateBestRoute(getBestRoute(), getBestLength())
+                )
+            );
+            // }
         }
     }
 
