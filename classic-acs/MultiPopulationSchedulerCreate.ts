@@ -272,19 +272,9 @@ export async function MultiPopulationSchedulerCreate(
                 "PerformCommunicationBetweenPopulations",
                 similarityOfAllPopulations
             );
-            const commonRoute = extractCommonRoute(routes);
-
-            const backHalf = remoteWorkers
-                .map((w, i) => ({
-                    remote: w,
-                    length: lengths[i],
-                }))
-                .sort((a, b) => a.length - b.length)
-                .slice(Math.floor(remoteWorkers.length / 2));
-
             await Promise.all(
-                backHalf.map(({ remote }) =>
-                    remote.rewardCommonRoutes(commonRoute)
+                remoteWorkers.map((remote) =>
+                    remote.updateBestRoute(getBestRoute(), getBestLength())
                 )
             );
         } else if (similarityOfAllPopulations > 0.9) {
@@ -305,18 +295,29 @@ export async function MultiPopulationSchedulerCreate(
                 )
             );
         } else {
-            // countOfNotSatisfiedOfCommunication++;
-            // if (countOfNotSatisfiedOfCommunication >= 3) {
-            //     countOfNotSatisfiedOfCommunication = 0;
             console.log(
                 "PerformCommunicationBetweenPopulations",
                 similarityOfAllPopulations
             );
+            const commonRoute = extractCommonRoute(routes);
+
+            const backHalf = remoteWorkers
+                .map((w, i) => ({
+                    remote: w,
+                    length: lengths[i],
+                }))
+                .sort((a, b) => a.length - b.length)
+                .slice(Math.floor(remoteWorkers.length / 2));
+
             await Promise.all(
-                remoteWorkers.map((remote) =>
-                    remote.updateBestRoute(getBestRoute(), getBestLength())
+                backHalf.map(({ remote }) =>
+                    remote.rewardCommonRoutes(commonRoute)
                 )
             );
+            // countOfNotSatisfiedOfCommunication++;
+            // if (countOfNotSatisfiedOfCommunication >= 3) {
+            //     countOfNotSatisfiedOfCommunication = 0;
+
             // }
         }
     }
