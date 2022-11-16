@@ -13,6 +13,7 @@ import { extractCommonRoute } from "../common/extractCommonRoute";
 import { MultiPopulationScheduler } from "./MultiPopulationScheduler";
 import { zip } from "lodash-es";
 import { MultiPopulationOutput } from "./MultiPopulationOutput";
+import { ProbabilityOfPerformingTheFirstCommunication } from "./ProbabilityOfPerformingTheFirstCommunication";
 export type WorkerRemoteAndInfo = TSP_Worker_Remote["remote"] & {
     ClassOfPopulation: string;
     id_Of_Population: number;
@@ -289,7 +290,10 @@ export async function MultiPopulationSchedulerCreate(
             bestRoute
         );
         similarityOfAllPopulationsHistory.push(similarityOfAllPopulations);
-        if (similarityOfAllPopulations > 0.85) {
+        const similarity = similarityOfAllPopulations;
+        const probabilityOfPerformingTheFirstCommunication =
+            ProbabilityOfPerformingTheFirstCommunication(similarity);
+        if (Math.random() < probabilityOfPerformingTheFirstCommunication) {
             HistoryOfTheWayPopulationsCommunicate.push("增加多样性");
             const randomHalf = remoteWorkers
                 .map((w, i) => ({
