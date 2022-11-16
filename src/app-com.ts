@@ -78,19 +78,23 @@ export default defineComponent({
         const show_history_routes_of_best = ref(true);
         const show_array_routes_of_best = ref(true);
         const show_chart_of_best = ref(false);
+        const show_chart_of_best_individual = ref(false);
         const show_summary_of_routes = ref(true);
         const show_routes_of_best = ref(true);
 
         const show_chart_of_latest = ref(false);
+        const show_chart_of_latest_similarity = ref(false);
         const show_chart_of_entropy = ref(false);
         const show_summary_of_iterations = ref(true);
         const show_summary_of_similarity = ref(true);
         const details_shows_should_hide = [
             show_history_routes_of_best,
             show_array_routes_of_best,
+            show_chart_of_latest_similarity,
             show_configurations,
             show_summary_of_iterations,
             show_chart_of_entropy,
+            show_chart_of_best_individual,
             show_chart_of_latest,
             show_summary_of_similarity,
             show_summary_of_routes,
@@ -413,12 +417,14 @@ export default defineComponent({
             alpha_zero,
             beta_zero,
             can_run,
+            show_chart_of_latest_similarity,
             show_summary_of_similarity,
             similarityOfAllPopulationsTableHeads,
             show_routes_of_best,
             show_summary_of_routes,
             options_of_best_route_chart,
             navbar_float,
+            show_chart_of_best_individual,
             run_way_round,
             show_summary_of_iterations,
             run_way_time,

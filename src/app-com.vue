@@ -297,8 +297,8 @@
         </details>
         <details
             class="width-100-percent"
-            :open="show_chart_of_latest"
-            @toggle="show_chart_of_latest = $event.target.open"
+            :open="show_chart_of_latest_similarity"
+            @toggle="show_chart_of_latest_similarity = $event.target.open"
         >
             <summary>迭代次数和种群相似度</summary>
             <div class="chart-container" style="">
@@ -327,8 +327,8 @@
         <hr />
         <details
             class="width-100-percent"
-            :open="show_chart_of_best"
-            @toggle="show_chart_of_best = $event.target.open"
+            :open="show_chart_of_best_individual"
+            @toggle="show_chart_of_best_individual = $event.target.open"
         >
             <summary>分别的路径序号和最优路径长度</summary>
             <LineChart
@@ -440,6 +440,7 @@
             <summary>每次迭代的统计</summary>
             <!-- 迭代结果 -->
             <Data-table
+                style="margin: 0 auto"
                 title="每次迭代的统计"
                 :tableheads="oneiterationtableheads"
                 :tablebody="oneiterationtablebody"
