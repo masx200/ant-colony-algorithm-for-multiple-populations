@@ -43,10 +43,11 @@ import { TSP_Output_Data } from "./TSP_Output_Data";
 import { TSP_Runner } from "./TSP_Runner";
 import { update_convergence_coefficient } from "./update_convergence_coefficient";
 import { update_last_random_selection_probability } from "./update_last_random_selection_probability";
-import { uniqBy } from "lodash";
 import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 import { COMMON_TSP_Output } from "../classic-acs/tsp-interface";
 import { createLatestIterateBestRoutesInPeriod } from "../classic-acs/createLatestIterateBestRoutesInPeriod";
+import { createRewardCommonRoutes } from "../classic-acs/createRewardCommonRoutes";
+import { createSmoothPheromones } from "../classic-acs/createSmoothPheromones";
 
 export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     let greedy_length = Infinity;
@@ -475,49 +476,19 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             set_global_best,
         };
     }
-    function smoothPheromones(similarity: number) {
-        const maxValue = Math.max(...pheromoneStore.values());
-        const minValue = Math.min(...pheromoneStore.values());
-        const Value = (maxValue + minValue) / 2;
-        const segments = uniqBy(
-            global_optimal_routes
-                .map(({ route }) => cycle_route_to_segments(route))
-                .flat(),
-            function (a) {
-                if (a[0] > a[1]) return JSON.stringify([a[1], a[0]]);
-                return JSON.stringify(a);
-            }
-        );
-        for (const [i, j] of segments) {
-            const value =
-                (1 - global_pheromone_volatilization_coefficient) *
-                    pheromoneStore.get(i, j) +
-                global_pheromone_volatilization_coefficient *
-                    Value *
-                    (1 - similarity);
-            pheromoneStore.set(i, j, value);
-        }
-    }
-    const { global_pheromone_volatilization_coefficient } = options;
 
-    function rewardCommonRoutes(common: number[][]): void {
-        const maxValue = Math.max(...pheromoneStore.values());
-        const n = count_of_nodes;
-        for (let i = 0; i < n; i++)
-            for (let j = i; j < n; j++) {
-                if (i !== j) {
-                    if (common[i][j] > 0) {
-                        const value =
-                            (1 - global_pheromone_volatilization_coefficient) *
-                                pheromoneStore.get(i, j) +
-                            global_pheromone_volatilization_coefficient *
-                                common[i][j] *
-                                maxValue;
-                        pheromoneStore.set(i, j, value);
-                    }
-                }
-            }
-    }
+    const { pheromone_volatilization_coefficient_of_communication } = options;
+
+    const smoothPheromones = createSmoothPheromones(
+        pheromone_volatilization_coefficient_of_communication,
+        pheromoneStore,
+        global_optimal_routes
+    );
+    const rewardCommonRoutes = createRewardCommonRoutes(
+        pheromone_volatilization_coefficient_of_communication,
+        pheromoneStore,
+        count_of_nodes
+    );
     function updateBestRoute(route: number[], length: number): void {
         onRouteCreated(route, length);
     }
