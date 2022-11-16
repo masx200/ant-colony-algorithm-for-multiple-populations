@@ -12,4 +12,5 @@ export interface RunnerMultipleCommunicative extends CommonTspRunner {
     getBestLength: () => number;
     getBestRoute: () => number[];
     rewardCommonRoutes(common: number[][]): void;
+    getLatestIterateBestRoutesInPeriod(period: number): number[][];
 }

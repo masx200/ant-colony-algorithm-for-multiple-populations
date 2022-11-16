@@ -420,6 +420,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         }
     }
     async function runIterations(iterations: number) {
+        if (iterations === 1) return await runOneIteration();
         assert_number(iterations);
         assert_true(iterations > 0);
 
@@ -544,6 +545,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         updateBestRoute,
         smoothPheromones,
         rewardCommonRoutes,
+        getLatestIterateBestRoutesInPeriod(period: number) {},
     };
     return result;
 }
