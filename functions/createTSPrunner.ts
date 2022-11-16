@@ -46,6 +46,7 @@ import { update_last_random_selection_probability } from "./update_last_random_s
 import { uniqBy } from "lodash";
 import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 import { COMMON_TSP_Output } from "../classic-acs/tsp-interface";
+import { createLatestIterateBestRoutesInPeriod } from "../classic-acs/createLatestIterateBestRoutesInPeriod";
 
 export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     let greedy_length = Infinity;
@@ -307,7 +308,9 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                         pheromone_exceeds_maximum_range,
                 })
             );
-
+            handleLatestIterateBestRoutesInPeriod(
+                routes_and_lengths_of_one_iteration
+            );
             for (const {
                 route,
                 length,
@@ -518,6 +521,10 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     function updateBestRoute(route: number[], length: number): void {
         onRouteCreated(route, length);
     }
+    const {
+        getLatestIterateBestRoutesInPeriod,
+        handleLatestIterateBestRoutesInPeriod,
+    } = createLatestIterateBestRoutesInPeriod();
     const result: TSP_Runner = {
         ...shared,
         max_results_of_2_opt,
@@ -545,7 +552,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         updateBestRoute,
         smoothPheromones,
         rewardCommonRoutes,
-        getLatestIterateBestRoutesInPeriod(period: number) {},
+        getLatestIterateBestRoutesInPeriod,
     };
     return result;
 }

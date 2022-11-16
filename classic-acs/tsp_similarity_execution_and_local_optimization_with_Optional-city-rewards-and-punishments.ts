@@ -27,6 +27,7 @@ import { run_local_optimization } from "./run_local_optimization";
 import { create_run_iterations } from "../functions/create_run_iterations";
 import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
+import { createLatestIterateBestRoutesInPeriod } from "./createLatestIterateBestRoutesInPeriod";
 
 export function tsp_similarity_execution_and_local_optimization_with_Optional_city_rewards_and_punishments(
     input: COMMON_TSP_Options
@@ -272,6 +273,9 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         }[] = Array.from({ length: count_of_ants }).map(() => {
             return generate_paths_using_state_transition_probabilities();
         });
+        handleLatestIterateBestRoutesInPeriod(
+            routes_and_lengths_of_one_iteration
+        );
         for (const {
             route,
             length,
@@ -360,6 +364,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             });
         }
     }
+
     function picknextnode({
         beta_zero,
         alpha_zero,
@@ -476,8 +481,12 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 }
             }
     }
+    const {
+        getLatestIterateBestRoutesInPeriod,
+        handleLatestIterateBestRoutesInPeriod,
+    } = createLatestIterateBestRoutesInPeriod();
     return {
-        getLatestIterateBestRoutesInPeriod(period: number) {},
+        getLatestIterateBestRoutesInPeriod,
         getCountOfIterations,
         getCurrentSearchCount() {
             return current_search_count;
