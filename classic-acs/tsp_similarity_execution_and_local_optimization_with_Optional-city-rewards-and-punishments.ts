@@ -10,7 +10,7 @@ import { MatrixSymmetryCreate, MatrixFill } from "@masx200/sparse-2d-matrix";
 import { run_greedy_once_thread_with_time } from "../functions/run_greedy_once_thread_with_time";
 import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
 import { calc_population_relative_information_entropy } from "../functions/calc_population-relative-information-entropy";
-import { sum, uniq, uniqBy } from "lodash-es";
+import { sum, uniq } from "lodash-es";
 import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
 import { closed_total_path_length } from "../functions/closed-total-path-length";
 import { creategetdistancebyindex } from "../functions/creategetdistancebyindex";
@@ -28,6 +28,8 @@ import { create_run_iterations } from "../functions/create_run_iterations";
 import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
 import { createLatestIterateBestRoutesInPeriod } from "./createLatestIterateBestRoutesInPeriod";
+import { createSmoothPheromones } from "./createSmoothPheromones";
+import { createRewardCommonRoutes } from "./createRewardCommonRoutes";
 
 export function tsp_similarity_execution_and_local_optimization_with_Optional_city_rewards_and_punishments(
     input: COMMON_TSP_Options
@@ -437,53 +439,23 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         return output;
     }
     const runIterations = create_run_iterations(runOneIteration);
-    function smoothPheromones(similarity: number) {
-        const maxValue = Math.max(...pheromoneStore.values());
-        const minValue = Math.min(...pheromoneStore.values());
-        const Value = (maxValue + minValue) / 2;
-        const segments = uniqBy(
-            global_optimal_routes
-                .map(({ route }) => cycle_route_to_segments(route))
-                .flat(),
-            function (a) {
-                if (a[0] > a[1]) return JSON.stringify([a[1], a[0]]);
-                return JSON.stringify(a);
-            }
-        );
-        for (const [i, j] of segments) {
-            const value =
-                (1 - pheromone_volatilization_coefficient_of_communication) *
-                    pheromoneStore.get(i, j) +
-                pheromone_volatilization_coefficient_of_communication *
-                    Value *
-                    (1 - similarity);
-            pheromoneStore.set(i, j, value);
-        }
-    }
+
     const { pheromone_volatilization_coefficient_of_communication } = options;
-    function rewardCommonRoutes(common: number[][]): void {
-        const maxValue = Math.max(...pheromoneStore.values());
-        const n = count_of_nodes;
-        for (let i = 0; i < n; i++)
-            for (let j = i; j < n; j++) {
-                if (i !== j) {
-                    if (common[i][j] > 0) {
-                        const value =
-                            (1 -
-                                pheromone_volatilization_coefficient_of_communication) *
-                                pheromoneStore.get(i, j) +
-                            pheromone_volatilization_coefficient_of_communication *
-                                common[i][j] *
-                                maxValue;
-                        pheromoneStore.set(i, j, value);
-                    }
-                }
-            }
-    }
+
     const {
         getLatestIterateBestRoutesInPeriod,
         onUpdateIterateBestRoutesInPeriod,
     } = createLatestIterateBestRoutesInPeriod();
+    const smoothPheromones = createSmoothPheromones(
+        pheromone_volatilization_coefficient_of_communication,
+        pheromoneStore,
+        global_optimal_routes
+    );
+    const rewardCommonRoutes = createRewardCommonRoutes(
+        pheromone_volatilization_coefficient_of_communication,
+        pheromoneStore,
+        count_of_nodes
+    );
     return {
         getLatestIterateBestRoutesInPeriod,
         getCountOfIterations,
