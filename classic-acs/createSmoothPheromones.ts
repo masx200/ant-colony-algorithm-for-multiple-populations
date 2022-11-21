@@ -26,7 +26,7 @@ export function createSmoothPheromones(
                     pheromoneStore.get(i, j) +
                 pheromone_volatilization_coefficient_of_communication *
                     averageValue *
-                    (1 - similarity) *
+                    Math.pow(1 - similarity, 3) *
                     2;
             pheromoneStore.set(i, j, newValue);
         }
