@@ -15,7 +15,7 @@ export interface TSPDefaultOptions {
     relative_Information_Entropy_Factor?: number;
     max_number_of_stagnation?: number;
     number_of_populations_of_the_first_category: number;
-    pheromone_volatilization_coefficient_of_smooth: number;
+    // pheromone_volatilization_coefficient_of_smooth: number;
     number_of_the_second_type_of_population: number;
     population_communication_iterate_cycle: number;
     global_pheromone_volatilization_coefficient: number;

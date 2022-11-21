@@ -3,7 +3,7 @@ import { uniqBy } from "lodash-es";
 import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
 
 export function createSmoothPheromones(
-    pheromone_volatilization_coefficient_of_communication: number,
+    // pheromone_volatilization_coefficient_of_communication: number,
     pheromoneStore: MatrixSymmetry<number>,
     global_optimal_routes: { route: number[] }[]
 ) {
@@ -21,13 +21,16 @@ export function createSmoothPheromones(
             }
         );
         for (const [i, j] of segments) {
-            const newValue =
-                (1 - pheromone_volatilization_coefficient_of_communication) *
-                    pheromoneStore.get(i, j) +
+            const oldValue = pheromoneStore.get(i, j);
+            const newValue = Math.max(
+                averageValue / 2,
+                oldValue * Math.min(1, 3 * (1 - similarity))
+            ); /* +
                 pheromone_volatilization_coefficient_of_communication *
                     averageValue *
                     Math.pow(1 - similarity, 3) *
-                    2;
+                    2; */
+            // (1 - pheromone_volatilization_coefficient_of_communication) *
             pheromoneStore.set(i, j, newValue);
         }
     };
