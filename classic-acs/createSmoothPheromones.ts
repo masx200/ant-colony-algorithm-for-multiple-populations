@@ -10,7 +10,7 @@ export function createSmoothPheromones(
     return function smoothPheromones(similarity: number) {
         const maxValue = Math.max(...pheromoneStore.values());
         const minValue = Math.min(...pheromoneStore.values());
-        const Value = (maxValue + minValue) / 2;
+        const averageValue = (maxValue + minValue) / 2;
         const segments = uniqBy(
             global_optimal_routes
                 .map(({ route }) => cycle_route_to_segments(route))
@@ -21,13 +21,14 @@ export function createSmoothPheromones(
             }
         );
         for (const [i, j] of segments) {
-            const value =
+            const newValue =
                 (1 - pheromone_volatilization_coefficient_of_communication) *
                     pheromoneStore.get(i, j) +
                 pheromone_volatilization_coefficient_of_communication *
-                    Value *
-                    (1 - similarity);
-            pheromoneStore.set(i, j, value);
+                    averageValue *
+                    (1 - similarity) *
+                    2;
+            pheromoneStore.set(i, j, newValue);
         }
     };
 }
