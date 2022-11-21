@@ -341,7 +341,13 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 (path_selection_parameter_q0_max -
                     path_selection_parameter_q0_min) *
                     (1 - Math.pow(Intra_population_similarity, 3));
-
+            if (Intra_population_similarity > 0.8) {
+                createSmoothPheromones(
+                    global_pheromone_volatilization_coefficient,
+                    pheromoneStore,
+                    global_optimal_routes
+                )(Intra_population_similarity);
+            }
             const endtime_of_process_iteration = Number(new Date());
 
             time_ms_of_one_iteration +=
