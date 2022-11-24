@@ -147,7 +147,7 @@ export async function MultiPopulationSchedulerCreate(
             current_iterations %
                 (population_communication_iterate_cycle *
                     remoteWorkers.length *
-                    6) ===
+                    8) ===
             0
         ) {
             await Promise.all(
