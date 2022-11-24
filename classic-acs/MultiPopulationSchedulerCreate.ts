@@ -118,23 +118,46 @@ export async function MultiPopulationSchedulerCreate(
                 0
             );
             current_iterations += remoteWorkers.length * iteration;
-            if (
-                current_iterations %
-                    (population_communication_iterate_cycle *
-                        remoteWorkers.length) ===
-                0
-            ) {
-                await PerformCommunicationBetweenPopulations(
-                    routesAndLengths,
-                    latestIterateBestRoutesInPeriod
-                );
-            }
+            await DetermineWhetherToPerformMultiPopulationCommunication(
+                routesAndLengths,
+                latestIterateBestRoutesInPeriod
+            );
         }
     }
     const global_best: {
         length: number;
         route: number[];
     } = { length: Infinity, route: [] };
+    async function DetermineWhetherToPerformMultiPopulationCommunication(
+        routesAndLengths: { length: number; route: number[] }[],
+        latestIterateBestRoutesInPeriod: number[][]
+    ) {
+        if (
+            current_iterations %
+                (population_communication_iterate_cycle *
+                    remoteWorkers.length) ===
+            0
+        ) {
+            await PerformCommunicationBetweenPopulations(
+                routesAndLengths,
+                latestIterateBestRoutesInPeriod
+            );
+        }
+        if (
+            current_iterations %
+                (population_communication_iterate_cycle *
+                    remoteWorkers.length *
+                    6) ===
+            0
+        ) {
+            await Promise.all(
+                remoteWorkers.map((remote) =>
+                    remote.updateBestRoute(getBestRoute(), getBestLength())
+                )
+            );
+        }
+    }
+
     function getBestRoute() {
         return global_best.route;
     }
@@ -200,17 +223,10 @@ export async function MultiPopulationSchedulerCreate(
         );
         current_iterations += remoteWorkers.length;
 
-        if (
-            current_iterations %
-                (population_communication_iterate_cycle *
-                    remoteWorkers.length) ===
-            0
-        ) {
-            await PerformCommunicationBetweenPopulations(
-                routesAndLengths,
-                latestIterateBestRoutesInPeriod
-            );
-        }
+        await DetermineWhetherToPerformMultiPopulationCommunication(
+            routesAndLengths,
+            latestIterateBestRoutesInPeriod
+        );
     }
     let time_of_best_ms = 0;
     let current_search_count = 0;
