@@ -7,7 +7,7 @@ import { assert_true } from "./assert_true";
 export function testgeteuclideandistance() {
     assert_true(euclidean_distance([3, 4], [0, 0]) === 5);
 
-    let node_coordinates1: NodeCoordinates = [
+    const node_coordinates1: NodeCoordinates = [
         [0, 0],
         [1, 4],
         [5, 5],
@@ -17,7 +17,7 @@ export function testgeteuclideandistance() {
     assert_true(geteuclideandistancebyindex(3, 0, node_coordinates1) === 10);
     assert_true(geteuclideandistancebyindex(2, 2, node_coordinates1) === 0);
 
-    let node_coordinates2: NodeCoordinates = [
+    const node_coordinates2: NodeCoordinates = [
         [0, 0],
         [1, 4],
         [6, 8],
