@@ -7,7 +7,7 @@
         "async": "3.2.2"
     },
     "packageManager": "yarn@3.2.0",
-    "name": "@masx200/ant-colony-algorithm-with-dynamic-pheromone",
+    "name": "@masx200/ant-colony-algorithm-for-multiple-populations",
     "type": "module",
     "scripts": {
         "test": "vitest run",
