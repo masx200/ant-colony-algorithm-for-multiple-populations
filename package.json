@@ -30,7 +30,7 @@
         "@rollup/plugin-babel": "^6.0.0",
         "@types/babel__core": "^7.1.19",
         "@types/find": "^0.2.1",
-        "@types/fs-extra": "^9.0.13",
+       
         "@types/html-minifier-terser": "^7.0.0",
         "@types/lodash": "^4.14.182",
         "@types/lodash-es": "^4.17.6",
@@ -53,7 +53,7 @@
         "eslint-plugin-promise": "^6.1.1",
         "eslint-plugin-vue": "^9.7.0",
         "find": "^0.3.0",
-        "fs-extra": "^10.1.0",
+       
         "lodash": "^4.17.21",
         "lodash-es": "^4.17.21",
         "mocha": "^10.0.0",
