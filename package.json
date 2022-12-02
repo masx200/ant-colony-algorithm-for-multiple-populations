@@ -6,7 +6,6 @@
         "minimist": "1.2.6",
         "async": "3.2.2"
     },
- 
     "name": "@masx200/ant-colony-algorithm-for-multiple-populations",
     "type": "module",
     "scripts": {
