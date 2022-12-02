@@ -67,7 +67,7 @@ export default defineComponent({
         } = useOptionsOfRoutesAndRouteLengthChart();
         const selected_value = ref(TSP_cities_data[0]);
         const selected_node_coordinates = ref<NodeCoordinates>();
-        const show_progress = ref(true);
+        // const show_progress = ref(true);
         const input_options = reactive(structuredClone(DefaultOptions));
 
         const round_result = ref(DefaultOptions.distance_round);
@@ -406,7 +406,7 @@ export default defineComponent({
             selected_value,
             show_history_routes_of_best,
             similarityOfAllPopulationsHistoryRef,
-            show_progress,
+            // show_progress,
             show_array_routes_of_best,
             show_configurations,
             summary_best_TableHeads,
