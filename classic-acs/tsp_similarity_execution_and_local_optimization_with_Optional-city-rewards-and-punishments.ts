@@ -341,7 +341,10 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 (path_selection_parameter_q0_max -
                     path_selection_parameter_q0_min) *
                     Math.pow(1 - Intra_population_similarity, 3);
-            if (Intra_population_similarity > 0.85) {
+            const InnerPopulationSimilarityThreshold = 0.9;
+            if (
+                Intra_population_similarity > InnerPopulationSimilarityThreshold
+            ) {
                 createSmoothPheromones(
                     // pheromone_volatilization_coefficient_of_smooth,
                     pheromoneStore,
