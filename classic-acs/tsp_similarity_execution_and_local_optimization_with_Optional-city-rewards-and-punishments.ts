@@ -343,10 +343,10 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                     Math.pow(1 - Intra_population_similarity, 3);
             const InnerPopulationSimilarityThreshold = 0.9;
             if (
+                getCountOfIterations() % 10 === 0 &&
                 Intra_population_similarity > InnerPopulationSimilarityThreshold
             ) {
                 createSmoothPheromones(
-                    // pheromone_volatilization_coefficient_of_smooth,
                     pheromoneStore,
                     global_optimal_routes
                 )(Intra_population_similarity);
@@ -373,7 +373,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             });
         }
     }
-    // const { pheromone_volatilization_coefficient_of_smooth } = options;
+
     function picknextnode({
         beta_zero,
         alpha_zero,
@@ -456,7 +456,6 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         onUpdateIterateBestRoutesInPeriod,
     } = createLatestIterateBestRoutesInPeriod();
     const smoothPheromones = createSmoothPheromones(
-        // pheromone_volatilization_coefficient_of_communication,
         pheromoneStore,
         global_optimal_routes
     );
