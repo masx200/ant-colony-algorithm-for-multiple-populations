@@ -524,6 +524,9 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         smoothPheromones,
         rewardCommonRoutes,
         getLatestIterateBestRoutesInPeriod,
+        getCollectionOfBetterRoutes() {
+            return Array.from(global_optimal_routes).map((a) => a.route);
+        },
     };
     return result;
 }

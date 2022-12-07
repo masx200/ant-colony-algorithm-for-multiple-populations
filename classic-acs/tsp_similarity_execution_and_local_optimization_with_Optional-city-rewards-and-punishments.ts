@@ -494,5 +494,8 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         getSearchCountOfBest() {
             return search_count_of_best;
         },
+        getCollectionOfBetterRoutes() {
+            return Array.from(global_optimal_routes).map((a) => a.route);
+        },
     };
 }
