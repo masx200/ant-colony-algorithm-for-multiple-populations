@@ -136,7 +136,7 @@ export async function MultiPopulationSchedulerCreate(
                 routesAndLengths,
                 latestIterateBestRoutesInPeriod
             );
-            const PeriodOfUpdateAllOptimalRoutes = 8;
+            const PeriodOfUpdateAllOptimalRoutes = 10;
             if (
                 current_iterations %
                     (population_communication_iterate_cycle *
