@@ -47,6 +47,7 @@ import { MultiPopulationSchedulerRemote } from "../classic-acs/MultiPopulationSc
 import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
 import { useOptionsOfIterationsAndInformationEntropyChart } from "./useOptionsOfIterationsAndInformationEntropyChart";
 import { useOptionsOfRoutesAndRouteLengthChart } from "./useOptionsOfRoutesAndRouteLengthChart";
+import { useDateOfPopulationCommunication } from "./useDateOfPopulationCommunication";
 export default defineComponent({
     components: {
         MultiplePopulationsConfigs,
@@ -55,6 +56,11 @@ export default defineComponent({
         LineChart,
     },
     setup() {
+        const {
+            similarityOfAllPopulationsHistoryRef,
+            similarityOfAllPopulationsTableHeads,
+            onReceiveDataOfPopulationCommunication,
+        } = useDateOfPopulationCommunication();
         const {
             optionsOfIterationsAndPopulationSimilarityChart,
             options_of_iterations_and_information_entropy_chart,
@@ -223,7 +229,7 @@ export default defineComponent({
             await submit_select_node_coordinates();
         });
 
-        const onglobal_best_routeChange = (route: number[]) => {
+        const onGlobal_best_routeChange = (route: number[]) => {
             const node_coordinates = selected_node_coordinates.value;
             if (!node_coordinates) {
                 return;
@@ -276,26 +282,11 @@ export default defineComponent({
         const greedy_iteration_table_body = data_of_greedy_iteration.tablebody;
         const on_receive_data_of_greedy =
             data_of_greedy_iteration.onreceivedata;
-        const similarityOfAllPopulationsHistoryRef = ref(
-            [] as [number, number, string, boolean][]
-        );
 
-        const similarityOfAllPopulationsTableHeads = [
-            "序号",
-            "总体的相似度",
-            "种群交流的方式",
-            "更新所有最优解",
-        ];
         function on_update_output_data(data: MultiPopulationOutput) {
-            similarityOfAllPopulationsHistoryRef.value =
-                data.similarityOfAllPopulationsHistory.map((v, i) => [
-                    i + 1,
-                    v,
-                    data.HistoryOfTheWayPopulationsCommunicate[i],
-                    data.HistoryOfPopulationsAllUpdateBestRoute[i],
-                ]);
+            onReceiveDataOfPopulationCommunication(data);
             on_receive_data_of_greedy(data.data_of_greedy[0]);
-            onglobal_best_routeChange(data.global_best_route);
+            onGlobal_best_routeChange(data.global_best_route);
 
             on_receive_Data_Of_total(data);
             on_receive_Data_Of_Global_Best(data);
@@ -309,6 +300,7 @@ export default defineComponent({
                 data.RouteDataOfIndividualPopulations
             );
         }
+
         function TSP_terminate() {
             data_of_greedy_iteration.clearData();
             clearDataOfHistoryOfBest();
