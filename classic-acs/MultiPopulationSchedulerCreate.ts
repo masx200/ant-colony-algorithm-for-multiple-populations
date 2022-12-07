@@ -313,7 +313,8 @@ export async function MultiPopulationSchedulerCreate(
         if (
             p0 < probabilityOfPerformingTheFirstCommunication &&
             current_search_count - search_count_of_best >
-                population_communication_iterate_cycle *
+                2 *
+                    population_communication_iterate_cycle *
                     remoteWorkers.length *
                     count_of_ants
         ) {
