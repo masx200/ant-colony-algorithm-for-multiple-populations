@@ -143,11 +143,12 @@ export async function MultiPopulationSchedulerCreate(
                 latestIterateBestRoutesInPeriod
             );
         }
+        const PeriodOfUpdateAllOptimalRoutes = 8;
         if (
             current_iterations %
                 (population_communication_iterate_cycle *
                     remoteWorkers.length *
-                    8) ===
+                    PeriodOfUpdateAllOptimalRoutes) ===
             0
         ) {
             await Promise.all(
