@@ -30,7 +30,8 @@ export async function MultiPopulationSchedulerCreate(
 
         population_communication_iterate_cycle,
     } = options;
-
+    const HistoryOfTheWayPopulationsCommunicate: string[] = [];
+    const HistoryOfPopulationsAllUpdateBestRoute: boolean[] = [];
     const remoteWorkers: WorkerRemoteAndInfo[] = await initializeRemoteWorkers(
         number_of_populations_of_the_first_category,
         options,
@@ -120,6 +121,7 @@ export async function MultiPopulationSchedulerCreate(
         length: number;
         route: number[];
     } = { length: Infinity, route: [] };
+
     async function DetermineWhetherToPerformMultiPopulationCommunication(
         routesAndLengths: { length: number; route: number[] }[],
         latestIterateBestRoutesInPeriod: number[][]
@@ -134,20 +136,23 @@ export async function MultiPopulationSchedulerCreate(
                 routesAndLengths,
                 latestIterateBestRoutesInPeriod
             );
-        }
-        const PeriodOfUpdateAllOptimalRoutes = 8;
-        if (
-            current_iterations %
-                (population_communication_iterate_cycle *
-                    remoteWorkers.length *
-                    PeriodOfUpdateAllOptimalRoutes) ===
-            0
-        ) {
-            await Promise.all(
-                remoteWorkers.map((remote) =>
-                    remote.updateBestRoute(getBestRoute(), getBestLength())
-                )
-            );
+            const PeriodOfUpdateAllOptimalRoutes = 8;
+            if (
+                current_iterations %
+                    (population_communication_iterate_cycle *
+                        remoteWorkers.length *
+                        PeriodOfUpdateAllOptimalRoutes) ===
+                0
+            ) {
+                HistoryOfPopulationsAllUpdateBestRoute.push(true);
+                await Promise.all(
+                    remoteWorkers.map((remote) =>
+                        remote.updateBestRoute(getBestRoute(), getBestLength())
+                    )
+                );
+            } else {
+                HistoryOfPopulationsAllUpdateBestRoute.push(false);
+            }
         }
     }
 
@@ -262,6 +267,7 @@ export async function MultiPopulationSchedulerCreate(
                 .filter(Boolean) as COMMON_DataOfOneIteration[];
 
         const result: MultiPopulationOutput = {
+            HistoryOfPopulationsAllUpdateBestRoute,
             HistoryOfTheWayPopulationsCommunicate,
             similarityOfAllPopulationsHistory,
             data_of_greedy: dataOfChildren
@@ -283,7 +289,7 @@ export async function MultiPopulationSchedulerCreate(
         return result;
     }
     const similarityOfAllPopulationsHistory: number[] = [];
-    const HistoryOfTheWayPopulationsCommunicate: string[] = [];
+
     const { count_of_ants } = options;
     async function PerformCommunicationBetweenPopulations(
         routesAndLengths: {

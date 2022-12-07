@@ -6,4 +6,5 @@ export type MultiPopulationOutput = COMMON_TSP_Output & {
     IterationDataOfIndividualPopulations: COMMON_DataOfOneIteration[][];
     RouteDataOfIndividualPopulations: DataOfFinishOneRoute[][];
     HistoryOfTheWayPopulationsCommunicate: string[];
+    HistoryOfPopulationsAllUpdateBestRoute: boolean[];
 };

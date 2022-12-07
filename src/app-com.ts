@@ -67,7 +67,7 @@ export default defineComponent({
         } = useOptionsOfRoutesAndRouteLengthChart();
         const selected_value = ref(TSP_cities_data[0]);
         const selected_node_coordinates = ref<NodeCoordinates>();
-        // const show_progress = ref(true);
+
         const input_options = reactive(structuredClone(DefaultOptions));
 
         const round_result = ref(DefaultOptions.distance_round);
@@ -277,13 +277,14 @@ export default defineComponent({
         const on_receive_data_of_greedy =
             data_of_greedy_iteration.onreceivedata;
         const similarityOfAllPopulationsHistoryRef = ref(
-            [] as (number | string)[][]
+            [] as [number, number, string, boolean][]
         );
 
         const similarityOfAllPopulationsTableHeads = [
             "序号",
             "总体的相似度",
             "种群交流的方式",
+            "更新所有最优解",
         ];
         function on_update_output_data(data: MultiPopulationOutput) {
             similarityOfAllPopulationsHistoryRef.value =
@@ -291,6 +292,7 @@ export default defineComponent({
                     i + 1,
                     v,
                     data.HistoryOfTheWayPopulationsCommunicate[i],
+                    data.HistoryOfPopulationsAllUpdateBestRoute[i],
                 ]);
             on_receive_data_of_greedy(data.data_of_greedy[0]);
             onglobal_best_routeChange(data.global_best_route);
@@ -406,7 +408,7 @@ export default defineComponent({
             selected_value,
             show_history_routes_of_best,
             similarityOfAllPopulationsHistoryRef,
-            // show_progress,
+
             show_array_routes_of_best,
             show_configurations,
             summary_best_TableHeads,
