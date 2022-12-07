@@ -298,13 +298,6 @@ export async function MultiPopulationSchedulerCreate(
         }[],
         latestIterateBestRoutesInPeriod: number[][]
     ): Promise<void> {
-        const routes = (
-            await Promise.all(
-                remoteWorkers.map((remote) =>
-                    remote.getCollectionOfBetterRoutes()
-                )
-            )
-        ).flat();
         const lengths = routesAndLengths.map((a) => a.length);
         const bestRoute = getBestRoute();
         const similarityOfAllPopulations = similarityOfMultipleRoutes(
@@ -346,6 +339,13 @@ export async function MultiPopulationSchedulerCreate(
                 }))
                 .sort((a, b) => a.length - b.length)
                 .slice(Math.floor(remoteWorkers.length / 2));
+            const routes = (
+                await Promise.all(
+                    remoteWorkers.map((remote) =>
+                        remote.getCollectionOfBetterRoutes()
+                    )
+                )
+            ).flat();
             const commonRoute = extractCommonRoute(routes);
 
             await Promise.all(
@@ -362,7 +362,22 @@ export async function MultiPopulationSchedulerCreate(
                 )
             );
         } else {
-            HistoryOfTheWayPopulationsCommunicate.push("不执行交流方式");
+            HistoryOfTheWayPopulationsCommunicate.push("减少最优和最差的差距");
+
+            const sorted = remoteWorkers
+                .map((w, i) => ({
+                    remote: w,
+                    length: lengths[i],
+                }))
+                .sort((a, b) => a.length - b.length);
+            const first = sorted[0];
+            const last = sorted[sorted.length - 1];
+            if (first.length !== last.length) {
+                const routes = await first.remote.getCollectionOfBetterRoutes();
+                const commonRoute = extractCommonRoute(routes);
+
+                await last.remote.rewardCommonRoutes(commonRoute);
+            }
         }
     }
 
