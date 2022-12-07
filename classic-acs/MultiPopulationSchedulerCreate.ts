@@ -2,7 +2,6 @@ import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueAr
 import { DefaultOptions } from "../src/default_Options";
 import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 import { TSP_Worker_Remote } from "../src/TSP_Worker_Remote";
-import { createWorkerRemoteAndInfo } from "./createWorkerRemoteAndInfo";
 import {
     COMMON_DataOfOneIteration,
     COMMON_DataOfOneRoute,
@@ -14,6 +13,7 @@ import { MultiPopulationScheduler } from "./MultiPopulationScheduler";
 import { zip } from "lodash-es";
 import { MultiPopulationOutput } from "./MultiPopulationOutput";
 import { ProbabilityOfPerformingTheFirstCommunication } from "./ProbabilityOfPerformingTheFirstCommunication";
+import { initializeRemoteWorkers } from "./initializeRemoteWorkers";
 export type WorkerRemoteAndInfo = TSP_Worker_Remote["remote"] & {
     ClassOfPopulation: string;
     id_Of_Population: number;
@@ -31,18 +31,10 @@ export async function MultiPopulationSchedulerCreate(
         population_communication_iterate_cycle,
     } = options;
 
-    const remoteWorkers: WorkerRemoteAndInfo[] = [];
-    await createWorkerRemoteAndInfo(
+    const remoteWorkers: WorkerRemoteAndInfo[] = await initializeRemoteWorkers(
         number_of_populations_of_the_first_category,
         options,
-        remoteWorkers,
-        "动态信息素更新"
-    );
-    await createWorkerRemoteAndInfo(
-        number_of_the_second_type_of_population,
-        options,
-        remoteWorkers,
-        "相似度的自适应"
+        number_of_the_second_type_of_population
     );
 
     let current_iterations = 0;
@@ -299,7 +291,13 @@ export async function MultiPopulationSchedulerCreate(
         }[],
         latestIterateBestRoutesInPeriod: number[][]
     ): Promise<void> {
-        const routes = routesAndLengths.map((a) => a.route);
+        const routes = (
+            await Promise.all(
+                remoteWorkers.map((remote) =>
+                    remote.getCollectionOfBetterRoutes()
+                )
+            )
+        ).flat();
         const lengths = routesAndLengths.map((a) => a.length);
         const bestRoute = getBestRoute();
         const similarityOfAllPopulations = similarityOfMultipleRoutes(

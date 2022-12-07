@@ -480,7 +480,6 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     const { pheromone_volatilization_coefficient_of_communication } = options;
 
     const smoothPheromones = createSmoothPheromones(
-        
         pheromoneStore,
         global_optimal_routes
     );
