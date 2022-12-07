@@ -284,6 +284,7 @@ export async function MultiPopulationSchedulerCreate(
     }
     const similarityOfAllPopulationsHistory: number[] = [];
     const HistoryOfTheWayPopulationsCommunicate: string[] = [];
+    const { count_of_ants } = options;
     async function PerformCommunicationBetweenPopulations(
         routesAndLengths: {
             length: number;
@@ -308,7 +309,14 @@ export async function MultiPopulationSchedulerCreate(
         const similarity = similarityOfAllPopulations;
         const probabilityOfPerformingTheFirstCommunication =
             ProbabilityOfPerformingTheFirstCommunication(similarity);
-        if (Math.random() < probabilityOfPerformingTheFirstCommunication) {
+        const p0 = Math.random();
+        if (
+            p0 < probabilityOfPerformingTheFirstCommunication &&
+            current_search_count - search_count_of_best >
+                population_communication_iterate_cycle *
+                    remoteWorkers.length *
+                    count_of_ants
+        ) {
             HistoryOfTheWayPopulationsCommunicate.push("增加多样性");
             const randomHalf = remoteWorkers
                 .map((w, i) => ({
@@ -322,7 +330,7 @@ export async function MultiPopulationSchedulerCreate(
                     remote.smoothPheromones(similarityOfAllPopulations)
                 )
             );
-        } else {
+        } else if (p0 > probabilityOfPerformingTheFirstCommunication) {
             HistoryOfTheWayPopulationsCommunicate.push("提高收敛速度");
             const backHalf = remoteWorkers
                 .map((w, i) => ({
@@ -346,6 +354,8 @@ export async function MultiPopulationSchedulerCreate(
                     remote.rewardCommonRoutes(commonRoute)
                 )
             );
+        } else {
+            HistoryOfTheWayPopulationsCommunicate.push("不执行交流方式");
         }
     }
 
