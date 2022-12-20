@@ -1,6 +1,6 @@
 import { EChartsType } from "echarts";
 import * as echarts from "echarts";
-import { debounce } from "lodash";
+import { debounce } from "lodash-es";
 import { debounce_animation_frame } from "./debounce_animation_frame";
 
 export function use_create_chart_of_container(

@@ -1,4 +1,4 @@
-import { sum } from "lodash";
+import { sum } from "lodash-es";
 
 import { assert_true } from "../test/assert_true";
 

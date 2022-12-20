@@ -1,6 +1,6 @@
 import "core-js/stable/array/at";
 
-import { random } from "lodash";
+import { random } from "lodash-es";
 
 import * as Randomly from "@masx200/weighted-randomly-select";
 

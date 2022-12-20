@@ -1,4 +1,4 @@
-import { sumBy } from "lodash";
+import { sumBy } from "lodash-es";
 
 import { partial_precise_random_2_opt_eliminates_cross_points } from "../cross-points/partial_precise_random_2_opt_eliminates_cross_points";
 import { Precise_2_opt_eliminates_all_intersections } from "../cross-points/Precise_2_opt_eliminates_all_intersections";

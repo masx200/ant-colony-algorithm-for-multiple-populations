@@ -1,5 +1,5 @@
 import { sum } from "lodash-es";
-import uniq from "lodash/uniq";
+import { uniq } from "lodash-es";
 
 import EventEmitterTargetClass from "@masx200/event-emitter-target";
 
