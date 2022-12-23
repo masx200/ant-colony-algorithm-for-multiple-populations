@@ -1,24 +1,27 @@
+import { zip } from "lodash-es";
+import { extractCommonRoute } from "../common/extractCommonRoute";
 import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueArrayOfCircularPath";
+import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 import { DefaultOptions } from "../src/default_Options";
-import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 import { TSP_Worker_Remote } from "../src/TSP_Worker_Remote";
+import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
+import { initializeRemoteWorkers } from "./initializeRemoteWorkers";
+import { MultiPopulationOutput } from "./MultiPopulationOutput";
+import { MultiPopulationScheduler } from "./MultiPopulationScheduler";
+import { ProbabilityOfPerformingTheFirstCommunication } from "./ProbabilityOfPerformingTheFirstCommunication";
 import {
     COMMON_DataOfOneIteration,
     COMMON_DataOfOneRoute,
     COMMON_TSP_Output,
 } from "./tsp-interface";
-import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
-import { extractCommonRoute } from "../common/extractCommonRoute";
-import { MultiPopulationScheduler } from "./MultiPopulationScheduler";
-import { zip } from "lodash-es";
-import { MultiPopulationOutput } from "./MultiPopulationOutput";
-import { ProbabilityOfPerformingTheFirstCommunication } from "./ProbabilityOfPerformingTheFirstCommunication";
-import { initializeRemoteWorkers } from "./initializeRemoteWorkers";
 export type WorkerRemoteAndInfo = TSP_Worker_Remote["remote"] & {
     ClassOfPopulation: string;
     id_Of_Population: number;
 };
-
+export type WayPopulationsCommunicate =
+    | "奖励最差种群"
+    | "增加多样性"
+    | "提高收敛速度";
 export async function MultiPopulationSchedulerCreate(
     input: TSPRunnerOptions
 ): Promise<MultiPopulationScheduler> {
@@ -30,7 +33,8 @@ export async function MultiPopulationSchedulerCreate(
 
         population_communication_iterate_cycle,
     } = options;
-    const HistoryOfTheWayPopulationsCommunicate: string[] = [];
+    const HistoryOfTheWayPopulationsCommunicate: WayPopulationsCommunicate[] =
+        [];
     const HistoryOfPopulationsAllUpdateBestRoute: boolean[] = [];
     const remoteWorkers: WorkerRemoteAndInfo[] = await initializeRemoteWorkers(
         number_of_populations_of_the_first_category,
@@ -362,7 +366,7 @@ export async function MultiPopulationSchedulerCreate(
                 )
             );
         } else {
-            HistoryOfTheWayPopulationsCommunicate.push("减少最优和最差的差距");
+            HistoryOfTheWayPopulationsCommunicate.push("奖励最差种群");
 
             const sorted = remoteWorkers
                 .map((w, i) => ({
