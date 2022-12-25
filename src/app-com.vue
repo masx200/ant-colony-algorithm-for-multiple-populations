@@ -292,7 +292,7 @@
                 <summary>全局最优路径的展示</summary>
                 <!-- 全局最优解的图 -->
                 <LineChart
-                    :v-if="show_routes_of_best"
+                    v-if="show_routes_of_best"
                     class="single-chart"
                     style=""
                     :options="options_of_best_route_chart"
@@ -311,7 +311,7 @@
             <summary>迭代次数和相对信息熵</summary>
             <div class="chart-container" style="">
                 <LineChart
-                    :v-if="show_chart_of_latest"
+                    v-if="show_chart_of_latest"
                     class="single-chart"
                     style=""
                     :options="
@@ -328,7 +328,7 @@
             <summary>迭代次数和种群相似度</summary>
             <div class="chart-container" style="">
                 <LineChart
-                    :v-if="show_chart_of_latest_similarity"
+                    v-if="show_chart_of_latest_similarity"
                     class="single-chart"
                     style=""
                     :options="optionsOfIterationsAndPopulationSimilarityChart"
@@ -344,7 +344,7 @@
             <summary>路径序号和当前路径长度</summary>
             <div class="chart-container" style="">
                 <LineChart
-                    :v-if="show_chart_of_entropy"
+                    v-if="show_chart_of_entropy"
                     class="single-chart"
                     style=""
                     :options="options_of_current_path_length_chart"
@@ -360,7 +360,7 @@
             <summary>分别的路径序号和最优路径长度</summary>
             <LineChart
                 class="single-chart"
-                :v-if="show_chart_of_best_individual"
+                v-if="show_chart_of_best_individual"
                 style=""
                 :options="
                     OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations
@@ -375,7 +375,7 @@
         >
             <summary>总体的路径序号和最优路径长度</summary>
             <LineChart
-                :v-if="show_chart_of_best"
+                v-if="show_chart_of_best"
                 class="single-chart"
                 style=""
                 :options="options_of_best_path_length_chart"
@@ -469,7 +469,7 @@
             <summary>每次迭代的统计</summary>
             <!-- 迭代结果 -->
             <Data-table
-                :v-if="show_summary_of_iterations"
+                v-if="show_summary_of_iterations"
                 style="margin: 0 auto"
                 title="每次迭代的统计"
                 :tableheads="oneiterationtableheads"
