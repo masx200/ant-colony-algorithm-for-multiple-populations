@@ -45,4 +45,7 @@ const DefaultOptions: Required<TSPDefaultOptions> = {
     ClassOfPopulation: "",
     pheromone_volatilization_coefficient_of_communication: 0.3,
     Multi_Population_Similarity_evaluation_coefficient: 0.8,
+    Period_of_judgment_similarity: 10,
+    High_similarity_threshold: 0.9,
+    Coefficient_of_the_minimum_after_pheromone_weakening: 0.5,
 };

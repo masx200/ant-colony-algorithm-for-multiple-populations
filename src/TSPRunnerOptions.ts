@@ -29,6 +29,9 @@ export interface TSPDefaultOptions {
     ClassOfPopulation?: string;
     pheromone_volatilization_coefficient_of_communication: number;
     Multi_Population_Similarity_evaluation_coefficient: number;
+    Period_of_judgment_similarity: number;
+    High_similarity_threshold: number;
+    Coefficient_of_the_minimum_after_pheromone_weakening: number;
 }
 
 export type TSPRunnerOptions = {
