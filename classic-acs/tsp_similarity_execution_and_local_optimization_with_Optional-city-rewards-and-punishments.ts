@@ -1,3 +1,27 @@
+import { MatrixFill, MatrixSymmetryCreate } from "@masx200/sparse-2d-matrix";
+import { sum, uniq } from "lodash-es";
+import { create_collection_of_optimal_routes } from "../collections/collection-of-optimal-routes";
+import { calc_population_relative_information_entropy } from "../functions/calc_population-relative-information-entropy";
+import { calc_state_transition_probabilities } from "../functions/calc_state_transition_probabilities";
+import { closed_total_path_length } from "../functions/closed-total-path-length";
+import { create_run_iterations } from "../functions/create_run_iterations";
+import { creategetdistancebyindex } from "../functions/creategetdistancebyindex";
+import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
+import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
+import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueArrayOfCircularPath";
+import { geteuclideandistancebyindex } from "../functions/geteuclideandistancebyindex";
+import { pickRandomOne } from "../functions/pickRandomOne";
+import { run_greedy_once_thread_with_time } from "../functions/run_greedy_once_thread_with_time";
+import { select_available_cities_from_optimal_and_latest } from "../functions/select_available_cities_from_optimal_and_latest";
+import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
+import { DefaultOptions } from "../src/default_Options";
+import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
+import { get_distance_round } from "../src/set_distance_round";
+import { assert_true } from "../test/assert_true";
+import { createLatestIterateBestRoutesInPeriod } from "./createLatestIterateBestRoutesInPeriod";
+import { createRewardCommonRoutes } from "./createRewardCommonRoutes";
+import { createSmoothPheromones } from "./createSmoothPheromones";
+import { run_local_optimization } from "./run_local_optimization";
 import {
     COMMON_DataOfOneIteration,
     COMMON_DataOfOneRoute,
@@ -5,36 +29,12 @@ import {
     COMMON_TSP_Options,
     COMMON_TSP_Output,
 } from "./tsp-interface";
-import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueArrayOfCircularPath";
-import { MatrixSymmetryCreate, MatrixFill } from "@masx200/sparse-2d-matrix";
-import { run_greedy_once_thread_with_time } from "../functions/run_greedy_once_thread_with_time";
-import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
-import { calc_population_relative_information_entropy } from "../functions/calc_population-relative-information-entropy";
-import { sum, uniq } from "lodash-es";
-import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
-import { closed_total_path_length } from "../functions/closed-total-path-length";
-import { creategetdistancebyindex } from "../functions/creategetdistancebyindex";
-import { get_distance_round } from "../src/set_distance_round";
-import { assert_true } from "../test/assert_true";
-
-import { pickRandomOne } from "../functions/pickRandomOne";
-import { geteuclideandistancebyindex } from "../functions/geteuclideandistancebyindex";
-import { calc_state_transition_probabilities } from "../functions/calc_state_transition_probabilities";
-import { DefaultOptions } from "../src/default_Options";
-import { create_collection_of_optimal_routes } from "../collections/collection-of-optimal-routes";
-import { select_available_cities_from_optimal_and_latest } from "../functions/select_available_cities_from_optimal_and_latest";
-import { run_local_optimization } from "./run_local_optimization";
-import { create_run_iterations } from "../functions/create_run_iterations";
-import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
-import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
-import { createLatestIterateBestRoutesInPeriod } from "./createLatestIterateBestRoutesInPeriod";
-import { createSmoothPheromones } from "./createSmoothPheromones";
-import { createRewardCommonRoutes } from "./createRewardCommonRoutes";
 
 export function tsp_similarity_execution_and_local_optimization_with_Optional_city_rewards_and_punishments(
     input: COMMON_TSP_Options
 ): COMMON_TSP_EXECUTION {
     const options = Object.assign(structuredClone(DefaultOptions), input);
+    const { Coefficient_of_the_minimum_after_pheromone_weakening } = options;
     const {
         max_cities_of_state_transition = DefaultOptions.max_cities_of_state_transition,
         max_size_of_collection_of_optimal_routes = DefaultOptions.max_size_of_collection_of_optimal_routes,
@@ -237,6 +237,8 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             pheromoneStore.set(city1, city2, changed_pheromone);
         }
     }
+    const { Period_of_judgment_similarity, High_similarity_threshold } =
+        options;
     async function runOneIteration() {
         let time_ms_of_one_iteration = 0;
         if (current_search_count === 0) {
@@ -341,14 +343,16 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                 (path_selection_parameter_q0_max -
                     path_selection_parameter_q0_min) *
                     Math.pow(1 - Intra_population_similarity, 3);
-            const InnerPopulationSimilarityThreshold = 0.9;
+            const InnerPopulationSimilarityThreshold =
+                High_similarity_threshold;
             if (
-                getCountOfIterations() % 10 === 0 &&
+                getCountOfIterations() % Period_of_judgment_similarity === 0 &&
                 Intra_population_similarity > InnerPopulationSimilarityThreshold
             ) {
                 createSmoothPheromones(
                     pheromoneStore,
-                    global_optimal_routes
+                    global_optimal_routes,
+                    Coefficient_of_the_minimum_after_pheromone_weakening
                 )(Intra_population_similarity);
             }
             const endtime_of_process_iteration = Number(new Date());
@@ -457,7 +461,8 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
     } = createLatestIterateBestRoutesInPeriod();
     const smoothPheromones = createSmoothPheromones(
         pheromoneStore,
-        global_optimal_routes
+        global_optimal_routes,
+        Coefficient_of_the_minimum_after_pheromone_weakening
     );
     const rewardCommonRoutes = createRewardCommonRoutes(
         pheromone_volatilization_coefficient_of_communication,

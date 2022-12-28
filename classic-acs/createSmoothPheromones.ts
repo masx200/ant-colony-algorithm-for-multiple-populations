@@ -4,7 +4,8 @@ import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
 
 export function createSmoothPheromones(
     pheromoneStore: MatrixSymmetry<number>,
-    global_optimal_routes: { route: number[] }[]
+    global_optimal_routes: { route: number[] }[],
+    Coefficient_of_the_minimum_after_pheromone_weakening: number
 ) {
     return function smoothPheromones(similarity: number) {
         const maxValue = max(pheromoneStore.values()) as number;
@@ -19,7 +20,8 @@ export function createSmoothPheromones(
                 return JSON.stringify(a);
             }
         );
-        const pheromoneMinimum = averageValue / 2;
+        const pheromoneMinimum =
+            averageValue * Coefficient_of_the_minimum_after_pheromone_weakening;
         for (const [i, j] of segments) {
             const oldValue = pheromoneStore.get(i, j);
             const newValue =
