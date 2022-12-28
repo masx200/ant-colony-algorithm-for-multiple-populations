@@ -130,32 +130,38 @@ export async function MultiPopulationSchedulerCreate(
         routesAndLengths: { length: number; route: number[] }[],
         latestIterateBestRoutesInPeriod: number[][]
     ) {
-        if (
-            current_iterations %
-                (population_communication_iterate_cycle *
-                    remoteWorkers.length) ===
-            0
-        ) {
-            await PerformCommunicationBetweenPopulations(
-                routesAndLengths,
-                latestIterateBestRoutesInPeriod
-            );
-            const PeriodOfUpdateAllOptimalRoutes = 10;
+        if (remoteWorkers.length > 1) {
             if (
                 current_iterations %
                     (population_communication_iterate_cycle *
-                        remoteWorkers.length *
-                        PeriodOfUpdateAllOptimalRoutes) ===
+                        remoteWorkers.length) ===
                 0
             ) {
-                HistoryOfPopulationsAllUpdateBestRoute.push(true);
-                await Promise.all(
-                    remoteWorkers.map((remote) =>
-                        remote.updateBestRoute(getBestRoute(), getBestLength())
-                    )
+                await PerformCommunicationBetweenPopulations(
+                    routesAndLengths,
+                    latestIterateBestRoutesInPeriod
                 );
-            } else {
-                HistoryOfPopulationsAllUpdateBestRoute.push(false);
+                const PeriodOfUpdateAllOptimalRoutes = 10;
+
+                if (
+                    current_iterations %
+                        (population_communication_iterate_cycle *
+                            remoteWorkers.length *
+                            PeriodOfUpdateAllOptimalRoutes) ===
+                    0
+                ) {
+                    HistoryOfPopulationsAllUpdateBestRoute.push(true);
+                    await Promise.all(
+                        remoteWorkers.map((remote) =>
+                            remote.updateBestRoute(
+                                getBestRoute(),
+                                getBestLength()
+                            )
+                        )
+                    );
+                } else {
+                    HistoryOfPopulationsAllUpdateBestRoute.push(false);
+                }
             }
         }
     }
