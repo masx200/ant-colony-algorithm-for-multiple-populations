@@ -301,6 +301,7 @@ export async function MultiPopulationSchedulerCreate(
     const similarityOfAllPopulationsHistory: number[] = [];
 
     const { count_of_ants } = options;
+    const { Multi_Population_Similarity_evaluation_coefficient } = options;
     async function PerformCommunicationBetweenPopulations(
         routesAndLengths: {
             length: number;
@@ -316,8 +317,12 @@ export async function MultiPopulationSchedulerCreate(
         );
         similarityOfAllPopulationsHistory.push(similarityOfAllPopulations);
         const similarity = similarityOfAllPopulations;
+
         const probabilityOfPerformingTheFirstCommunication =
-            ProbabilityOfPerformingTheFirstCommunication(similarity);
+            ProbabilityOfPerformingTheFirstCommunication(
+                similarity,
+                Multi_Population_Similarity_evaluation_coefficient
+            );
         const p0 = Math.random();
         if (
             p0 < probabilityOfPerformingTheFirstCommunication &&
