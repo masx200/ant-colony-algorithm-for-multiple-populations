@@ -255,6 +255,7 @@ export async function MultiPopulationSchedulerCreate(
                 .flat()
                 .filter(Boolean) as COMMON_DataOfOneRoute[]
         ).map((data) => {
+            data = structuredClone(data);
             best_length_of_history_route_data = Math.min(
                 data.global_best_length,
                 best_length_of_history_route_data
