@@ -95,6 +95,35 @@
             :min="0.1"
             :controls="false"
         /><br />
+        <span>判断相似度的周期</span>
+        <el-input-number
+            step-strictly
+            :step="1"
+            v-model.number="input_options.Period_of_judgment_similarity"
+            :disabled="disable_switching"
+            :min="1"
+            :controls="false"
+        /><br />
+        <span>相似度过高的阈值</span>
+        <el-input-number
+            step-strictly
+            :step="0.1"
+            v-model.number="input_options.High_similarity_threshold"
+            :disabled="disable_switching"
+            :min="0.1"
+            :controls="false"
+        /><br />
+        <span>信息素削弱后的最小的系数</span>
+        <el-input-number
+            step-strictly
+            :step="0.1"
+            v-model.number="
+                input_options.Coefficient_of_the_minimum_after_pheromone_weakening
+            "
+            :disabled="disable_switching"
+            :min="0.1"
+            :controls="false"
+        /><br />
     </div>
 </template>
 <script lang="ts" src="./multiple-populations-configs.ts"></script>
