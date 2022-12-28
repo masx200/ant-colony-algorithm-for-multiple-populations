@@ -1,5 +1,5 @@
 import { MatrixSymmetry } from "@masx200/sparse-2d-matrix";
-import { uniqBy, max, min } from "lodash-es";
+import { max, min, uniqBy } from "lodash-es";
 import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
 
 export function createSmoothPheromones(
@@ -19,12 +19,15 @@ export function createSmoothPheromones(
                 return JSON.stringify(a);
             }
         );
+        const pheromoneMinimum = averageValue / 2;
         for (const [i, j] of segments) {
             const oldValue = pheromoneStore.get(i, j);
-            const newValue = Math.max(
-                averageValue / 2,
-                oldValue * Math.min(1, 3 * (1 - similarity))
-            );
+            const newValue =
+                oldValue + (3 * similarity - 2) * (pheromoneMinimum - oldValue);
+            // const newValue = Math.max(
+            //     pheromoneMinimum,
+            //     oldValue * Math.min(1, 3 * (1 - similarity))
+            // );
 
             pheromoneStore.set(i, j, newValue);
         }
