@@ -1,4 +1,5 @@
 import { NodeCoordinates } from "../functions/NodeCoordinates";
+
 export interface TSPDefaultOptions {
     max_results_of_k_exchange?: number;
     distance_round?: boolean;
@@ -27,6 +28,7 @@ export interface TSPDefaultOptions {
     beta_for_the_second_type_of_population: number;
     ClassOfPopulation?: string;
     pheromone_volatilization_coefficient_of_communication: number;
+    Multi_Population_Similarity_evaluation_coefficient: number;
 }
 
 export type TSPRunnerOptions = {

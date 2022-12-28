@@ -44,4 +44,5 @@ const DefaultOptions: Required<TSPDefaultOptions> = {
     beta_for_the_second_type_of_population: 2,
     ClassOfPopulation: "",
     pheromone_volatilization_coefficient_of_communication: 0.3,
+    Multi_Population_Similarity_evaluation_coefficient: 0.8,
 };

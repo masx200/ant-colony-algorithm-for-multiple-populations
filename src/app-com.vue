@@ -83,17 +83,17 @@
                     :min="0.1"
                     :controls="false"
                 /><br />
-                <!-- <span>信息素平滑挥发系数</span>
+                <span>多种群相似度评价系数</span>
                 <el-input-number
                     step-strictly
                     :step="0.1"
                     v-model.number="
-                        input_options.pheromone_volatilization_coefficient_of_smooth
+                        input_options.Multi_Population_Similarity_evaluation_coefficient
                     "
                     :disabled="disable_switching"
                     :min="0.1"
                     :controls="false"
-                /><br /> -->
+                /><br />
                 <span>相对信息熵因子</span>
                 <el-input-number
                     step-strictly
