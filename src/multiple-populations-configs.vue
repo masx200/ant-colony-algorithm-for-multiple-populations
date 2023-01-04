@@ -280,7 +280,7 @@
             <span>相似度过高的阈值</span>
             <el-input-number
                 step-strictly
-                :step="0.1"
+                :step="0.01"
                 v-model.number="input_options.High_similarity_threshold"
                 :disabled="disable_switching"
                 :min="0.1"
