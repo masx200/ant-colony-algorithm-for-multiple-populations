@@ -181,7 +181,7 @@
                     input_options.number_of_populations_of_the_first_category
                 "
                 :disabled="disable_switching"
-                :min="1"
+                :min="0"
                 :controls="false"
             /><br />
             <span>第二类种群的数量</span>
@@ -192,7 +192,7 @@
                     input_options.number_of_the_second_type_of_population
                 "
                 :disabled="disable_switching"
-                :min="1"
+                :min="0"
                 :controls="false"
             /><br />
             <span>种群的迭代交流周期</span>
