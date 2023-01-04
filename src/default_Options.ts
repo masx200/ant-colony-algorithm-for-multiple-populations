@@ -3,7 +3,7 @@ import { relative_Information_Entropy_Factor } from "../functions/relative_Infor
 import { TSPDefaultOptions } from "./TSPRunnerOptions";
 
 export const default_count_of_ants = 20;
-export const default_search_rounds = 170;
+export const default_search_rounds = 1000;
 export const default_search_time_seconds = 600;
 
 export const default_alpha = 1;
@@ -47,5 +47,5 @@ const DefaultOptions: Required<TSPDefaultOptions> = {
     Multi_Population_Similarity_evaluation_coefficient: 0.8,
     Period_of_judgment_similarity: 10,
     High_similarity_threshold: 0.9,
-    Coefficient_of_the_minimum_after_pheromone_weakening: 0.5,
+    Coefficient_of_the_minimum_after_pheromone_weakening: 0.3,
 };
