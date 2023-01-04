@@ -26,10 +26,6 @@ export function createSmoothPheromones(
             const oldValue = pheromoneStore.get(i, j);
             const newValue =
                 oldValue + (3 * similarity - 2) * (pheromoneMinimum - oldValue);
-            // const newValue = Math.max(
-            //     pheromoneMinimum,
-            //     oldValue * Math.min(1, 3 * (1 - similarity))
-            // );
 
             pheromoneStore.set(i, j, newValue);
         }
