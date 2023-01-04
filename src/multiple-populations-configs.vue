@@ -31,7 +31,7 @@
             <span>多种群相似度评价系数</span>
             <el-input-number
                 step-strictly
-                :step="0.1"
+                :step="0.01"
                 v-model.number="
                     input_options.Multi_Population_Similarity_evaluation_coefficient
                 "
