@@ -53,6 +53,21 @@ export default defineComponent({
         LineChart,
     },
     setup() {
+        const count_of_populations = computed(
+            () =>
+                input_options.number_of_the_second_type_of_population +
+                input_options.number_of_populations_of_the_first_category
+        );
+        const search_rounds_all = computed({
+            get() {
+                return Math.floor(
+                    searchrounds.value * count_of_populations.value
+                );
+            },
+            set(v) {
+                searchrounds.value = Math.floor(v / count_of_populations.value);
+            },
+        });
         const {
             similarityOfAllPopulationsHistoryRef,
             similarityOfAllPopulationsTableHeads,
@@ -75,7 +90,6 @@ export default defineComponent({
 
         const round_result = computed(() => input_options.distance_round);
 
-        // ref(DefaultOptions.distance_round);
         watch(round_result, (round) => {
             set_distance_round(round);
         });
@@ -393,13 +407,13 @@ export default defineComponent({
         const run_way_time = RunWay.time;
         const run_way_round = RunWay.round;
         const alpha_zero = computed(() => input_options.alpha_zero);
-        //ref(DefaultOptions.alpha_zero);
+
         const beta_zero = computed(() => input_options.beta_zero);
-        // ref(DefaultOptions.beta_zero);
+
         const max_routes_of_greedy = computed(
             () => input_options.max_routes_of_greedy
         );
-        // ref(DefaultOptions.max_routes_of_greedy);
+
         return {
             selected_value,
             show_history_routes_of_best,
@@ -424,6 +438,7 @@ export default defineComponent({
             beta_zero,
             can_run,
             show_chart_of_latest_similarity,
+            search_rounds_all,
             show_summary_of_similarity,
             similarityOfAllPopulationsTableHeads,
             show_routes_of_best,

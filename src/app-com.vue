@@ -74,11 +74,21 @@
             <el-radio :label="run_way_round">轮次</el-radio>
         </el-radio-group>
         <div v-show="radio_run_way === run_way_round">
-            <span>迭代轮次数</span>
+            <span>每个种群的迭代轮次数</span>
             <el-input-number
                 step-strictly
                 :step="1"
                 v-model.number="searchrounds"
+                :min="1"
+                :controls="false"
+                :disabled="!can_run || is_running"
+            />
+            <br />
+            <span>所有种群的总共迭代轮次数</span>
+            <el-input-number
+                step-strictly
+                :step="1"
+                v-model.number="search_rounds_all"
                 :min="1"
                 :controls="false"
                 :disabled="!can_run || is_running"
