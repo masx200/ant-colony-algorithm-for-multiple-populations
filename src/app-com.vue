@@ -61,7 +61,6 @@
                     :disable_switching="disable_switching"
                 />
             </div>
-            <hr />
         </details>
 
         <hr />
