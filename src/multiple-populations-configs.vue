@@ -17,6 +17,17 @@
                 <el-radio :label="true">是</el-radio>
                 <el-radio :label="false">否</el-radio> </el-radio-group
             ><br />
+            <span>种群的迭代交流周期</span>
+            <el-input-number
+                step-strictly
+                :step="1"
+                v-model.number="
+                    input_options.population_communication_iterate_cycle
+                "
+                :disabled="disable_switching"
+                :min="1"
+                :controls="false"
+            /><br />
             <span>信息素交流挥发系数</span>
             <el-input-number
                 step-strictly
@@ -162,17 +173,9 @@
                 :min="0.001"
                 :max="10"
             /><br />
-        </div>
-        <hr />
-        <div
-            style="
-                border-top: thick;
-                border-color: #2196f3;
-                border-width: thick;
-                padding: 10px;
-                border: 5px solid #2196f3;
-            "
-        >
+
+            <hr />
+
             <span>第一类种群的数量</span>
             <el-input-number
                 step-strictly
@@ -195,17 +198,7 @@
                 :min="0"
                 :controls="false"
             /><br />
-            <span>种群的迭代交流周期</span>
-            <el-input-number
-                step-strictly
-                :step="1"
-                v-model.number="
-                    input_options.population_communication_iterate_cycle
-                "
-                :disabled="disable_switching"
-                :min="1"
-                :controls="false"
-            /><br />
+
             <span>第二类的信息素因子</span>
             <el-input-number
                 step-strictly
