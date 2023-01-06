@@ -2,6 +2,7 @@ import { max_number_of_stagnation } from "../functions/max_number_of_stagnation"
 import { relative_Information_Entropy_Factor } from "../functions/relative_Information_Entropy_Factor";
 import { TSPDefaultOptions } from "./TSPRunnerOptions";
 
+
 export const default_count_of_ants = 20;
 export const default_search_rounds = 1000;
 export const default_search_time_seconds = 600;
@@ -44,7 +45,7 @@ const DefaultOptions: Required<TSPDefaultOptions> = {
     beta_for_the_second_type_of_population: 2,
     ClassOfPopulation: "",
     pheromone_volatilization_coefficient_of_communication: 0.3,
-    Multi_Population_Similarity_evaluation_coefficient: 0.8,
+    Multi_Population_Similarity_evaluation_coefficient: 0.85,
     Period_of_judgment_similarity: 10,
     High_similarity_threshold: 0.9,
     Coefficient_of_the_minimum_after_pheromone_weakening: 0.3,
