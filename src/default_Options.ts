@@ -2,7 +2,6 @@ import { max_number_of_stagnation } from "../functions/max_number_of_stagnation"
 import { relative_Information_Entropy_Factor } from "../functions/relative_Information_Entropy_Factor";
 import { TSPDefaultOptions } from "./TSPRunnerOptions";
 
-
 export const default_count_of_ants = 20;
 export const default_search_rounds = 1000;
 export const default_search_time_seconds = 600;
