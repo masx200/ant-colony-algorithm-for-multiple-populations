@@ -13,6 +13,10 @@ import {
     ref,
     watch,
 } from "vue";
+import {
+    get_options_route_number_and_best_length_chart,
+    迭代次数和最优路径长度,
+} from "./get_options_route_number_and_best_length_chart";
 
 import Data_table from "./Data_table.vue";
 import { ECBasicOption } from "echarts/types/dist/shared";
@@ -31,7 +35,6 @@ import { TSP_cities_data } from "./TSP_cities_data";
 import { TSP_cities_map } from "./TSP_cities_map";
 import { assert_number } from "../test/assert_number";
 import { generate_greedy_preview_echarts_options } from "./generate_greedy_preview_echarts_options";
-import { get_options_route_number_and_best_length_chart } from "./get_options_route_number_and_best_length_chart";
 import { get_options_route_of_node_coordinates } from "./get_options_route_of_node_coordinates";
 import { run_tsp_by_search_rounds } from "./run_tsp-by-search-rounds";
 import { run_tsp_by_search_time } from "./run_tsp_by_search_time";
@@ -419,6 +422,7 @@ export default defineComponent({
         );
 
         return {
+            迭代次数和最优路径长度,
             迭代次数和平均路径长度,
             selected_value,
             show_history_routes_of_best,

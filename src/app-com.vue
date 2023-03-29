@@ -206,7 +206,7 @@
             :open="show_chart_of_best"
             @toggle="show_chart_of_best = $event.target.open"
         >
-            <summary>迭代次数和最优路径长度</summary>
+            <summary>{{ 迭代次数和最优路径长度 }}</summary>
             <LineChart
                 v-if="show_chart_of_best"
                 class="single-chart"
