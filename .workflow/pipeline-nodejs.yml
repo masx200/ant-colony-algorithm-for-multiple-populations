@@ -28,6 +28,7 @@ stages:
           - ''
           - '# 执行编译命令'
           - npm install --force && npm run build
+          - npm install --force && npm run test
         artifacts:
           - name: BUILD_ARTIFACT
             path:
@@ -38,29 +39,4 @@ stages:
         notify: []
         strategy:
           retry: '0'
-  - name: stage-78926526
-    displayName: 未命名
-    strategy: naturally
-    trigger: auto
-    executor: []
-    steps:
-      - step: build@nodejs
-        name: test_nodejs
-        displayName: Nodejs 测试
-        nodeVersion: 17.8.0
-        commands:
-          - '# 设置NPM源，提升安装速度'
-          - npm config set registry https://registry.npmmirror.com
-          - ''
-          - '# 执行编译命令'
-          - npm install --force&& npm run test
-        artifacts:
-          - name: BUILD_ARTIFACT
-            path:
-              - ./dist
-        caches:
-          - ~/.npm
-          - ~/.yarn
-        notify: []
-        strategy:
-          retry: '0'
+ 
