@@ -1,49 +1,51 @@
-import { ECBasicOption } from "echarts/types/dist/shared";
 import {
+    DefaultOptions,
+    default_search_rounds,
+    default_search_time_seconds,
+} from "./default_Options";
+import {
+    Ref,
     computed,
     defineComponent,
     onMounted,
     reactive,
     readonly,
     ref,
-    Ref,
     watch,
 } from "vue";
+
+import Data_table from "./Data_table.vue";
+import { ECBasicOption } from "echarts/types/dist/shared";
+import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "./Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
+import LineChart from "./LineChart.vue";
 import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
 import { MultiPopulationSchedulerRemote } from "../classic-acs/MultiPopulationSchedulerRemote";
+import MultiplePopulationsConfigs from "./multiple-populations-configs.vue";
 import { NodeCoordinates } from "../functions/NodeCoordinates";
+import Progress_element from "./Progress-element.vue";
+import { RunWay } from "./RunWay";
+import { Stop_TSP_Worker } from "./Stop_TSP_Worker";
+import { TSP_Reset } from "./TSP_Reset";
+import { TSP_RunnerRef } from "./TSP_workerRef";
+import { TSP_cities_data } from "./TSP_cities_data";
+import { TSP_cities_map } from "./TSP_cities_map";
 import { assert_number } from "../test/assert_number";
-import Data_table from "./Data_table.vue";
-import {
-    default_search_rounds,
-    default_search_time_seconds,
-    DefaultOptions,
-} from "./default_Options";
 import { generate_greedy_preview_echarts_options } from "./generate_greedy_preview_echarts_options";
 import { get_options_route_number_and_best_length_chart } from "./get_options_route_number_and_best_length_chart";
 import { get_options_route_of_node_coordinates } from "./get_options_route_of_node_coordinates";
-import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "./Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
-import LineChart from "./LineChart.vue";
-import MultiplePopulationsConfigs from "./multiple-populations-configs.vue";
-import Progress_element from "./Progress-element.vue";
-import { run_tsp_by_search_time } from "./run_tsp_by_search_time";
 import { run_tsp_by_search_rounds } from "./run_tsp-by-search-rounds";
-import { RunWay } from "./RunWay";
+import { run_tsp_by_search_time } from "./run_tsp_by_search_time";
 import { set_distance_round } from "./set_distance_round";
-import { Stop_TSP_Worker } from "./Stop_TSP_Worker";
-import { TSP_cities_data } from "./TSP_cities_data";
-import { TSP_cities_map } from "./TSP_cities_map";
-import { TSP_Reset } from "./TSP_Reset";
-import { TSP_RunnerRef } from "./TSP_workerRef";
+import { useDateOfPopulationCommunication } from "./useDateOfPopulationCommunication";
+import { useOptionsOfIterationsAndInformationEntropyChart } from "./useOptionsOfIterationsAndInformationEntropyChart";
+import { useOptionsOfRoutesAndRouteLengthChart } from "./useOptionsOfRoutesAndRouteLengthChart";
 import { use_data_of_greedy_iteration } from "./use_data_of_greedy_iteration";
 import { use_data_of_one_iteration } from "./use_data_of_one_iteration";
 import { use_data_of_one_route } from "./use_data_of_one_route";
 import { use_data_of_summary } from "./use_data_of_summary";
 import { use_history_of_best } from "./use_history_of_best";
 import { use_initialize_tsp_runner } from "./use_initialize_tsp_runner";
-import { useDateOfPopulationCommunication } from "./useDateOfPopulationCommunication";
-import { useOptionsOfIterationsAndInformationEntropyChart } from "./useOptionsOfIterationsAndInformationEntropyChart";
-import { useOptionsOfRoutesAndRouteLengthChart } from "./useOptionsOfRoutesAndRouteLengthChart";
+import { 迭代次数和平均路径长度 } from "./get_options_route_number_and_current_length_chart";
 
 export default defineComponent({
     components: {
@@ -79,8 +81,9 @@ export default defineComponent({
             onUpdateIterationDataOfIndividualPopulations,
         } = useOptionsOfIterationsAndInformationEntropyChart();
         const {
-            options_of_current_path_length_chart,
-            OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
+            optionsOfIterationAndAverageLength:
+                optionsOfIterationAndAverageLength,
+            optionsOfIterationAndWorstLength,
             onUpdateRouteDataOfIndividualPopulations,
         } = useOptionsOfRoutesAndRouteLengthChart();
         const selected_value = ref(TSP_cities_data[0]);
@@ -212,7 +215,7 @@ export default defineComponent({
 
         const options_of_best_route_chart: Ref<ECBasicOption> = ref({});
 
-        const options_of_best_path_length_chart: Ref<ECBasicOption> = ref({});
+        const optionsOfIterationAndBestLength: Ref<ECBasicOption> = ref({});
         const submit = async () => {
             const options = await generate_greedy_preview_echarts_options({
                 selected_node_coordinates,
@@ -262,7 +265,7 @@ export default defineComponent({
         const data_change_listener = () => {
             const options =
                 get_options_route_number_and_best_length_chart(dataofoneroute);
-            options_of_best_path_length_chart.value = options;
+            optionsOfIterationAndBestLength.value = options;
         };
 
         const onprogress = (p: number) => {
@@ -415,6 +418,7 @@ export default defineComponent({
         );
 
         return {
+            迭代次数和平均路径长度,
             selected_value,
             show_history_routes_of_best,
             similarityOfAllPopulationsHistoryRef,
@@ -463,7 +467,7 @@ export default defineComponent({
             is_running,
             options_of_iterations_and_information_entropy_chart,
             resethandler: resethandler,
-            OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
+            optionsOfIterationAndWorstLength,
             oneiterationtableheads,
             oneiterationtablebody,
             count_of_ants_ref,
@@ -477,8 +481,9 @@ export default defineComponent({
             selecteleref,
 
             percentage,
-            options_of_current_path_length_chart,
-            options_of_best_path_length_chart,
+            optionsOfIterationAndAverageLength:
+                optionsOfIterationAndAverageLength,
+            optionsOfIterationAndBestLength,
         };
     },
 });

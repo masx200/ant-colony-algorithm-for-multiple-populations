@@ -1,24 +1,25 @@
-import { ECBasicOption } from "echarts/types/dist/shared";
-import { computed, Ref, ref } from "vue";
+import { Ref, computed, ref } from "vue";
+
 import { DataOfFinishOneRoute } from "../functions/DataOfFinishOneRoute";
-import { getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations } from "./getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations";
+import { ECBasicOption } from "echarts/types/dist/shared";
 import { get_options_route_number_and_current_length_chart } from "./get_options_route_number_and_current_length_chart";
+import { getoptionsOfIterationAndWorstLength } from "./getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations";
+
 export function useOptionsOfRoutesAndRouteLengthChart() {
     const RouteDataOfIndividualPopulationsRef = ref(
         [] as DataOfFinishOneRoute[][]
     );
-    const options_of_current_path_length_chart: Ref<ECBasicOption> = computed(
+    const optionsOfIterationAndAverageLength: Ref<ECBasicOption> = computed(
         () =>
             get_options_route_number_and_current_length_chart(
                 RouteDataOfIndividualPopulationsRef.value
             )
     );
-    const OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations: Ref<ECBasicOption> =
-        computed(() =>
-            getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations(
-                RouteDataOfIndividualPopulationsRef.value
-            )
-        );
+    const optionsOfIterationAndWorstLength: Ref<ECBasicOption> = computed(() =>
+        getoptionsOfIterationAndWorstLength(
+            RouteDataOfIndividualPopulationsRef.value
+        )
+    );
 
     function onUpdateRouteDataOfIndividualPopulations(
         RouteDataOfIndividualPopulations: DataOfFinishOneRoute[][]
@@ -33,8 +34,8 @@ export function useOptionsOfRoutesAndRouteLengthChart() {
         }
     }
     return {
-        OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
-        options_of_current_path_length_chart,
+        optionsOfIterationAndWorstLength,
+        optionsOfIterationAndAverageLength: optionsOfIterationAndAverageLength,
         onUpdateRouteDataOfIndividualPopulations,
     };
 }

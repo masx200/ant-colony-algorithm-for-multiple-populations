@@ -176,13 +176,13 @@
             :open="show_chart_of_entropy"
             @toggle="show_chart_of_entropy = $event.target.open"
         >
-            <summary>路径序号和当前路径长度</summary>
+            <summary>{{ 迭代次数和平均路径长度 }}</summary>
             <div class="chart-container" style="">
                 <LineChart
                     v-if="show_chart_of_entropy"
                     class="single-chart"
                     style=""
-                    :options="options_of_current_path_length_chart"
+                    :options="optionsOfIterationAndAverageLength"
                 ></LineChart>
             </div>
         </details>
@@ -192,14 +192,12 @@
             :open="show_chart_of_best_individual"
             @toggle="show_chart_of_best_individual = $event.target.open"
         >
-            <summary>分别的路径序号和最优路径长度</summary>
+            <summary>迭代次数和最差路径长度</summary>
             <LineChart
                 class="single-chart"
                 v-if="show_chart_of_best_individual"
                 style=""
-                :options="
-                    OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations
-                "
+                :options="optionsOfIterationAndWorstLength"
             ></LineChart>
         </details>
         <hr />
@@ -208,12 +206,12 @@
             :open="show_chart_of_best"
             @toggle="show_chart_of_best = $event.target.open"
         >
-            <summary>总体的路径序号和最优路径长度</summary>
+            <summary>迭代次数和最优路径长度</summary>
             <LineChart
                 v-if="show_chart_of_best"
                 class="single-chart"
                 style=""
-                :options="options_of_best_path_length_chart"
+                :options="optionsOfIterationAndBestLength"
             ></LineChart>
         </details>
         <hr />
@@ -251,14 +249,8 @@
         <!-- 拆分表格 -->
         <hr />
         <details
-            style="
-                width: 95%;
-                margin-left: 20px;
-                margin-right: 20px;
-                padding-left: 20px;
-                padding-right: 20px;
-            "
-            class="width-100-percent"
+            style=""
+            class="width-100-percent detail-96CCB01F-4CA6-DB88-D008-F1D1DCFF789D"
             :open="show_array_routes_of_best"
             @toggle="show_array_routes_of_best = $event.target.open"
         >
@@ -316,6 +308,13 @@
 </template>
 <script lang="ts" src="./app-com.ts"></script>
 <style scoped>
+.detail-96CCB01F-4CA6-DB88-D008-F1D1DCFF789D {
+    width: 95%;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
 .fixed-top-navbar {
     z-index: 10;
     /* height: 30px; */
