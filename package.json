@@ -4,7 +4,8 @@
         "ejs": "3.1.7",
         "terser": "^5.14.2",
         "minimist": "1.2.6",
-        "async": "3.2.2"
+        "async": "3.2.2",
+        "typescript": "^5.0.2"
     },
     "name": "@masx200/ant-colony-algorithm-for-multiple-populations",
     "type": "module",
