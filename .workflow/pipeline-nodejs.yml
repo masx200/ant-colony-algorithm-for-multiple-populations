@@ -1,5 +1,5 @@
 version: '1.0'
-name: pipeline-20230329
+name: pipeline-nodejs
 displayName: pipeline-20230329
 triggers:
   trigger: auto
@@ -53,7 +53,7 @@ stages:
           - npm config set registry https://registry.npmmirror.com
           - ''
           - '# 执行编译命令'
-          - npm install && npm run test
+          - npm install --force&& npm run test
         artifacts:
           - name: BUILD_ARTIFACT
             path:
