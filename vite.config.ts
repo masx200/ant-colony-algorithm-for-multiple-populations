@@ -1,16 +1,17 @@
+import { ConfigEnv, PluginOption, UserConfig, defineConfig } from "vite";
+
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
-import ElementPlus from "unplugin-element-plus/vite";
-import path from "path";
-import checker from "vite-plugin-checker";
-import vuePlugin from "@vitejs/plugin-vue";
-import { babel } from "@rollup/plugin-babel";
-import { ConfigEnv, defineConfig, PluginOption, UserConfig } from "vite";
-import { createHtmlPlugin } from "vite-plugin-html";
+import ElementPlus from "unplugin-element-plus/dist/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import { resolve } from "path";
-import { VitePWA } from "vite-plugin-pwa";
 import { PluginItem } from "@babel/core";
+import { VitePWA } from "vite-plugin-pwa";
+import { babel } from "@rollup/plugin-babel";
+import checker from "vite-plugin-checker";
+import { createHtmlPlugin } from "vite-plugin-html";
+import path from "path";
+import { resolve } from "path";
+import vuePlugin from "@vitejs/plugin-vue";
 
 export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
     const isdrop = mode === "production" && command === "build";
