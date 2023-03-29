@@ -3,7 +3,6 @@ import {
     COMMON_TSP_EXECUTION,
     COMMON_TSP_Options,
     COMMON_TSP_Output,
-    COMMON_dataOfAllIterations,
 } from "./tsp-interface";
 import { MatrixFill, MatrixSymmetryCreate } from "@masx200/sparse-2d-matrix";
 import { sum, uniq } from "lodash-es";
@@ -129,7 +128,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
 
         collection_of_optimal_routes.add(route, length);
     }
-    const data_of_routes: COMMON_dataOfAllIterations[] = [];
+    // const data_of_routes: COMMON_dataOfAllIterations[] = [];
     const delta_data_of_iterations: COMMON_DataOfOneIteration[] = [];
     const get_neighbors_from_optimal_routes_and_latest_routes = function (
         current_city: number
@@ -288,12 +287,12 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
 
             time_ms_of_one_iteration += time_ms_of_one_route;
             current_search_count++;
-            data_of_routes.push({
-                global_best_length: get_best_length(),
-                current_route_length: length,
-                current_search_count,
-                time_ms_of_one_route,
-            });
+            // data_of_routes.push({
+            //     global_best_length: get_best_length(),
+            //     current_route_length: length,
+            //     current_search_count,
+            //     time_ms_of_one_route,
+            // });
         }
         if (routes_and_lengths_of_one_iteration.length === count_of_ants) {
             const {
@@ -437,7 +436,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
 
     async function getOutputDataAndConsumeIterationAndRouteData(): Promise<COMMON_TSP_Output> {
         const output: COMMON_TSP_Output = {
-            data_of_routes: Array.from(data_of_routes),
+            // data_of_routes: Array.from(data_of_routes),
             delta_data_of_iterations: Array.from(delta_data_of_iterations),
             time_of_best_ms,
             total_time_ms,
@@ -449,7 +448,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             global_best_route: get_best_route(),
         };
         delta_data_of_iterations.length = 0;
-        data_of_routes.length = 0;
+        // data_of_routes.length = 0;
         return output;
     }
     const runIterations = create_run_iterations(runOneIteration);
