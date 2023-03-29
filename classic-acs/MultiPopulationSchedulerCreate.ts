@@ -20,6 +20,7 @@ export type WayPopulationsCommunicate =
     | "奖励最差种群"
     | "增加多样性"
     | "提高收敛速度";
+    const 在几个交流周期内全局最优解没有变化=1
 export async function MultiPopulationSchedulerCreate(
     input: TSPRunnerOptions
 ): Promise<MultiPopulationScheduler> {
@@ -327,7 +328,7 @@ export async function MultiPopulationSchedulerCreate(
             if (
                 p0 < probabilityOfPerformingTheFirstCommunication &&
                 current_search_count - search_count_of_best >
-                    2 *
+                    在几个交流周期内全局最优解没有变化 *
                         population_communication_iterate_cycle *
                         remoteWorkers.length *
                         count_of_ants
