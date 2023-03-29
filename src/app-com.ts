@@ -15,7 +15,7 @@ import {
 } from "vue";
 import {
     get_options_route_number_and_best_length_chart,
-    迭代次数和最优路径长度,
+    迭代次数和迭代最优路径长度,
 } from "./get_options_route_number_and_best_length_chart";
 
 import Data_table from "./Data_table.vue";
@@ -48,8 +48,12 @@ import { use_data_of_one_route } from "./use_data_of_one_route";
 import { use_data_of_summary } from "./use_data_of_summary";
 import { use_history_of_best } from "./use_history_of_best";
 import { use_initialize_tsp_runner } from "./use_initialize_tsp_runner";
-import { 迭代次数和平均路径长度 } from "./get_options_route_number_and_current_length_chart";
-import { 迭代次数和最差路径长度 } from "./getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations";
+import { 迭代次数和相对信息熵 } from "./get_options_iterations_and_information_entropy_chart";
+import { 迭代次数和种群相似度 } from "./getOptionsOfIterationsAndPopulationSimilarityChart";
+import { 迭代次数和迭代平均路径长度 } from "./get_options_route_number_and_current_length_chart";
+import { 迭代次数和迭代最差路径长度 } from "./getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations";
+
+export const 迭代次数和全局最优路径长度 = "迭代次数和全局最优路径长度";
 
 export default defineComponent({
     components: {
@@ -59,6 +63,11 @@ export default defineComponent({
         LineChart,
     },
     setup() {
+        const optionsOfIterationAndGlobalBestLength = computed<ECBasicOption>(
+            () => {
+                throw Error("NotImplemented");
+            }
+        );
         const count_of_populations = computed(
             () =>
                 input_options.number_of_the_second_type_of_population +
@@ -422,12 +431,14 @@ export default defineComponent({
         );
 
         return {
-            迭代次数和最优路径长度,
-            迭代次数和平均路径长度,
+            optionsOfIterationAndGlobalBestLength,
+            迭代次数和迭代最优路径长度,
+            迭代次数和种群相似度,
+            迭代次数和迭代平均路径长度,
             selected_value,
             show_history_routes_of_best,
             similarityOfAllPopulationsHistoryRef,
-
+            迭代次数和全局最优路径长度,
             show_array_routes_of_best,
             show_configurations,
             summary_best_TableHeads,
@@ -489,7 +500,8 @@ export default defineComponent({
             optionsOfIterationAndAverageLength:
                 optionsOfIterationAndAverageLength,
             optionsOfIterationAndBestLength,
-            迭代次数和最差路径长度,
+            迭代次数和迭代最差路径长度,
+            迭代次数和相对信息熵,
         };
     },
 });

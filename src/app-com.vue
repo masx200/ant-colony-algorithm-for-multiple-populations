@@ -137,13 +137,26 @@
             <!-- 最近一条路径的图 -->
         </div>
         <hr />
-
+        <details
+            class="width-100-percent"
+            :open="show_chart_of_best"
+            @toggle="show_chart_of_best = $event.target.open"
+        >
+            <summary>{{ 迭代次数和全局最优路径长度 }}</summary>
+            <LineChart
+                v-if="show_chart_of_best"
+                class="single-chart"
+                style=""
+                :options="optionsOfIterationAndGlobalBestLength"
+            ></LineChart>
+        </details>
+        <hr />
         <details
             class="width-100-percent"
             :open="show_chart_of_latest"
             @toggle="show_chart_of_latest = $event.target.open"
         >
-            <summary>迭代次数和相对信息熵</summary>
+            <summary>{{ 迭代次数和相对信息熵 }}</summary>
             <div class="chart-container" style="">
                 <LineChart
                     v-if="show_chart_of_latest"
@@ -160,7 +173,7 @@
             :open="show_chart_of_latest_similarity"
             @toggle="show_chart_of_latest_similarity = $event.target.open"
         >
-            <summary>迭代次数和种群相似度</summary>
+            <summary>{{ 迭代次数和种群相似度 }}</summary>
             <div class="chart-container" style="">
                 <LineChart
                     v-if="show_chart_of_latest_similarity"
@@ -176,7 +189,7 @@
             :open="show_chart_of_entropy"
             @toggle="show_chart_of_entropy = $event.target.open"
         >
-            <summary>{{ 迭代次数和平均路径长度 }}</summary>
+            <summary>{{ 迭代次数和迭代平均路径长度 }}</summary>
             <div class="chart-container" style="">
                 <LineChart
                     v-if="show_chart_of_entropy"
@@ -192,7 +205,7 @@
             :open="show_chart_of_best_individual"
             @toggle="show_chart_of_best_individual = $event.target.open"
         >
-            <summary>{{ 迭代次数和最差路径长度 }}</summary>
+            <summary>{{ 迭代次数和迭代最差路径长度 }}</summary>
             <LineChart
                 class="single-chart"
                 v-if="show_chart_of_best_individual"
@@ -206,7 +219,7 @@
             :open="show_chart_of_best"
             @toggle="show_chart_of_best = $event.target.open"
         >
-            <summary>{{ 迭代次数和最优路径长度 }}</summary>
+            <summary>{{ 迭代次数和迭代最优路径长度 }}</summary>
             <LineChart
                 v-if="show_chart_of_best"
                 class="single-chart"
