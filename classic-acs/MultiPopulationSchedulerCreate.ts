@@ -20,7 +20,7 @@ export type WayPopulationsCommunicate =
     | "奖励最差种群"
     | "增加多样性"
     | "提高收敛速度";
-    const 在几个交流周期内全局最优解没有变化=1
+const 在几个交流周期内全局最优解没有变化 = 1;
 export async function MultiPopulationSchedulerCreate(
     input: TSPRunnerOptions
 ): Promise<MultiPopulationScheduler> {
