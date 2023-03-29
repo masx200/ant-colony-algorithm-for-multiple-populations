@@ -45,7 +45,7 @@ import { useOptionsOfIterationsAndInformationEntropyChart } from "./useOptionsOf
 import { useOptionsOfRoutesAndRouteLengthChart } from "./useOptionsOfRoutesAndRouteLengthChart";
 import { use_data_of_greedy_iteration } from "./use_data_of_greedy_iteration";
 import { use_data_of_one_iteration } from "./use_data_of_one_iteration";
-import { use_data_of_one_route } from "./use_data_of_one_route";
+// import { use_data_of_one_route } from "./use_data_of_one_route";
 import { use_data_of_summary } from "./use_data_of_summary";
 import { use_history_of_best } from "./use_history_of_best";
 import { use_initialize_tsp_runner } from "./use_initialize_tsp_runner";
@@ -107,11 +107,13 @@ export default defineComponent({
             IterationDataOfIndividualPopulationsRef,
         } = useOptionsOfIterationsAndInformationEntropyChart();
         const {
-            optionsOfIterationAndAverageLength:
-                optionsOfIterationAndAverageLength,
-            optionsOfIterationAndWorstLength,
-            onUpdateRouteDataOfIndividualPopulations,
-        } = useOptionsOfRoutesAndRouteLengthChart();
+            optionsOfIterationAndIterationAverageLength:
+                optionsOfIterationAndIterationAverageLength,
+            optionsOfIterationAndIterationWorstLength,
+            // onUpdateRouteDataOfIndividualPopulations,
+        } = useOptionsOfRoutesAndRouteLengthChart(
+            IterationDataOfIndividualPopulationsRef
+        );
         const selected_value = ref(TSP_cities_data[0]);
         const selected_node_coordinates = ref<NodeCoordinates>();
 
@@ -126,6 +128,7 @@ export default defineComponent({
         const show_history_routes_of_best = ref(true);
         const show_array_routes_of_best = ref(true);
         const show_chart_of_best = ref(false);
+        const show_chart_of_best2 = ref(false);
         const show_chart_of_best_individual = ref(false);
         const show_summary_of_routes = ref(true);
         const show_routes_of_best = ref(true);
@@ -136,6 +139,7 @@ export default defineComponent({
         const show_summary_of_iterations = ref(true);
         const show_summary_of_similarity = ref(true);
         const details_shows_should_hide = [
+            show_chart_of_best2,
             show_history_routes_of_best,
             show_array_routes_of_best,
             show_chart_of_latest_similarity,
@@ -205,12 +209,12 @@ export default defineComponent({
             oneiterationtablebody,
         } = use_data_of_one_iteration();
 
-        const {
-            dataofoneroute,
+        // const {
+        //     dataOfAllIterations,
 
-            onReceiveDeltaDataOfOneRoute,
-            clearDataOfOneRoute,
-        } = use_data_of_one_route();
+        //     // onReceiveDeltadataOfAllIterations,
+        //     cleardataOfAllIterations,
+        // } = use_data_of_one_route();
         const {
             on_receive_Data_Of_total,
 
@@ -241,7 +245,12 @@ export default defineComponent({
 
         const options_of_best_route_chart: Ref<ECBasicOption> = ref({});
 
-        const optionsOfIterationAndBestLength: Ref<ECBasicOption> = ref({});
+        const optionsOfIterationAndIterationBestLength: Ref<ECBasicOption> =
+            computed(() => {
+                return get_options_route_number_and_best_length_chart(
+                    IterationDataOfIndividualPopulationsRef.value
+                );
+            });
         const submit = async () => {
             const options = await generate_greedy_preview_echarts_options({
                 selected_node_coordinates,
@@ -266,7 +275,7 @@ export default defineComponent({
             if (element) {
                 element.selectedIndex = 0;
             }
-            data_change_listener();
+            // data_change_listener();
 
             await submit_select_node_coordinates();
         });
@@ -283,16 +292,16 @@ export default defineComponent({
             });
             options_of_best_route_chart.value = options;
         };
-        onMounted(() => {
-            watch(dataofoneroute, () => {
-                data_change_listener();
-            });
-        });
-        const data_change_listener = () => {
-            const options =
-                get_options_route_number_and_best_length_chart(dataofoneroute);
-            optionsOfIterationAndBestLength.value = options;
-        };
+        // onMounted(() => {
+        //     watch(dataOfAllIterations, () => {
+        //         data_change_listener();
+        //     });
+        // });
+        // const data_change_listener = () => {
+        //     const options =
+        //         get_options_route_number_and_best_length_chart(dataOfAllIterations);
+        //     optionsOfIterationAndIterationBestLength.value = options;
+        // };
 
         const onprogress = (p: number) => {
             assert_number(p);
@@ -333,21 +342,21 @@ export default defineComponent({
             on_receive_Data_Of_total(data);
             on_receive_Data_Of_Global_Best(data);
             onReceiveDeltaDataOfOneIteration(data.delta_data_of_iterations);
-            onReceiveDeltaDataOfOneRoute(data.data_of_routes);
+            // onReceiveDeltadataOfAllIterations(data.data_of_routes);
 
             onUpdateIterationDataOfIndividualPopulations(
                 data.IterationDataOfIndividualPopulations
             );
-            onUpdateRouteDataOfIndividualPopulations(
-                data.RouteDataOfIndividualPopulations
-            );
+            // onUpdateRouteDataOfIndividualPopulations(
+            //     data.RouteDataOfIndividualPopulations
+            // );
         }
 
         function TSP_terminate() {
             data_of_greedy_iteration.clearData();
             clearDataOfHistoryOfBest();
             TSP_Reset([
-                clearDataOfOneRoute,
+                // cleardataOfAllIterations,
                 clearDataOfOneIteration,
                 clear_data_of_best,
             ]);
@@ -445,6 +454,7 @@ export default defineComponent({
 
         return {
             optionsOfIterationAndGlobalBestLength,
+            show_chart_of_best2,
             迭代次数和迭代最优路径长度,
             迭代次数和种群相似度,
             迭代次数和迭代平均路径长度,
@@ -496,7 +506,7 @@ export default defineComponent({
             is_running,
             options_of_iterations_and_information_entropy_chart,
             resethandler: resethandler,
-            optionsOfIterationAndWorstLength,
+            optionsOfIterationAndIterationWorstLength,
             oneiterationtableheads,
             oneiterationtablebody,
             count_of_ants_ref,
@@ -510,9 +520,9 @@ export default defineComponent({
             selecteleref,
 
             percentage,
-            optionsOfIterationAndAverageLength:
-                optionsOfIterationAndAverageLength,
-            optionsOfIterationAndBestLength,
+            optionsOfIterationAndIterationAverageLength:
+                optionsOfIterationAndIterationAverageLength,
+            optionsOfIterationAndIterationBestLength,
             迭代次数和迭代最差路径长度,
             迭代次数和相对信息熵,
         };

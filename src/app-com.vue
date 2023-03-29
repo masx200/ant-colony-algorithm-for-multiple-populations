@@ -139,12 +139,12 @@
         <hr />
         <details
             class="width-100-percent"
-            :open="show_chart_of_best"
-            @toggle="show_chart_of_best = $event.target.open"
+            :open="show_chart_of_best2"
+            @toggle="show_chart_of_best2 = $event.target.open"
         >
             <summary>{{ 迭代次数和全局最优路径长度 }}</summary>
             <LineChart
-                v-if="show_chart_of_best"
+                v-if="show_chart_of_best2"
                 class="single-chart"
                 style=""
                 :options="optionsOfIterationAndGlobalBestLength"
@@ -195,7 +195,7 @@
                     v-if="show_chart_of_entropy"
                     class="single-chart"
                     style=""
-                    :options="optionsOfIterationAndAverageLength"
+                    :options="optionsOfIterationAndIterationAverageLength"
                 ></LineChart>
             </div>
         </details>
@@ -210,7 +210,7 @@
                 class="single-chart"
                 v-if="show_chart_of_best_individual"
                 style=""
-                :options="optionsOfIterationAndWorstLength"
+                :options="optionsOfIterationAndIterationWorstLength"
             ></LineChart>
         </details>
         <hr />
@@ -224,7 +224,7 @@
                 v-if="show_chart_of_best"
                 class="single-chart"
                 style=""
-                :options="optionsOfIterationAndBestLength"
+                :options="optionsOfIterationAndIterationBestLength"
             ></LineChart>
         </details>
         <hr />
