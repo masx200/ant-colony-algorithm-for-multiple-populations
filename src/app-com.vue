@@ -192,7 +192,7 @@
             :open="show_chart_of_best_individual"
             @toggle="show_chart_of_best_individual = $event.target.open"
         >
-            <summary>迭代次数和最差路径长度</summary>
+            <summary>{{ 迭代次数和最差路径长度 }}</summary>
             <LineChart
                 class="single-chart"
                 v-if="show_chart_of_best_individual"

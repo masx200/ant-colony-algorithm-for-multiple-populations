@@ -46,6 +46,7 @@ import { use_data_of_summary } from "./use_data_of_summary";
 import { use_history_of_best } from "./use_history_of_best";
 import { use_initialize_tsp_runner } from "./use_initialize_tsp_runner";
 import { 迭代次数和平均路径长度 } from "./get_options_route_number_and_current_length_chart";
+import { 迭代次数和最差路径长度 } from "./getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations";
 
 export default defineComponent({
     components: {
@@ -484,6 +485,7 @@ export default defineComponent({
             optionsOfIterationAndAverageLength:
                 optionsOfIterationAndAverageLength,
             optionsOfIterationAndBestLength,
+            迭代次数和最差路径长度,
         };
     },
 });
