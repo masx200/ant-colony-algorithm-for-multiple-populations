@@ -1,44 +1,45 @@
-import EventEmitterTargetClass from "@masx200/event-emitter-target";
-import { sum } from "lodash-es";
-import { uniq } from "lodash-es";
-import { createLatestIterateBestRoutesInPeriod } from "../classic-acs/createLatestIterateBestRoutesInPeriod";
-import { createRewardCommonRoutes } from "../classic-acs/createRewardCommonRoutes";
-import { createSmoothPheromones } from "../classic-acs/createSmoothPheromones";
-import { COMMON_TSP_Output } from "../classic-acs/tsp-interface";
-import { assignOwnKeys } from "../collections/assignOwnKeys";
-import { create_collection_of_optimal_routes } from "../collections/collection-of-optimal-routes";
-import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 import {
+    Cached_hash_table_of_path_lengths_and_path_segments,
+    update_Cached_hash_table_of_path_lengths_and_path_segments,
+} from "./Cached_hash_table_of_path_lengths_and_path_segments";
+import {
+    DefaultOptions,
     default_alpha,
     default_beta,
     default_count_of_ants,
     default_max_results_of_2_opt,
     default_max_results_of_k_opt,
-    DefaultOptions,
 } from "../src/default_Options";
-import { set_distance_round } from "../src/set_distance_round";
-import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
-import { assert_number } from "../test/assert_number";
-import { assert_true } from "../test/assert_true";
-import {
-    Cached_hash_table_of_path_lengths_and_path_segments,
-    update_Cached_hash_table_of_path_lengths_and_path_segments,
-} from "./Cached_hash_table_of_path_lengths_and_path_segments";
-import { create_get_neighbors_from_optimal_routes_and_latest_routes } from "./create_get_neighbors_from_optimal_routes_and_latest_routes";
-import { createCachePheromoneCalc } from "./createCachePheromoneCalc";
-import { createEventPair } from "./createEventPair";
-import { cycle_route_to_segments } from "./cycle_route_to_segments";
+
+import { COMMON_TSP_Output } from "../classic-acs/tsp-interface";
 import { DataOfFinishGreedyIteration } from "./DataOfFinishGreedyIteration";
 import { DataOfFinishOneIteration } from "./DataOfFinishOneIteration";
-import { DataOfFinishOneRoute } from "./DataOfFinishOneRoute";
+// import { DataOfFinishOneRoute } from "./DataOfFinishOneRoute";
 import { EachIterationHandler } from "./EachIterationHandler";
 import { EachRouteGenerator } from "./EachRouteGenerator";
-import { generateUniqueArrayOfCircularPath } from "./generateUniqueArrayOfCircularPath";
+import EventEmitterTargetClass from "@masx200/event-emitter-target";
 import { GreedyRoutesGenerator } from "./GreedyRoutesGenerator";
 import { PureDataOfFinishOneRoute } from "./PureDataOfFinishOneRoute";
 import { SharedOptions } from "./SharedOptions";
+import { TSPRunnerOptions } from "../src/TSPRunnerOptions";
 import { TSP_Output_Data } from "./TSP_Output_Data";
 import { TSP_Runner } from "./TSP_Runner";
+import { assert_number } from "../test/assert_number";
+import { assert_true } from "../test/assert_true";
+import { assignOwnKeys } from "../collections/assignOwnKeys";
+import { createCachePheromoneCalc } from "./createCachePheromoneCalc";
+import { createEventPair } from "./createEventPair";
+import { createLatestIterateBestRoutesInPeriod } from "../classic-acs/createLatestIterateBestRoutesInPeriod";
+import { createRewardCommonRoutes } from "../classic-acs/createRewardCommonRoutes";
+import { createSmoothPheromones } from "../classic-acs/createSmoothPheromones";
+import { create_collection_of_optimal_routes } from "../collections/collection-of-optimal-routes";
+import { create_get_neighbors_from_optimal_routes_and_latest_routes } from "./create_get_neighbors_from_optimal_routes_and_latest_routes";
+import { cycle_route_to_segments } from "./cycle_route_to_segments";
+import { generateUniqueArrayOfCircularPath } from "./generateUniqueArrayOfCircularPath";
+import { set_distance_round } from "../src/set_distance_round";
+import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
+import { sum } from "lodash-es";
+import { uniq } from "lodash-es";
 import { update_convergence_coefficient } from "./update_convergence_coefficient";
 import { update_last_random_selection_probability } from "./update_last_random_selection_probability";
 
@@ -70,7 +71,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     assert_number(count_of_ants);
     assert_true(count_of_ants >= 2);
     let Intra_population_similarity = 0;
-    const data_of_routes: DataOfFinishOneRoute[] = [];
+    // const data_of_routes: DataOfFinishOneRoute[] = [];
     const delta_data_of_iterations: DataOfFinishOneIteration[] = [];
     const data_of_greedy: DataOfFinishGreedyIteration[] = [];
 
@@ -78,12 +79,12 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         on: on_finish_one_iteration,
         emit: inner_emit_finish_one_iteration,
     } = createEventPair<DataOfFinishOneIteration>(emitter);
-    const { on: on_finish_one_route, emit: inner_emit_finish_one_route } =
-        createEventPair<DataOfFinishOneRoute>(emitter);
+    // const { on: on_finish_one_route, emit: inner_emit_finish_one_route } =
+    //     createEventPair<DataOfFinishOneRoute>(emitter);
 
-    on_finish_one_route((data) => {
-        data_of_routes.push(data);
-    });
+    // on_finish_one_route((data) => {
+    //     data_of_routes.push(data);
+    // });
     on_finish_one_iteration((data) => {
         delta_data_of_iterations.push(data);
     });
@@ -95,7 +96,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             data_of_greedy,
             delta_data_of_iterations: Array.from(delta_data_of_iterations),
 
-            data_of_routes: Array.from(data_of_routes),
+            // data_of_routes: Array.from(data_of_routes),
 
             get search_count_of_best() {
                 return search_count_of_best;
@@ -120,7 +121,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
             },
         };
         delta_data_of_iterations.length = 0;
-        data_of_routes.length = 0;
+        // data_of_routes.length = 0;
         return output_data;
     }
     let convergence_coefficient = 1;
@@ -207,12 +208,12 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         total_time_ms += data.time_ms_of_one_route;
         current_search_count++;
 
-        inner_emit_finish_one_route({
-            ...data,
-            current_search_count,
+        // inner_emit_finish_one_route({
+        //     ...data,
+        //     current_search_count,
 
-            global_best_length: getBestLength(),
-        });
+        //     global_best_length: getBestLength(),
+        // });
     }
 
     function emit_finish_one_iteration(

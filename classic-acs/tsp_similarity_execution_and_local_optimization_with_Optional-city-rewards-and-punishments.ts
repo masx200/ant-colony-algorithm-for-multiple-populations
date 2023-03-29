@@ -1,34 +1,35 @@
-import { MatrixFill, MatrixSymmetryCreate } from "@masx200/sparse-2d-matrix";
-import { sum, uniq } from "lodash-es";
-import { create_collection_of_optimal_routes } from "../collections/collection-of-optimal-routes";
-import { calc_population_relative_information_entropy } from "../functions/calc_population-relative-information-entropy";
-import { calc_state_transition_probabilities } from "../functions/calc_state_transition_probabilities";
-import { closed_total_path_length } from "../functions/closed-total-path-length";
-import { create_run_iterations } from "../functions/create_run_iterations";
-import { creategetdistancebyindex } from "../functions/creategetdistancebyindex";
-import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
-import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
-import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueArrayOfCircularPath";
-import { geteuclideandistancebyindex } from "../functions/geteuclideandistancebyindex";
-import { pickRandomOne } from "../functions/pickRandomOne";
-import { run_greedy_once_thread_with_time } from "../functions/run_greedy_once_thread_with_time";
-import { select_available_cities_from_optimal_and_latest } from "../functions/select_available_cities_from_optimal_and_latest";
-import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
-import { DefaultOptions } from "../src/default_Options";
-import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
-import { get_distance_round } from "../src/set_distance_round";
-import { assert_true } from "../test/assert_true";
-import { createLatestIterateBestRoutesInPeriod } from "./createLatestIterateBestRoutesInPeriod";
-import { createRewardCommonRoutes } from "./createRewardCommonRoutes";
-import { createSmoothPheromones } from "./createSmoothPheromones";
-import { run_local_optimization } from "./run_local_optimization";
+/* eslint-disable indent */
 import {
     COMMON_DataOfOneIteration,
-    COMMON_DataOfOneRoute,
     COMMON_TSP_EXECUTION,
     COMMON_TSP_Options,
     COMMON_TSP_Output,
 } from "./tsp-interface";
+import { MatrixFill, MatrixSymmetryCreate } from "@masx200/sparse-2d-matrix";
+import { sum, uniq } from "lodash-es";
+
+import { DataOfFinishGreedyIteration } from "../functions/DataOfFinishGreedyIteration";
+import { DefaultOptions } from "../src/default_Options";
+import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "../src/Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
+import { assert_true } from "../test/assert_true";
+import { calc_population_relative_information_entropy } from "../functions/calc_population-relative-information-entropy";
+import { calc_state_transition_probabilities } from "../functions/calc_state_transition_probabilities";
+import { closed_total_path_length } from "../functions/closed-total-path-length";
+import { createLatestIterateBestRoutesInPeriod } from "./createLatestIterateBestRoutesInPeriod";
+import { createRewardCommonRoutes } from "./createRewardCommonRoutes";
+import { createSmoothPheromones } from "./createSmoothPheromones";
+import { create_collection_of_optimal_routes } from "../collections/collection-of-optimal-routes";
+import { create_run_iterations } from "../functions/create_run_iterations";
+import { creategetdistancebyindex } from "../functions/creategetdistancebyindex";
+import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
+import { generateUniqueArrayOfCircularPath } from "../functions/generateUniqueArrayOfCircularPath";
+import { get_distance_round } from "../src/set_distance_round";
+import { geteuclideandistancebyindex } from "../functions/geteuclideandistancebyindex";
+import { pickRandomOne } from "../functions/pickRandomOne";
+import { run_greedy_once_thread_with_time } from "../functions/run_greedy_once_thread_with_time";
+import { run_local_optimization } from "./run_local_optimization";
+import { select_available_cities_from_optimal_and_latest } from "../functions/select_available_cities_from_optimal_and_latest";
+import { similarityOfMultipleRoutes } from "../similarity/similarityOfMultipleRoutes";
 
 export function tsp_similarity_execution_and_local_optimization_with_Optional_city_rewards_and_punishments(
     input: COMMON_TSP_Options
@@ -128,7 +129,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
 
         collection_of_optimal_routes.add(route, length);
     }
-    const data_of_routes: COMMON_DataOfOneRoute[] = [];
+    // const data_of_routes: COMMON_dataOfAllIterations[] = [];
     const delta_data_of_iterations: COMMON_DataOfOneIteration[] = [];
     const get_neighbors_from_optimal_routes_and_latest_routes = function (
         current_city: number
@@ -146,6 +147,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
         return is_count_not_large
             ? available_nodes
             : select_available_cities_from_optimal_and_latest({
+                  // eslint-disable-next-line indent
                   available_nodes,
                   get_neighbors_from_optimal_routes_and_latest_routes:
                       get_neighbors_from_optimal_routes_and_latest_routes,
@@ -287,12 +289,12 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
 
             time_ms_of_one_iteration += time_ms_of_one_route;
             current_search_count++;
-            data_of_routes.push({
-                global_best_length: get_best_length(),
-                current_route_length: length,
-                current_search_count,
-                time_ms_of_one_route,
-            });
+            // data_of_routes.push({
+            //     global_best_length: get_best_length(),
+            //     current_route_length: length,
+            //     current_search_count,
+            //     time_ms_of_one_route,
+            // });
         }
         if (routes_and_lengths_of_one_iteration.length === count_of_ants) {
             const {
@@ -436,7 +438,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
 
     async function getOutputDataAndConsumeIterationAndRouteData(): Promise<COMMON_TSP_Output> {
         const output: COMMON_TSP_Output = {
-            data_of_routes: Array.from(data_of_routes),
+            // data_of_routes: Array.from(data_of_routes),
             delta_data_of_iterations: Array.from(delta_data_of_iterations),
             time_of_best_ms,
             total_time_ms,
@@ -448,7 +450,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
             global_best_route: get_best_route(),
         };
         delta_data_of_iterations.length = 0;
-        data_of_routes.length = 0;
+        // data_of_routes.length = 0;
         return output;
     }
     const runIterations = create_run_iterations(runOneIteration);

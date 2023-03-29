@@ -1,15 +1,11 @@
-import { ECBasicOption } from "echarts/types/dist/shared";
-import { computed, Ref, ref } from "vue";
-import { get_options_iterations_and_information_entropy_chart } from "./get_options_iterations_and_information_entropy_chart";
+import { Ref, computed, ref } from "vue";
+
 import { COMMON_DataOfOneIteration } from "../classic-acs/tsp-interface";
+import { ECBasicOption } from "echarts/types/dist/shared";
 import { getOptionsOfIterationsAndPopulationSimilarityChart } from "./getOptionsOfIterationsAndPopulationSimilarityChart";
-export function useOptionsOfIterationsAndInformationEntropyChart(): {
-    optionsOfIterationsAndPopulationSimilarityChart: Ref<ECBasicOption>;
-    options_of_iterations_and_information_entropy_chart: Ref<ECBasicOption>;
-    onUpdateIterationDataOfIndividualPopulations: (
-        IterationDataOfIndividualPopulations: COMMON_DataOfOneIteration[][]
-    ) => void;
-} {
+import { get_options_iterations_and_information_entropy_chart } from "./get_options_iterations_and_information_entropy_chart";
+
+export function useOptionsOfIterationsAndInformationEntropyChart() {
     const IterationDataOfIndividualPopulationsRef = ref(
         [] as COMMON_DataOfOneIteration[][]
     );
@@ -41,5 +37,6 @@ export function useOptionsOfIterationsAndInformationEntropyChart(): {
         optionsOfIterationsAndPopulationSimilarityChart,
         options_of_iterations_and_information_entropy_chart,
         onUpdateIterationDataOfIndividualPopulations,
+        IterationDataOfIndividualPopulationsRef,
     };
 }

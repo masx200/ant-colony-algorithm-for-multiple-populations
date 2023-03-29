@@ -1,17 +1,16 @@
+import { DataOfFinishOneIteration } from "../functions/DataOfFinishOneIteration";
+// import { DataOfFinishOneRoute } from "../functions/DataOfFinishOneRoute";
 import { ECBasicOption } from "echarts/types/dist/shared";
-import { createMultipleLinesChartOptions } from "../functions/createMultipleLinesChartOptions";
-
-import { DataOfFinishOneRoute } from "../functions/DataOfFinishOneRoute";
-
 import { ECOption } from "../functions/echarts-line";
-
-export function getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations(
-    RouteDataOfIndividualPopulations: DataOfFinishOneRoute[][]
+import { createMultipleLinesChartOptions } from "../functions/createMultipleLinesChartOptions";
+export const 迭代次数和迭代最差路径长度 = "迭代次数和迭代最差路径长度";
+export function getoptionsOfIterationAndIterationWorstLength(
+    RouteDataOfIndividualPopulations: DataOfFinishOneIteration[][]
 ): ECBasicOption & ECOption {
-    const title_text = "分别的路径序号和最优路径长度";
+    const title_text = 迭代次数和迭代最差路径长度;
 
     const datas: [number, number][][] = RouteDataOfIndividualPopulations.map(
-        (a) => a.map((d, i) => [i + 1, d.global_best_length])
+        (a) => a.map((d, i) => [i + 1, d.worst_length_of_iteration])
     );
     return createMultipleLinesChartOptions({
         yAxis_min: 0,

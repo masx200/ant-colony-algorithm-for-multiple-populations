@@ -2,7 +2,9 @@ import { ConfigEnv, PluginOption, UserConfig, defineConfig } from "vite";
 
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
-import ElementPlus from "unplugin-element-plus/dist/vite";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+import ElementPlus from "unplugin-element-plus/dist/vite.js";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import { PluginItem } from "@babel/core";
 import { VitePWA } from "vite-plugin-pwa";

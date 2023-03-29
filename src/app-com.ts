@@ -1,49 +1,60 @@
-import { ECBasicOption } from "echarts/types/dist/shared";
 import {
+    DefaultOptions,
+    default_search_rounds,
+    default_search_time_seconds,
+} from "./default_Options";
+import {
+    Ref,
     computed,
     defineComponent,
     onMounted,
     reactive,
     readonly,
     ref,
-    Ref,
     watch,
 } from "vue";
-import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
-import { MultiPopulationSchedulerRemote } from "../classic-acs/MultiPopulationSchedulerRemote";
-import { NodeCoordinates } from "../functions/NodeCoordinates";
-import { assert_number } from "../test/assert_number";
-import Data_table from "./Data_table.vue";
 import {
-    default_search_rounds,
-    default_search_time_seconds,
-    DefaultOptions,
-} from "./default_Options";
-import { generate_greedy_preview_echarts_options } from "./generate_greedy_preview_echarts_options";
-import { get_options_route_number_and_best_length_chart } from "./get_options_route_number_and_best_length_chart";
-import { get_options_route_of_node_coordinates } from "./get_options_route_of_node_coordinates";
+    get_options_route_number_and_best_length_chart,
+    迭代次数和迭代最优路径长度,
+} from "./get_options_route_number_and_best_length_chart";
+
+import Data_table from "./Data_table.vue";
+import { ECBasicOption } from "echarts/types/dist/shared";
 import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "./Greedy_algorithm_to_solve_tsp_with_selected_start_pool";
 import LineChart from "./LineChart.vue";
+import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
+import { MultiPopulationSchedulerRemote } from "../classic-acs/MultiPopulationSchedulerRemote";
 import MultiplePopulationsConfigs from "./multiple-populations-configs.vue";
+import { NodeCoordinates } from "../functions/NodeCoordinates";
 import Progress_element from "./Progress-element.vue";
-import { run_tsp_by_search_time } from "./run_tsp_by_search_time";
-import { run_tsp_by_search_rounds } from "./run_tsp-by-search-rounds";
 import { RunWay } from "./RunWay";
-import { set_distance_round } from "./set_distance_round";
 import { Stop_TSP_Worker } from "./Stop_TSP_Worker";
-import { TSP_cities_data } from "./TSP_cities_data";
-import { TSP_cities_map } from "./TSP_cities_map";
 import { TSP_Reset } from "./TSP_Reset";
 import { TSP_RunnerRef } from "./TSP_workerRef";
-import { use_data_of_greedy_iteration } from "./use_data_of_greedy_iteration";
-import { use_data_of_one_iteration } from "./use_data_of_one_iteration";
-import { use_data_of_one_route } from "./use_data_of_one_route";
-import { use_data_of_summary } from "./use_data_of_summary";
-import { use_history_of_best } from "./use_history_of_best";
-import { use_initialize_tsp_runner } from "./use_initialize_tsp_runner";
+import { TSP_cities_data } from "./TSP_cities_data";
+import { TSP_cities_map } from "./TSP_cities_map";
+import { assert_number } from "../test/assert_number";
+import { createMultipleLinesChartOptions } from "../functions/createMultipleLinesChartOptions";
+import { generate_greedy_preview_echarts_options } from "./generate_greedy_preview_echarts_options";
+import { get_options_route_of_node_coordinates } from "./get_options_route_of_node_coordinates";
+import { run_tsp_by_search_rounds } from "./run_tsp-by-search-rounds";
+import { run_tsp_by_search_time } from "./run_tsp_by_search_time";
+import { set_distance_round } from "./set_distance_round";
 import { useDateOfPopulationCommunication } from "./useDateOfPopulationCommunication";
 import { useOptionsOfIterationsAndInformationEntropyChart } from "./useOptionsOfIterationsAndInformationEntropyChart";
 import { useOptionsOfRoutesAndRouteLengthChart } from "./useOptionsOfRoutesAndRouteLengthChart";
+import { use_data_of_greedy_iteration } from "./use_data_of_greedy_iteration";
+import { use_data_of_one_iteration } from "./use_data_of_one_iteration";
+// import { use_data_of_one_route } from "./use_data_of_one_route";
+import { use_data_of_summary } from "./use_data_of_summary";
+import { use_history_of_best } from "./use_history_of_best";
+import { use_initialize_tsp_runner } from "./use_initialize_tsp_runner";
+import { 迭代次数和相对信息熵 } from "./get_options_iterations_and_information_entropy_chart";
+import { 迭代次数和种群相似度 } from "./getOptionsOfIterationsAndPopulationSimilarityChart";
+import { 迭代次数和迭代平均路径长度 } from "./get_options_route_number_and_current_length_chart";
+import { 迭代次数和迭代最差路径长度 } from "./getOptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations";
+
+export const 迭代次数和全局最优路径长度 = "迭代次数和全局最优路径长度";
 
 export default defineComponent({
     components: {
@@ -53,6 +64,22 @@ export default defineComponent({
         LineChart,
     },
     setup() {
+        const optionsOfIterationAndGlobalBestLength = computed<ECBasicOption>(
+            () => {
+                const IterationDataOfIndividualPopulations =
+                    IterationDataOfIndividualPopulationsRef.value;
+                const title_text = 迭代次数和全局最优路径长度;
+                const datas: [number, number][][] =
+                    IterationDataOfIndividualPopulations.map((a) =>
+                        a.map((d, i) => [i + 1, d.global_best_length])
+                    );
+                return createMultipleLinesChartOptions({
+                    yAxis_min: 0,
+                    title_text,
+                    datas: datas,
+                });
+            }
+        );
         const count_of_populations = computed(
             () =>
                 input_options.number_of_the_second_type_of_population +
@@ -77,12 +104,16 @@ export default defineComponent({
             optionsOfIterationsAndPopulationSimilarityChart,
             options_of_iterations_and_information_entropy_chart,
             onUpdateIterationDataOfIndividualPopulations,
+            IterationDataOfIndividualPopulationsRef,
         } = useOptionsOfIterationsAndInformationEntropyChart();
         const {
-            options_of_current_path_length_chart,
-            OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
-            onUpdateRouteDataOfIndividualPopulations,
-        } = useOptionsOfRoutesAndRouteLengthChart();
+            optionsOfIterationAndIterationAverageLength:
+                optionsOfIterationAndIterationAverageLength,
+            optionsOfIterationAndIterationWorstLength,
+            // onUpdateRouteDataOfIndividualPopulations,
+        } = useOptionsOfRoutesAndRouteLengthChart(
+            IterationDataOfIndividualPopulationsRef
+        );
         const selected_value = ref(TSP_cities_data[0]);
         const selected_node_coordinates = ref<NodeCoordinates>();
 
@@ -97,6 +128,7 @@ export default defineComponent({
         const show_history_routes_of_best = ref(true);
         const show_array_routes_of_best = ref(true);
         const show_chart_of_best = ref(false);
+        const show_chart_of_best2 = ref(false);
         const show_chart_of_best_individual = ref(false);
         const show_summary_of_routes = ref(true);
         const show_routes_of_best = ref(true);
@@ -107,6 +139,7 @@ export default defineComponent({
         const show_summary_of_iterations = ref(true);
         const show_summary_of_similarity = ref(true);
         const details_shows_should_hide = [
+            show_chart_of_best2,
             show_history_routes_of_best,
             show_array_routes_of_best,
             show_chart_of_latest_similarity,
@@ -176,12 +209,12 @@ export default defineComponent({
             oneiterationtablebody,
         } = use_data_of_one_iteration();
 
-        const {
-            dataofoneroute,
+        // const {
+        //     dataOfAllIterations,
 
-            onReceiveDeltaDataOfOneRoute,
-            clearDataOfOneRoute,
-        } = use_data_of_one_route();
+        //     // onReceiveDeltadataOfAllIterations,
+        //     cleardataOfAllIterations,
+        // } = use_data_of_one_route();
         const {
             on_receive_Data_Of_total,
 
@@ -212,7 +245,12 @@ export default defineComponent({
 
         const options_of_best_route_chart: Ref<ECBasicOption> = ref({});
 
-        const options_of_best_path_length_chart: Ref<ECBasicOption> = ref({});
+        const optionsOfIterationAndIterationBestLength: Ref<ECBasicOption> =
+            computed(() => {
+                return get_options_route_number_and_best_length_chart(
+                    IterationDataOfIndividualPopulationsRef.value
+                );
+            });
         const submit = async () => {
             const options = await generate_greedy_preview_echarts_options({
                 selected_node_coordinates,
@@ -237,7 +275,7 @@ export default defineComponent({
             if (element) {
                 element.selectedIndex = 0;
             }
-            data_change_listener();
+            // data_change_listener();
 
             await submit_select_node_coordinates();
         });
@@ -254,16 +292,16 @@ export default defineComponent({
             });
             options_of_best_route_chart.value = options;
         };
-        onMounted(() => {
-            watch(dataofoneroute, () => {
-                data_change_listener();
-            });
-        });
-        const data_change_listener = () => {
-            const options =
-                get_options_route_number_and_best_length_chart(dataofoneroute);
-            options_of_best_path_length_chart.value = options;
-        };
+        // onMounted(() => {
+        //     watch(dataOfAllIterations, () => {
+        //         data_change_listener();
+        //     });
+        // });
+        // const data_change_listener = () => {
+        //     const options =
+        //         get_options_route_number_and_best_length_chart(dataOfAllIterations);
+        //     optionsOfIterationAndIterationBestLength.value = options;
+        // };
 
         const onprogress = (p: number) => {
             assert_number(p);
@@ -304,21 +342,21 @@ export default defineComponent({
             on_receive_Data_Of_total(data);
             on_receive_Data_Of_Global_Best(data);
             onReceiveDeltaDataOfOneIteration(data.delta_data_of_iterations);
-            onReceiveDeltaDataOfOneRoute(data.data_of_routes);
+            // onReceiveDeltadataOfAllIterations(data.data_of_routes);
 
             onUpdateIterationDataOfIndividualPopulations(
                 data.IterationDataOfIndividualPopulations
             );
-            onUpdateRouteDataOfIndividualPopulations(
-                data.RouteDataOfIndividualPopulations
-            );
+            // onUpdateRouteDataOfIndividualPopulations(
+            //     data.RouteDataOfIndividualPopulations
+            // );
         }
 
         function TSP_terminate() {
             data_of_greedy_iteration.clearData();
             clearDataOfHistoryOfBest();
             TSP_Reset([
-                clearDataOfOneRoute,
+                // cleardataOfAllIterations,
                 clearDataOfOneIteration,
                 clear_data_of_best,
             ]);
@@ -415,10 +453,15 @@ export default defineComponent({
         );
 
         return {
+            optionsOfIterationAndGlobalBestLength,
+            show_chart_of_best2,
+            迭代次数和迭代最优路径长度,
+            迭代次数和种群相似度,
+            迭代次数和迭代平均路径长度,
             selected_value,
             show_history_routes_of_best,
             similarityOfAllPopulationsHistoryRef,
-
+            迭代次数和全局最优路径长度,
             show_array_routes_of_best,
             show_configurations,
             summary_best_TableHeads,
@@ -463,7 +506,7 @@ export default defineComponent({
             is_running,
             options_of_iterations_and_information_entropy_chart,
             resethandler: resethandler,
-            OptionsOfRouteNumberAndBestLengthChartOfIndividualPopulations,
+            optionsOfIterationAndIterationWorstLength,
             oneiterationtableheads,
             oneiterationtablebody,
             count_of_ants_ref,
@@ -477,8 +520,11 @@ export default defineComponent({
             selecteleref,
 
             percentage,
-            options_of_current_path_length_chart,
-            options_of_best_path_length_chart,
+            optionsOfIterationAndIterationAverageLength:
+                optionsOfIterationAndIterationAverageLength,
+            optionsOfIterationAndIterationBestLength,
+            迭代次数和迭代最差路径长度,
+            迭代次数和相对信息熵,
         };
     },
 });
