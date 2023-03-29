@@ -1,4 +1,4 @@
-import { DataOfFinishOneRoute } from "./DataOfFinishOneRoute";
+import { DataOfFinishOneRoute } from "./DataOfFinishOneRoute.ts";
 
 export type PureDataOfFinishOneRoute = Omit<
     DataOfFinishOneRoute,
