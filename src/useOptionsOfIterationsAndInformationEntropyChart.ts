@@ -5,13 +5,7 @@ import { ECBasicOption } from "echarts/types/dist/shared";
 import { getOptionsOfIterationsAndPopulationSimilarityChart } from "./getOptionsOfIterationsAndPopulationSimilarityChart";
 import { get_options_iterations_and_information_entropy_chart } from "./get_options_iterations_and_information_entropy_chart";
 
-export function useOptionsOfIterationsAndInformationEntropyChart(): {
-    optionsOfIterationsAndPopulationSimilarityChart: Ref<ECBasicOption>;
-    options_of_iterations_and_information_entropy_chart: Ref<ECBasicOption>;
-    onUpdateIterationDataOfIndividualPopulations: (
-        IterationDataOfIndividualPopulations: COMMON_DataOfOneIteration[][]
-    ) => void;
-} {
+export function useOptionsOfIterationsAndInformationEntropyChart() {
     const IterationDataOfIndividualPopulationsRef = ref(
         [] as COMMON_DataOfOneIteration[][]
     );
@@ -43,5 +37,6 @@ export function useOptionsOfIterationsAndInformationEntropyChart(): {
         optionsOfIterationsAndPopulationSimilarityChart,
         options_of_iterations_and_information_entropy_chart,
         onUpdateIterationDataOfIndividualPopulations,
+        IterationDataOfIndividualPopulationsRef,
     };
 }

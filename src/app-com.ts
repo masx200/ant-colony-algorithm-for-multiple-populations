@@ -34,6 +34,7 @@ import { TSP_RunnerRef } from "./TSP_workerRef";
 import { TSP_cities_data } from "./TSP_cities_data";
 import { TSP_cities_map } from "./TSP_cities_map";
 import { assert_number } from "../test/assert_number";
+import { createMultipleLinesChartOptions } from "../functions/createMultipleLinesChartOptions";
 import { generate_greedy_preview_echarts_options } from "./generate_greedy_preview_echarts_options";
 import { get_options_route_of_node_coordinates } from "./get_options_route_of_node_coordinates";
 import { run_tsp_by_search_rounds } from "./run_tsp-by-search-rounds";
@@ -65,7 +66,18 @@ export default defineComponent({
     setup() {
         const optionsOfIterationAndGlobalBestLength = computed<ECBasicOption>(
             () => {
-                throw Error("NotImplemented");
+                const IterationDataOfIndividualPopulations =
+                    IterationDataOfIndividualPopulationsRef.value;
+                const title_text = 迭代次数和全局最优路径长度;
+                const datas: [number, number][][] =
+                    IterationDataOfIndividualPopulations.map((a) =>
+                        a.map((d, i) => [i + 1, d.global_best_length])
+                    );
+                return createMultipleLinesChartOptions({
+                    yAxis_min: 0,
+                    title_text,
+                    datas: datas,
+                });
             }
         );
         const count_of_populations = computed(
@@ -92,6 +104,7 @@ export default defineComponent({
             optionsOfIterationsAndPopulationSimilarityChart,
             options_of_iterations_and_information_entropy_chart,
             onUpdateIterationDataOfIndividualPopulations,
+            IterationDataOfIndividualPopulationsRef,
         } = useOptionsOfIterationsAndInformationEntropyChart();
         const {
             optionsOfIterationAndAverageLength:
