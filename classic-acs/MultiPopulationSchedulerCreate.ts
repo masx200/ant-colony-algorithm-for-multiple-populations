@@ -1,5 +1,6 @@
 import { COMMON_DataOfOneIteration, COMMON_TSP_Output } from "./tsp-interface";
 
+import { CommunicationStrategy } from "../src/CommunicationStrategy";
 import { DefaultOptions } from "../src/default_Options";
 import { MultiPopulationOutput } from "./MultiPopulationOutput";
 import { MultiPopulationScheduler } from "./MultiPopulationScheduler";
@@ -325,78 +326,61 @@ export async function MultiPopulationSchedulerCreate(
                     Multi_Population_Similarity_evaluation_coefficient
                 );
             const p0 = Math.random();
-            if (
-                p0 < probabilityOfPerformingTheFirstCommunication &&
-                current_search_count - search_count_of_best >
-                    在几个交流周期内全局最优解没有变化 *
-                        population_communication_iterate_cycle *
-                        remoteWorkers.length *
-                        count_of_ants
+
+            if (options.CommunicationStrategy === CommunicationStrategy.First) {
+                return await CallFirstCommunication(
+                    HistoryOfTheWayPopulationsCommunicate,
+                    remoteWorkers,
+                    lengths,
+                    similarityOfAllPopulations
+                );
+            } else if (
+                options.CommunicationStrategy === CommunicationStrategy.Second
             ) {
-                HistoryOfTheWayPopulationsCommunicate.push("增加多样性");
-                const randomHalf = remoteWorkers
-                    .map((w, i) => ({
-                        remote: w,
-                        length: lengths[i],
-                    }))
-                    .sort(() => Math.random() - 0.5)
-                    .slice(Math.floor(remoteWorkers.length / 2));
-                await Promise.all(
-                    randomHalf.map(({ remote }) =>
-                        remote.smoothPheromones(similarityOfAllPopulations)
-                    )
+                return await CallSecondCommunication(
+                    HistoryOfTheWayPopulationsCommunicate,
+                    remoteWorkers,
+                    lengths,
+                    getBestRoute,
+                    getBestLength
                 );
-            } else if (p0 > probabilityOfPerformingTheFirstCommunication) {
-                HistoryOfTheWayPopulationsCommunicate.push("提高收敛速度");
-                const backHalf = remoteWorkers
-                    .map((w, i) => ({
-                        remote: w,
-                        length: lengths[i],
-                    }))
-                    .sort((a, b) => a.length - b.length)
-                    .slice(Math.floor(remoteWorkers.length / 2));
-                const routes = (
-                    await Promise.all(
-                        remoteWorkers.map((remote) =>
-                            remote.getCollectionOfBetterRoutes()
-                        )
-                    )
-                ).flat();
-                const commonRoute = extractCommonRoute(routes);
-
-                await Promise.all(
-                    backHalf
-                        .map(({ remote }) => remote)
-                        .map((remote) =>
-                            remote.updateBestRoute(
-                                getBestRoute(),
-                                getBestLength()
-                            )
-                        )
-                );
-
-                await Promise.all(
-                    backHalf.map(({ remote }) =>
-                        remote.rewardCommonRoutes(commonRoute)
-                    )
+            } else if (
+                options.CommunicationStrategy === CommunicationStrategy.Third
+            ) {
+                await CallThirdCommunication(
+                    HistoryOfTheWayPopulationsCommunicate,
+                    remoteWorkers,
+                    lengths
                 );
             } else {
-                HistoryOfTheWayPopulationsCommunicate.push("奖励最差种群");
-
-                const sorted = remoteWorkers
-                    .map((w, i) => ({
-                        remote: w,
-                        length: lengths[i],
-                    }))
-                    .sort((a, b) => a.length - b.length);
-                const first = sorted[0];
-                const last = sorted[sorted.length - 1];
-                if (first.length !== last.length) {
-                    const routes =
-                        await first.remote.getCollectionOfBetterRoutes();
-                    const commonRoute = extractCommonRoute(routes);
-
-                    await last.remote.rewardCommonRoutes(commonRoute);
+                if (
+                    p0 < probabilityOfPerformingTheFirstCommunication &&
+                    current_search_count - search_count_of_best >
+                        在几个交流周期内全局最优解没有变化 *
+                            population_communication_iterate_cycle *
+                            remoteWorkers.length *
+                            count_of_ants
+                ) {
+                    await CallFirstCommunication(
+                        HistoryOfTheWayPopulationsCommunicate,
+                        remoteWorkers,
+                        lengths,
+                        similarityOfAllPopulations
+                    );
+                } else if (p0 > probabilityOfPerformingTheFirstCommunication) {
+                    await CallSecondCommunication(
+                        HistoryOfTheWayPopulationsCommunicate,
+                        remoteWorkers,
+                        lengths,
+                        getBestRoute,
+                        getBestLength
+                    );
+                } else {
+                    await CallThirdCommunication(
+                        HistoryOfTheWayPopulationsCommunicate,
+                        remoteWorkers,
+                        lengths
+                    );
                 }
             }
         }
@@ -424,4 +408,85 @@ export async function MultiPopulationSchedulerCreate(
             return time_of_best_ms;
         },
     };
+}
+//执行第三种交流策略
+async function CallThirdCommunication(
+    HistoryOfTheWayPopulationsCommunicate: WayPopulationsCommunicate[],
+    remoteWorkers: WorkerRemoteAndInfo[],
+    lengths: number[]
+) {
+    HistoryOfTheWayPopulationsCommunicate.push("奖励最差种群");
+
+    const sorted = remoteWorkers
+        .map((w, i) => ({
+            remote: w,
+            length: lengths[i],
+        }))
+        .sort((a, b) => a.length - b.length);
+    const first = sorted[0];
+    const last = sorted[sorted.length - 1];
+    if (first.length !== last.length) {
+        const routes = await first.remote.getCollectionOfBetterRoutes();
+        const commonRoute = extractCommonRoute(routes);
+
+        await last.remote.rewardCommonRoutes(commonRoute);
+    }
+}
+
+//执行第二种交流策略
+async function CallSecondCommunication(
+    HistoryOfTheWayPopulationsCommunicate: WayPopulationsCommunicate[],
+    remoteWorkers: WorkerRemoteAndInfo[],
+    lengths: number[],
+    getBestRoute: () => number[],
+    getBestLength: () => number
+) {
+    HistoryOfTheWayPopulationsCommunicate.push("提高收敛速度");
+    const backHalf = remoteWorkers
+        .map((w, i) => ({
+            remote: w,
+            length: lengths[i],
+        }))
+        .sort((a, b) => a.length - b.length)
+        .slice(Math.floor(remoteWorkers.length / 2));
+    const routes = (
+        await Promise.all(
+            remoteWorkers.map((remote) => remote.getCollectionOfBetterRoutes())
+        )
+    ).flat();
+    const commonRoute = extractCommonRoute(routes);
+
+    await Promise.all(
+        backHalf
+            .map(({ remote }) => remote)
+            .map((remote) =>
+                remote.updateBestRoute(getBestRoute(), getBestLength())
+            )
+    );
+
+    await Promise.all(
+        backHalf.map(({ remote }) => remote.rewardCommonRoutes(commonRoute))
+    );
+}
+
+//执行第一种交流策略
+async function CallFirstCommunication(
+    HistoryOfTheWayPopulationsCommunicate: WayPopulationsCommunicate[],
+    remoteWorkers: WorkerRemoteAndInfo[],
+    lengths: number[],
+    similarityOfAllPopulations: number
+) {
+    HistoryOfTheWayPopulationsCommunicate.push("增加多样性");
+    const randomHalf = remoteWorkers
+        .map((w, i) => ({
+            remote: w,
+            length: lengths[i],
+        }))
+        .sort(() => Math.random() - 0.5)
+        .slice(Math.floor(remoteWorkers.length / 2));
+    await Promise.all(
+        randomHalf.map(({ remote }) =>
+            remote.smoothPheromones(similarityOfAllPopulations)
+        )
+    );
 }
