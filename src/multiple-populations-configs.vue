@@ -9,6 +9,24 @@
                 border: 5px solid #2196f3;
             "
         >
+            <div>
+                <span>交流方式的策略</span>
+                <el-radio-group
+                    v-model="input_options.CommunicationStrategy"
+                    :disabled="disable_switching"
+                >
+                    <el-radio :label="CommunicationStrategy.All">全部</el-radio>
+                    <el-radio :label="CommunicationStrategy.First"
+                        >第一种</el-radio
+                    >
+                    <el-radio :label="CommunicationStrategy.Second"
+                        >第二种</el-radio
+                    >
+                    <el-radio :label="CommunicationStrategy.Third"
+                        >第三种</el-radio
+                    > </el-radio-group
+                ><br />
+            </div>
             <span>结果四舍五入</span>
             <el-radio-group
                 v-model="input_options.distance_round"

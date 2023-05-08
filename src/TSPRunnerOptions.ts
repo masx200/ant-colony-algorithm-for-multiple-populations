@@ -1,6 +1,7 @@
+import { CommunicationStrategy } from "./CommunicationStrategy";
 import { NodeCoordinates } from "../functions/NodeCoordinates";
-
 export interface TSPDefaultOptions {
+    CommunicationStrategy: CommunicationStrategy;
     max_results_of_k_exchange?: number;
     distance_round?: boolean;
     max_cities_of_greedy?: number;

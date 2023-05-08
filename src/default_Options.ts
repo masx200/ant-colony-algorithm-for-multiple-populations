@@ -1,6 +1,7 @@
+import { CommunicationStrategy } from "./CommunicationStrategy";
+import { TSPDefaultOptions } from "./TSPRunnerOptions";
 import { max_number_of_stagnation } from "../functions/max_number_of_stagnation";
 import { relative_Information_Entropy_Factor } from "../functions/relative_Information_Entropy_Factor";
-import { TSPDefaultOptions } from "./TSPRunnerOptions";
 
 export const default_count_of_ants = 20;
 export const default_search_rounds = 1000;
@@ -16,6 +17,7 @@ export const default_max_results_of_k_exchange = 10;
 export { DefaultOptions };
 
 const DefaultOptions: Required<TSPDefaultOptions> = {
+    CommunicationStrategy: CommunicationStrategy.All,
     id_Of_Population: 0,
     max_results_of_k_exchange: default_max_results_of_k_exchange,
     max_cities_of_state_transition: 40,
