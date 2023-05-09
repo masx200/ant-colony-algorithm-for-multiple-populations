@@ -430,7 +430,7 @@ export function tsp_similarity_execution_and_local_optimization_with_Optional_ci
                     beta,
                 });
 
-                return weight;
+                return Math.max(0, weight);
             })
         );
         return result;

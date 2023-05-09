@@ -1,10 +1,9 @@
 import "core-js/stable/array/at";
 
-import { random } from "lodash-es";
-
 import * as Randomly from "@masx200/weighted-randomly-select";
 
 import { assert_true } from "../test/assert_true";
+import { random } from "lodash-es";
 
 export function pickRandomOne<T>(input: Array<T>, weights: number[] = []): T {
     assert_true(input.length > 0);
@@ -17,7 +16,7 @@ export function pickRandomOne<T>(input: Array<T>, weights: number[] = []): T {
         const choose_array = input.map((result, index) => {
             return {
                 result,
-                chance: weights[index],
+                chance: Math.max(0, weights[index]),
             };
         });
         const result = Randomly.select(choose_array);

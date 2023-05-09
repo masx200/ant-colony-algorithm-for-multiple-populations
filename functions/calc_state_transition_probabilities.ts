@@ -1,6 +1,6 @@
-import { assert_true } from "../test/assert_true";
 import { GetDistanceBySerialNumber } from "./GetDistanceBySerialNumber";
 import { GetPheromone } from "./GetPheromone";
+import { assert_true } from "../test/assert_true";
 
 export function calc_state_transition_probabilities({
     getpheromone,
@@ -26,5 +26,5 @@ export function calc_state_transition_probabilities({
 
     assert_true(!Number.isNaN(weight), "weight should not be NaN");
 
-    return weight;
+    return Math.max(0, weight);
 }
