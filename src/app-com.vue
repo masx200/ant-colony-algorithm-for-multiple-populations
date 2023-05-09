@@ -48,6 +48,16 @@
             inactive-text="Close"
         /> -->
         <hr />
+        <div>
+            <span>显示每次迭代的统计</span>
+            <el-radio-group
+                v-model="显示每次迭代的统计"
+                :disabled="disable_switching"
+            >
+                <el-radio :label="true">是</el-radio>
+                <el-radio :label="false">否</el-radio> </el-radio-group
+            ><br />
+        </div>
         <details
             class="width-100-percent"
             :open="show_configurations"
@@ -301,15 +311,16 @@
 
         <hr />
         <details
+            v-if="显示每次迭代的统计"
             style="content-visibility: auto"
             class="width-100-percent"
-            :open="show_summary_of_iterations"
-            @toggle="show_summary_of_iterations = $event.target.open"
+            :open="显示每次迭代的统计"
+            @toggle="显示每次迭代的统计 = $event.target.open"
         >
             <summary>每次迭代的统计</summary>
             <!-- 迭代结果 -->
             <Data-table
-                v-if="show_summary_of_iterations"
+                v-if="显示每次迭代的统计"
                 style="margin: 0 auto"
                 title="每次迭代的统计"
                 :tableheads="oneiterationtableheads"

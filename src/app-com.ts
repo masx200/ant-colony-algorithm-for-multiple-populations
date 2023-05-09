@@ -136,7 +136,7 @@ export default defineComponent({
         const show_chart_of_latest = ref(false);
         const show_chart_of_latest_similarity = ref(false);
         const show_chart_of_entropy = ref(false);
-        const show_summary_of_iterations = ref(true);
+        const 显示每次迭代的统计 = ref(false);
         const show_summary_of_similarity = ref(true);
         const details_shows_should_hide = [
             show_chart_of_best2,
@@ -144,7 +144,7 @@ export default defineComponent({
             show_array_routes_of_best,
             show_chart_of_latest_similarity,
             show_configurations,
-            show_summary_of_iterations,
+            // 显示每次迭代的统计,
             show_chart_of_entropy,
             show_chart_of_best_individual,
             show_chart_of_latest,
@@ -451,8 +451,9 @@ export default defineComponent({
         const max_routes_of_greedy = computed(
             () => input_options.max_routes_of_greedy
         );
-
+        // const 显示每次迭代的统计 = ref(false);
         return {
+            显示每次迭代的统计,
             optionsOfIterationAndGlobalBestLength,
             show_chart_of_best2,
             迭代次数和迭代最优路径长度,
@@ -490,7 +491,7 @@ export default defineComponent({
             navbar_float,
             show_chart_of_best_individual,
             run_way_round,
-            show_summary_of_iterations,
+            // 显示每次迭代的统计,
             run_way_time,
             radio_run_way,
             create_and_run_tsp_by_search_time,
