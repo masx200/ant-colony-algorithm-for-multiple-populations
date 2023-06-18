@@ -18,7 +18,7 @@ import vuePlugin from "@vitejs/plugin-vue";
 export default defineConfig(({ mode, command }: ConfigEnv): UserConfig => {
     const isdrop = mode === "production" && command === "build";
     const config: UserConfig = {
-        worker: {
+        worker: { format: "es",
             plugins: [
                 babel({
                     sourceMaps: true,
