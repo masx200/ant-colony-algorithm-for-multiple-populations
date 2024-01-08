@@ -43,7 +43,7 @@ dependencies:
     specifier: ^0.25.0
     version: 0.25.2(rollup@4.9.4)(vue@3.3.7)
   vite:
-    specifier: ^5.0.2
+    specifier: ^5.0.11
     version: 5.0.11(@types/node@20.10.7)(terser@5.26.0)
   vite-plugin-checker:
     specifier: ^0.6.0
