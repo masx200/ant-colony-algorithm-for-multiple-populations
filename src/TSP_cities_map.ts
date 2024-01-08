@@ -5,11 +5,13 @@ import {
 } from "@masx200/tsp-lib-test-data";
 import { NodeCoordinates } from "../functions/NodeCoordinates";
 import { assert_true } from "../test/assert_true";
+
+
 const TSP_cords: Record<string, () => Promise<NodeCoordinates>> =
     Object.fromEntries(
         getNames()
             .map((n) => ({ name: n, dimension: getDimension(n) }))
-            .filter(({ dimension }) => dimension <= 1500)
+            .filter(({ dimension }) => dimension <= 5000)
             .map(({ name }) => [name, () => getNodeCoordinates(name)])
     );
 const entries: [string, () => Promise<NodeCoordinates>][] = Object.entries(
