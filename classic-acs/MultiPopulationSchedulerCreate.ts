@@ -23,7 +23,7 @@ export type WayPopulationsCommunicate =
     | "提高收敛速度";
 const 在几个交流周期内全局最优解没有变化 = 1;
 export async function MultiPopulationSchedulerCreate(
-    input: TSPRunnerOptions
+    input: TSPRunnerOptions,
 ): Promise<MultiPopulationScheduler> {
     const options = Object.assign(structuredClone(DefaultOptions), input);
     const {
@@ -39,7 +39,7 @@ export async function MultiPopulationSchedulerCreate(
     const remoteWorkers: WorkerRemoteAndInfo[] = await initializeRemoteWorkers(
         number_of_populations_of_the_first_category,
         options,
-        number_of_the_second_type_of_population
+        number_of_the_second_type_of_population,
     );
 
     let current_iterations = 0;
@@ -59,11 +59,11 @@ export async function MultiPopulationSchedulerCreate(
                           (current_iterations %
                               (population_communication_iterate_cycle *
                                   remoteWorkers.length))) /
-                          remoteWorkers.length
+                          remoteWorkers.length,
                   );
         if (rest_iterations_period > 0) {
             splitted_iterations.push(
-                Math.min(rest_iterations_period, iterations)
+                Math.min(rest_iterations_period, iterations),
             );
 
             iterations -= Math.min(rest_iterations_period, iterations);
@@ -78,7 +78,7 @@ export async function MultiPopulationSchedulerCreate(
             await Promise.all(
                 remoteWorkers.map((remote) => {
                     return remote.runIterations(iteration);
-                })
+                }),
             );
 
             const routesAndLengths = await Promise.all(
@@ -87,21 +87,21 @@ export async function MultiPopulationSchedulerCreate(
                         length: await remote.getBestLength(),
                         route: await remote.getBestRoute(),
                     };
-                })
+                }),
             );
             const totaltimemsall = await Promise.all(
-                remoteWorkers.map((remote) => remote.getTotalTimeMs())
+                remoteWorkers.map((remote) => remote.getTotalTimeMs()),
             );
             const current_search_countsall = await Promise.all(
-                remoteWorkers.map((remote) => remote.getCurrentSearchCount())
+                remoteWorkers.map((remote) => remote.getCurrentSearchCount()),
             );
             const latestIterateBestRoutesInPeriod = (
                 await Promise.all(
                     remoteWorkers.map((remote) =>
                         remote.getLatestIterateBestRoutesInPeriod(
-                            population_communication_iterate_cycle
-                        )
-                    )
+                            population_communication_iterate_cycle,
+                        ),
+                    ),
                 )
             ).flat();
             routesAndLengths.forEach(({ route, length }) => {
@@ -112,12 +112,12 @@ export async function MultiPopulationSchedulerCreate(
 
             current_search_count = current_search_countsall.reduce(
                 (p, c) => p + c,
-                0
+                0,
             );
             current_iterations += remoteWorkers.length * iteration;
             await DetermineWhetherToPerformMultiPopulationCommunication(
                 routesAndLengths,
-                latestIterateBestRoutesInPeriod
+                latestIterateBestRoutesInPeriod,
             );
         }
     }
@@ -128,7 +128,7 @@ export async function MultiPopulationSchedulerCreate(
 
     async function DetermineWhetherToPerformMultiPopulationCommunication(
         routesAndLengths: { length: number; route: number[] }[],
-        latestIterateBestRoutesInPeriod: number[][]
+        latestIterateBestRoutesInPeriod: number[][],
     ) {
         if (remoteWorkers.length > 1) {
             if (
@@ -139,7 +139,7 @@ export async function MultiPopulationSchedulerCreate(
             ) {
                 await PerformCommunicationBetweenPopulations(
                     routesAndLengths,
-                    latestIterateBestRoutesInPeriod
+                    latestIterateBestRoutesInPeriod,
                 );
                 const PeriodOfUpdateAllOptimalRoutes = 10;
 
@@ -155,9 +155,9 @@ export async function MultiPopulationSchedulerCreate(
                         remoteWorkers.map((remote) =>
                             remote.updateBestRoute(
                                 getBestRoute(),
-                                getBestLength()
-                            )
-                        )
+                                getBestLength(),
+                            ),
+                        ),
                     );
                 } else {
                     HistoryOfPopulationsAllUpdateBestRoute.push(false);
@@ -193,7 +193,7 @@ export async function MultiPopulationSchedulerCreate(
         await Promise.all(
             remoteWorkers.map((remote) => {
                 return remote.runOneIteration();
-            })
+            }),
         );
 
         const routesAndLengths = await Promise.all(
@@ -202,21 +202,21 @@ export async function MultiPopulationSchedulerCreate(
                     length: await remote.getBestLength(),
                     route: await remote.getBestRoute(),
                 };
-            })
+            }),
         );
         const totaltimemsall = await Promise.all(
-            remoteWorkers.map((remote) => remote.getTotalTimeMs())
+            remoteWorkers.map((remote) => remote.getTotalTimeMs()),
         );
         const current_search_countsall = await Promise.all(
-            remoteWorkers.map((remote) => remote.getCurrentSearchCount())
+            remoteWorkers.map((remote) => remote.getCurrentSearchCount()),
         );
         const latestIterateBestRoutesInPeriod = (
             await Promise.all(
                 remoteWorkers.map((remote) =>
                     remote.getLatestIterateBestRoutesInPeriod(
-                        population_communication_iterate_cycle
-                    )
-                )
+                        population_communication_iterate_cycle,
+                    ),
+                ),
             )
         ).flat();
         routesAndLengths.forEach(({ route, length }) => {
@@ -227,13 +227,13 @@ export async function MultiPopulationSchedulerCreate(
 
         current_search_count = current_search_countsall.reduce(
             (p, c) => p + c,
-            0
+            0,
         );
         current_iterations += remoteWorkers.length;
 
         await DetermineWhetherToPerformMultiPopulationCommunication(
             routesAndLengths,
-            latestIterateBestRoutesInPeriod
+            latestIterateBestRoutesInPeriod,
         );
     }
     let time_of_best_ms = 0;
@@ -244,8 +244,8 @@ export async function MultiPopulationSchedulerCreate(
     async function getOutputDataAndConsumeIterationAndRouteData(): Promise<MultiPopulationOutput> {
         const dataOfChildren = await Promise.all(
             remoteWorkers.map((remote) =>
-                remote.getOutputDataAndConsumeIterationAndRouteData()
-            )
+                remote.getOutputDataAndConsumeIterationAndRouteData(),
+            ),
         );
         // const RouteDataOfIndividualPopulations = dataOfChildren.map(
         //     (data) => data.data_of_routes
@@ -270,7 +270,7 @@ export async function MultiPopulationSchedulerCreate(
                         remoteWorkers[index].ClassOfPopulation;
                     di.id_Of_Population = remoteWorkers[index].id_Of_Population;
                     return di;
-                })
+                }),
         );
         const delta_data_of_iterations: COMMON_TSP_Output["delta_data_of_iterations"] =
             zip(...IterationDataOfIndividualPopulations)
@@ -308,14 +308,14 @@ export async function MultiPopulationSchedulerCreate(
             length: number;
             route: number[];
         }[],
-        latestIterateBestRoutesInPeriod: number[][]
+        latestIterateBestRoutesInPeriod: number[][],
     ): Promise<void> {
         if (remoteWorkers.length > 1) {
             const lengths = routesAndLengths.map((a) => a.length);
             const bestRoute = getBestRoute();
             const similarityOfAllPopulations = similarityOfMultipleRoutes(
                 latestIterateBestRoutesInPeriod,
-                bestRoute
+                bestRoute,
             );
             similarityOfAllPopulationsHistory.push(similarityOfAllPopulations);
             const similarity = similarityOfAllPopulations;
@@ -323,7 +323,7 @@ export async function MultiPopulationSchedulerCreate(
             const probabilityOfPerformingTheFirstCommunication =
                 ProbabilityOfPerformingTheFirstCommunication(
                     similarity,
-                    Multi_Population_Similarity_evaluation_coefficient
+                    Multi_Population_Similarity_evaluation_coefficient,
                 );
             const p0 = Math.random();
 
@@ -332,7 +332,7 @@ export async function MultiPopulationSchedulerCreate(
                     HistoryOfTheWayPopulationsCommunicate,
                     remoteWorkers,
                     lengths,
-                    similarityOfAllPopulations
+                    similarityOfAllPopulations,
                 );
             } else if (
                 options.CommunicationStrategy === CommunicationStrategy.Second
@@ -342,7 +342,7 @@ export async function MultiPopulationSchedulerCreate(
                     remoteWorkers,
                     lengths,
                     getBestRoute,
-                    getBestLength
+                    getBestLength,
                 );
             } else if (
                 options.CommunicationStrategy === CommunicationStrategy.Third
@@ -350,7 +350,7 @@ export async function MultiPopulationSchedulerCreate(
                 await CallThirdCommunication(
                     HistoryOfTheWayPopulationsCommunicate,
                     remoteWorkers,
-                    lengths
+                    lengths,
                 );
             } else {
                 if (
@@ -365,7 +365,7 @@ export async function MultiPopulationSchedulerCreate(
                         HistoryOfTheWayPopulationsCommunicate,
                         remoteWorkers,
                         lengths,
-                        similarityOfAllPopulations
+                        similarityOfAllPopulations,
                     );
                 } else if (p0 > probabilityOfPerformingTheFirstCommunication) {
                     await CallSecondCommunication(
@@ -373,13 +373,13 @@ export async function MultiPopulationSchedulerCreate(
                         remoteWorkers,
                         lengths,
                         getBestRoute,
-                        getBestLength
+                        getBestLength,
                     );
                 } else {
                     await CallThirdCommunication(
                         HistoryOfTheWayPopulationsCommunicate,
                         remoteWorkers,
-                        lengths
+                        lengths,
                     );
                 }
             }
@@ -413,7 +413,7 @@ export async function MultiPopulationSchedulerCreate(
 async function CallThirdCommunication(
     HistoryOfTheWayPopulationsCommunicate: WayPopulationsCommunicate[],
     remoteWorkers: WorkerRemoteAndInfo[],
-    lengths: number[]
+    lengths: number[],
 ) {
     HistoryOfTheWayPopulationsCommunicate.push("奖励最差种群");
 
@@ -439,7 +439,7 @@ async function CallSecondCommunication(
     remoteWorkers: WorkerRemoteAndInfo[],
     lengths: number[],
     getBestRoute: () => number[],
-    getBestLength: () => number
+    getBestLength: () => number,
 ) {
     HistoryOfTheWayPopulationsCommunicate.push("提高收敛速度");
     const backHalf = remoteWorkers
@@ -451,7 +451,7 @@ async function CallSecondCommunication(
         .slice(Math.floor(remoteWorkers.length / 2));
     const routes = (
         await Promise.all(
-            remoteWorkers.map((remote) => remote.getCollectionOfBetterRoutes())
+            remoteWorkers.map((remote) => remote.getCollectionOfBetterRoutes()),
         )
     ).flat();
     const commonRoute = extractCommonRoute(routes);
@@ -460,12 +460,12 @@ async function CallSecondCommunication(
         backHalf
             .map(({ remote }) => remote)
             .map((remote) =>
-                remote.updateBestRoute(getBestRoute(), getBestLength())
-            )
+                remote.updateBestRoute(getBestRoute(), getBestLength()),
+            ),
     );
 
     await Promise.all(
-        backHalf.map(({ remote }) => remote.rewardCommonRoutes(commonRoute))
+        backHalf.map(({ remote }) => remote.rewardCommonRoutes(commonRoute)),
     );
 }
 
@@ -474,7 +474,7 @@ async function CallFirstCommunication(
     HistoryOfTheWayPopulationsCommunicate: WayPopulationsCommunicate[],
     remoteWorkers: WorkerRemoteAndInfo[],
     lengths: number[],
-    similarityOfAllPopulations: number
+    similarityOfAllPopulations: number,
 ) {
     HistoryOfTheWayPopulationsCommunicate.push("增加多样性");
     const randomHalf = remoteWorkers
@@ -486,7 +486,7 @@ async function CallFirstCommunication(
         .slice(Math.floor(remoteWorkers.length / 2));
     await Promise.all(
         randomHalf.map(({ remote }) =>
-            remote.smoothPheromones(similarityOfAllPopulations)
-        )
+            remote.smoothPheromones(similarityOfAllPopulations),
+        ),
     );
 }

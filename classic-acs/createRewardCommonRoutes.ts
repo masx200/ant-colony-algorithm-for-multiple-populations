@@ -3,7 +3,7 @@ import { max } from "lodash-es";
 export function createRewardCommonRoutes(
     pheromone_volatilization_coefficient_of_communication: number,
     pheromoneStore: MatrixSymmetry<number>,
-    count_of_nodes: number
+    count_of_nodes: number,
 ) {
     return function rewardCommonRoutes(common: number[][]): void {
         const maxValue = max(pheromoneStore.values()) as number;

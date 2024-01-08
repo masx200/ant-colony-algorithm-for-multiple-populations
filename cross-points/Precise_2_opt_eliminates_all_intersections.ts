@@ -36,7 +36,7 @@ export function Precise_2_opt_eliminates_all_intersections({
                     path: route,
                     getdistancebyindex: creategetdistancebyindex(
                         node_coordinates,
-                        get_distance_round()
+                        get_distance_round(),
                     ),
                 });
                 return { length, route };

@@ -64,8 +64,8 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
 
     const options: Required<TSPRunnerOptions> = Object.fromEntries(
         uniq([...Object.keys(DefaultOptions), ...Object.keys(input)]).map(
-            (k) => [k, Reflect.get(input, k) ?? Reflect.get(DefaultOptions, k)]
-        )
+            (k) => [k, Reflect.get(input, k) ?? Reflect.get(DefaultOptions, k)],
+        ),
     ) as Required<TSPRunnerOptions>;
 
     assert_number(count_of_ants);
@@ -140,7 +140,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     const count_of_nodes = node_coordinates.length;
 
     const collection_of_optimal_routes = create_collection_of_optimal_routes(
-        max_size_of_collection_of_optimal_routes
+        max_size_of_collection_of_optimal_routes,
     );
 
     let last_random_selection_probability = 0;
@@ -155,7 +155,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     function update_latest_and_optimal_routes() {
         assignOwnKeys(
             global_optimal_routes,
-            Array.from(collection_of_optimal_routes)
+            Array.from(collection_of_optimal_routes),
         );
     }
     function set_global_best(route: number[], length: number) {
@@ -220,7 +220,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         data: Omit<
             DataOfFinishOneIteration,
             "current_iterations" | "global_best_length"
-        >
+        >,
     ) {
         inner_emit_finish_one_iteration({
             ...data,
@@ -250,7 +250,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
         () => greedy_length,
         () => convergence_coefficient,
         routes_segments_cache,
-        (exceeds) => (pheromone_exceeds_maximum_range = exceeds)
+        (exceeds) => (pheromone_exceeds_maximum_range = exceeds),
     );
 
     const { max_number_of_stagnation, relative_Information_Entropy_Factor } =
@@ -276,7 +276,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
 
             update_Cached_hash_table_of_path_lengths_and_path_segments(
                 routes_segments_cache,
-                collection_of_optimal_routes
+                collection_of_optimal_routes,
             );
         } else {
             let time_ms_of_one_iteration = 0;
@@ -301,10 +301,10 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                     greedy_length,
                     pheromone_exceeds_maximum_range: () =>
                         pheromone_exceeds_maximum_range,
-                })
+                }),
             );
             onUpdateIterateBestRoutesInPeriod(
-                routes_and_lengths_of_one_iteration
+                routes_and_lengths_of_one_iteration,
             );
             for (const {
                 route,
@@ -340,24 +340,26 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 });
                 onRouteCreated(
                     optimal_route_of_iteration,
-                    optimal_length_of_iteration
+                    optimal_length_of_iteration,
                 );
                 time_ms_of_one_iteration += timems_of_process_iteration;
                 total_time_ms += timems_of_process_iteration;
 
                 const average_length_of_iteration =
                     sum(
-                        routes_and_lengths_of_one_iteration.map((a) => a.length)
+                        routes_and_lengths_of_one_iteration.map(
+                            (a) => a.length,
+                        ),
                     ) / routes_and_lengths_of_one_iteration.length;
                 const worst_length_of_iteration = Math.max(
-                    ...routes_and_lengths_of_one_iteration.map((a) => a.length)
+                    ...routes_and_lengths_of_one_iteration.map((a) => a.length),
                 );
                 const current_routes = routes_and_lengths_of_one_iteration.map(
-                    (a) => a.route
+                    (a) => a.route,
                 );
                 Intra_population_similarity = similarityOfMultipleRoutes(
                     current_routes,
-                    getBestRoute()
+                    getBestRoute(),
                 );
                 emit_finish_one_iteration({
                     worst_length_of_iteration,
@@ -402,7 +404,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
 
                     for (const route of routes_should_update_pheromone) {
                         for (const [city1, city2] of cycle_route_to_segments(
-                            route
+                            route,
                         )) {
                             pheromoneStore.calc(city1, city2);
                         }
@@ -412,7 +414,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
                 }
                 update_Cached_hash_table_of_path_lengths_and_path_segments(
                     routes_segments_cache,
-                    collection_of_optimal_routes
+                    collection_of_optimal_routes,
                 );
             }
         }
@@ -447,7 +449,7 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
 
     const neighbors_from_optimal_routes_and_latest_routes =
         create_get_neighbors_from_optimal_routes_and_latest_routes(
-            global_optimal_routes
+            global_optimal_routes,
         );
     const get_neighbors_from_optimal_routes_and_latest_routes =
         neighbors_from_optimal_routes_and_latest_routes.get;
@@ -479,12 +481,12 @@ export function createTSPrunner(input: TSPRunnerOptions): TSP_Runner {
     const smoothPheromones = createSmoothPheromones(
         pheromoneStore,
         global_optimal_routes,
-        Coefficient_of_the_minimum_after_pheromone_weakening
+        Coefficient_of_the_minimum_after_pheromone_weakening,
     );
     const rewardCommonRoutes = createRewardCommonRoutes(
         pheromone_volatilization_coefficient_of_communication,
         pheromoneStore,
-        count_of_nodes
+        count_of_nodes,
     );
     function updateBestRoute(route: number[], length: number): void {
         onRouteCreated(route, length);

@@ -29,8 +29,8 @@ export function update_convergence_coefficient({
             convergence_coefficient *
                 Math.pow(
                     1 - coefficient_of_diversity_increase,
-                    relative_Information_Entropy_Factor
-                )
+                    relative_Information_Entropy_Factor,
+                ),
         );
 
         return convergence_coefficient;
@@ -41,8 +41,8 @@ export function update_convergence_coefficient({
             convergence_coefficient /
                 Math.pow(
                     convergence_coefficient_grow_speed,
-                    max_number_of_stagnation / 4
-                )
+                    max_number_of_stagnation / 4,
+                ),
         );
     }
     if (iterate_best_length > greedy_length) {

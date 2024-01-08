@@ -22,7 +22,7 @@ export function useOptionsOfRoutesAndRouteLengthChart(
             Intra_population_similarity: number;
             ClassOfPopulation?: string | undefined;
         }[][]
-    >
+    >,
 ) {
     // const RouteDataOfIndividualPopulationsRef = ref(
     //     [] as DataOfFinishOneRoute[][]
@@ -30,14 +30,14 @@ export function useOptionsOfRoutesAndRouteLengthChart(
     const optionsOfIterationAndIterationAverageLength: Ref<ECBasicOption> =
         computed(() =>
             get_options_route_number_and_current_length_chart(
-                IterationDataOfIndividualPopulationsRef.value
-            )
+                IterationDataOfIndividualPopulationsRef.value,
+            ),
         );
     const optionsOfIterationAndIterationWorstLength: Ref<ECBasicOption> =
         computed(() =>
             getoptionsOfIterationAndIterationWorstLength(
-                IterationDataOfIndividualPopulationsRef.value
-            )
+                IterationDataOfIndividualPopulationsRef.value,
+            ),
         );
 
     // function onUpdateRouteDataOfIndividualPopulations(

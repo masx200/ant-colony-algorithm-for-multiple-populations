@@ -4,7 +4,7 @@ import { EachRouteGeneratorOptions } from "./Fun_EachRouteGenerator";
 import { SharedOptions } from "./SharedOptions";
 
 export function EachRouteGenerator(
-    options: EachRouteGeneratorOptions & SharedOptions
+    options: EachRouteGeneratorOptions & SharedOptions,
 ): {
     route: number[];
     length: number;

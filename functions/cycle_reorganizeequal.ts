@@ -4,7 +4,7 @@ import { cycle_reorganize } from "./cycle_reorganize";
 
 export function cyclereorganizeequal(
     left: Array<number>,
-    right: Array<number>
+    right: Array<number>,
 ): boolean {
     if (!left.length) {
         return false;

@@ -5,7 +5,7 @@ import { NodeCoordinates } from "./NodeCoordinates";
 
 export function createsymmetrymatrixdistancestore(
     node_coordinates: NodeCoordinates,
-    round = false
+    round = false,
 ) {
     const row = node_coordinates.length;
     return MatrixSymmetryCreate({

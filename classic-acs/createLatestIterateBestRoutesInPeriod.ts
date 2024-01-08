@@ -6,11 +6,11 @@ export function createLatestIterateBestRoutesInPeriod() {
             route: number[];
             length: number;
             time_ms: number;
-        }[]
+        }[],
     ) {
         const iterate_best_route = maxBy(
             routes_and_lengths_of_one_iteration,
-            (a) => a.length
+            (a) => a.length,
         )?.route;
         if (iterate_best_route)
             latestIterateBestRoutesInPeriod.push(iterate_best_route);

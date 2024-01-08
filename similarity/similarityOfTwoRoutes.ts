@@ -2,7 +2,7 @@ import { cycle_route_to_segments } from "../functions/cycle_route_to_segments";
 import { assert_true } from "../test/assert_true";
 export function similarityOfTwoRoutes(
     route1: number[],
-    route2: number[]
+    route2: number[],
 ): number {
     assert_true(route1.length > 0);
     assert_true(route1.length === route2.length);

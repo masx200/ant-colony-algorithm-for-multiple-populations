@@ -4,7 +4,7 @@ import { assert_true } from "../test/assert_true";
 import { getUniqueStringOfCircularRoute } from "./getUniqueStringOfCircularRoute";
 
 export function calc_population_relative_information_entropy(
-    routes: Array<number[]>
+    routes: Array<number[]>,
 ) {
     if (!(routes.length >= 2)) {
         throw new Error("incorrect routes");
@@ -22,15 +22,15 @@ export function calc_population_relative_information_entropy(
     const fitnessvalues = notrepeatroutes.map((route) =>
         unique_strings.reduce(
             (previous, current) => previous + Number(route === current),
-            0
-        )
+            0,
+        ),
     );
     const sumfitnessvalues = sum(fitnessvalues);
     const fitnessweight = fitnessvalues.map((v) => v / sumfitnessvalues);
     const result = Math.min(
         1,
         -sum(fitnessweight.map((fitness) => fitness * Math.log(fitness))) /
-            Math.log(routesnumber)
+            Math.log(routesnumber),
     );
     if (Number.isNaN(result)) {
         throw new Error("Accident ");

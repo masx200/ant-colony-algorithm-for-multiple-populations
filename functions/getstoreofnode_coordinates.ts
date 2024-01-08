@@ -6,7 +6,7 @@ import { NodeCoordinates } from "./NodeCoordinates";
 
 export function getstoreofnode_coordinates(
     node_coordinates: NodeCoordinates,
-    round = false
+    round = false,
 ): MatrixSymmetry {
     return (
         cachenode_coordinatestostore.get(node_coordinates) ??

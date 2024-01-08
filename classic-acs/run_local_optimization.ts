@@ -16,7 +16,7 @@ export async function run_local_optimization(
     max_results_of_k_opt: number,
     node_coordinates: NodeCoordinates,
     max_results_of_k_exchange: number,
-    max_results_of_2_opt: number
+    max_results_of_2_opt: number,
 ): Promise<{ time_ms: number; length: number; route: number[] }> {
     const routes_and_lengths = routes_and_lengths_of_one_iteration;
     const best_half_routes = Array.from(routes_and_lengths)
@@ -27,7 +27,7 @@ export async function run_local_optimization(
             { route: get_best_route(), length: get_best_length() },
             ...best_half_routes,
         ],
-        (a) => a.length
+        (a) => a.length,
     );
     const optimization_results = await local_optimization_route_thread({
         count_of_nodes,

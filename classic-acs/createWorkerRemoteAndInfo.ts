@@ -9,7 +9,7 @@ export async function createWorkerRemoteAndInfo(
         node_coordinates: NodeCoordinates;
     } & Partial<TSPDefaultOptions>,
     remoteworkers: WorkerRemoteAndInfo[],
-    ClassOfPopulation: string
+    ClassOfPopulation: string,
 ) {
     for (
         let index = 0;
@@ -22,9 +22,9 @@ export async function createWorkerRemoteAndInfo(
                     structuredClone({
                         ...options,
                         ClassOfPopulation: ClassOfPopulation,
-                    })
+                    }),
                 )
-            ).remote
+            ).remote,
         );
         Object.defineProperty(remote, "ClassOfPopulation", {
             value: ClassOfPopulation,

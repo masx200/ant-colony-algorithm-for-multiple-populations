@@ -4,7 +4,7 @@ import { DataOfFinishOneIteration } from "../functions/DataOfFinishOneIteration"
 export function use_data_of_one_iteration(): {
     oneiterationtableheads: string[];
     onReceiveDeltaDataOfOneIteration: (
-        delta_data: DataOfFinishOneIteration[]
+        delta_data: DataOfFinishOneIteration[],
     ) => void;
     clearDataOfOneIteration: () => void;
     dataofoneiteration: DataOfFinishOneIteration[];
@@ -28,7 +28,7 @@ export function use_data_of_one_iteration(): {
         "种群的序号",
     ];
     function onReceiveDeltaDataOfOneIteration(
-        delta_data: DataOfFinishOneIteration[]
+        delta_data: DataOfFinishOneIteration[],
     ) {
         for (let i = 0; i < delta_data.length; i++) {
             const data = delta_data[i];
@@ -51,7 +51,7 @@ export function use_data_of_one_iteration(): {
                     data.Intra_population_similarity,
                     data.ClassOfPopulation,
                     data.id_Of_Population,
-                ].map(String)
+                ].map(String),
             );
         }
     }

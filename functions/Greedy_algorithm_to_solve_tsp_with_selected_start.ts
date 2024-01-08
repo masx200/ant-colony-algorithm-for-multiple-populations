@@ -34,7 +34,7 @@ export function Greedy_algorithm_to_solve_tsp_with_selected_start({
             max_cities_of_greedy < Infinity
                 ? ArrayShuffle(Array.from(indexsset)).slice(
                       0,
-                      max_cities_of_greedy
+                      max_cities_of_greedy,
                   )
                 : Array.from(indexsset);
         const nextnodesanddistances: {
@@ -47,7 +47,7 @@ export function Greedy_algorithm_to_solve_tsp_with_selected_start({
                     currentnode,
                     value,
                     node_coordinates,
-                    round
+                    round,
                 ),
             };
         });

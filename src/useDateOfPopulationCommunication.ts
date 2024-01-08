@@ -3,7 +3,7 @@ import { MultiPopulationOutput } from "../classic-acs/MultiPopulationOutput";
 
 export function useDateOfPopulationCommunication() {
     const similarityOfAllPopulationsHistoryRef = ref(
-        [] as [number, number, string, boolean][]
+        [] as [number, number, string, boolean][],
     );
 
     const similarityOfAllPopulationsTableHeads = [
@@ -13,7 +13,7 @@ export function useDateOfPopulationCommunication() {
         "更新所有最优解",
     ];
     function onReceiveDataOfPopulationCommunication(
-        data: MultiPopulationOutput
+        data: MultiPopulationOutput,
     ) {
         similarityOfAllPopulationsHistoryRef.value =
             data.similarityOfAllPopulationsHistory.map((v, i) => [

@@ -5,7 +5,7 @@ import { create_Worker_comlink } from "../src/create_Worker_comlink";
 import { MultiPopulationSchedulerAPI } from "./MultiPopulationSchedulerAPI";
 import { MultiPopulationSchedulerRemote } from "./MultiPopulationSchedulerRemote";
 export async function createMultiPopulationSchedulerWorker(
-    options: TSPRunnerOptions
+    options: TSPRunnerOptions,
 ): Promise<MultiPopulationSchedulerRemote> {
     const {
         worker,
@@ -16,7 +16,7 @@ export async function createMultiPopulationSchedulerWorker(
             new URL("./MultiPopulationScheduler.worker.ts", import.meta.url),
             {
                 type: "module",
-            }
+            },
         );
 
         return w;

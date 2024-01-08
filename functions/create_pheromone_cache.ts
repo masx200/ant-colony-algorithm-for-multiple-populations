@@ -7,7 +7,7 @@ import {
 import { PheromoneCache } from "./PheromoneCache";
 
 export function create_pheromone_cache(
-    count_of_nodes: number
+    count_of_nodes: number,
 ): PheromoneCache & MatrixSymmetry<number> {
     const pheromone_cache = MatrixSymmetryCreate({ row: count_of_nodes });
 

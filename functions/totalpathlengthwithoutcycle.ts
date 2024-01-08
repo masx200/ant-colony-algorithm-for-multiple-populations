@@ -6,7 +6,7 @@ import { NodeCoordinates } from "./NodeCoordinates";
 export function totalpathlengthwithoutcycle(
     path: number[],
     node_coordinates: NodeCoordinates,
-    round = false
+    round = false,
 ): number {
     if (path.length >= node_coordinates.length) {
         throw Error("invalid path not match node_coordinates");
@@ -23,8 +23,8 @@ export function totalpathlengthwithoutcycle(
                     left,
                     right,
                     node_coordinates,
-                    round
-                )
-            )
+                    round,
+                ),
+            ),
     );
 }

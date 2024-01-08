@@ -8,20 +8,20 @@ export async function initializeRemoteWorkers(
     options: Required<TSPDefaultOptions> & {
         node_coordinates: NodeCoordinates;
     } & Partial<TSPDefaultOptions>,
-    number_of_the_second_type_of_population: number
+    number_of_the_second_type_of_population: number,
 ) {
     const remoteWorkers: WorkerRemoteAndInfo[] = [];
     await createWorkerRemoteAndInfo(
         number_of_populations_of_the_first_category,
         options,
         remoteWorkers,
-        "动态信息素更新"
+        "动态信息素更新",
     );
     await createWorkerRemoteAndInfo(
         number_of_the_second_type_of_population,
         options,
         remoteWorkers,
-        "相似度的自适应"
+        "相似度的自适应",
     );
     return remoteWorkers;
 }

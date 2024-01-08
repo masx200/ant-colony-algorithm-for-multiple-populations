@@ -26,14 +26,14 @@ export function random_k_exchange_limited({
             .filter((k) => k >= 2 && k <= node_coordinates.length / 2);
         const k = pickRandomOne(
             index_range,
-            index_range.map((a) => 1 / a)
+            index_range.map((a) => 1 / a),
         );
 
         const routes_of_2_opt_accurate = Array.of(
             generate_one_k_exchange_route({
                 route,
                 k,
-            })
+            }),
         );
 
         const routes_and_lengths = routes_of_2_opt_accurate
@@ -43,7 +43,7 @@ export function random_k_exchange_limited({
                     path: route,
                     getdistancebyindex: creategetdistancebyindex(
                         node_coordinates,
-                        get_distance_round()
+                        get_distance_round(),
                     ),
                 });
                 return { length, route };

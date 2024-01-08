@@ -39,7 +39,7 @@ export function partial_precise_random_2_opt_eliminates_cross_points({
                     path: route,
                     getdistancebyindex: creategetdistancebyindex(
                         node_coordinates,
-                        get_distance_round()
+                        get_distance_round(),
                     ),
                 });
                 return { length, route };

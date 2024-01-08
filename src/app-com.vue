@@ -28,6 +28,25 @@
             </option>
         </select>
         <br />
+        <div class="chart-container" style="">
+            <details
+                class="width-100-percent"
+                :open="show_routes_of_best"
+                @toggle="show_routes_of_best = $event.target.open"
+            >
+                <summary>全局最优路径的展示</summary>
+                <!-- 全局最优解的图 -->
+                <LineChart
+                    v-if="show_routes_of_best"
+                    class="single-chart"
+                    style=""
+                    :options="options_of_best_route_chart"
+                ></LineChart>
+            </details>
+
+            <!-- 最近一条路径的图 -->
+        </div>
+        <hr />
         <el-row>
             <el-col :span="12"
                 ><el-button @click="resethandler"> 重置 </el-button><br
@@ -128,25 +147,6 @@
         </div>
         <hr />
 
-        <div class="chart-container" style="">
-            <details
-                class="width-100-percent"
-                :open="show_routes_of_best"
-                @toggle="show_routes_of_best = $event.target.open"
-            >
-                <summary>全局最优路径的展示</summary>
-                <!-- 全局最优解的图 -->
-                <LineChart
-                    v-if="show_routes_of_best"
-                    class="single-chart"
-                    style=""
-                    :options="options_of_best_route_chart"
-                ></LineChart>
-            </details>
-
-            <!-- 最近一条路径的图 -->
-        </div>
-        <hr />
         <details
             class="width-100-percent"
             :open="show_chart_of_best2"

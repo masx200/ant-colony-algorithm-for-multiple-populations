@@ -1,5 +1,5 @@
 export function stringkeytonumbers(
-    value: `${number},${number}`
+    value: `${number},${number}`,
 ): [number, number] {
     const s = value;
     const a = s.split(",");
