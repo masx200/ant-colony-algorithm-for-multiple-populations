@@ -37,8 +37,8 @@ dependencies:
     specifier: ^5.0.2
     version: 5.3.3
   unplugin-auto-import:
-    specifier: ^0.16.0
-    version: 0.16.7(rollup@4.9.4)
+    specifier: ^0.17.3
+    version: 0.17.3(rollup@4.9.4)
   unplugin-vue-components:
     specifier: ^0.25.0
     version: 0.25.2(rollup@4.9.4)(vue@3.3.7)
@@ -4363,8 +4363,8 @@ packages:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
 
-  /unplugin-auto-import@0.16.7(rollup@4.9.4):
-    resolution: {integrity: sha512-w7XmnRlchq6YUFJVFGSvG1T/6j8GrdYN6Em9Wf0Ye+HXgD/22kont+WnuCAA0UaUoxtuvRR1u/mXKy63g/hfqQ==}
+  /unplugin-auto-import@0.17.3(rollup@4.9.4):
+    resolution: {integrity: sha512-0cn0wr8X579TtdZKUAps0dDVrYzttx38ImdxZjmCeNlMDJX8UuSjO83vFqgS4ClNDIGWAute+xl9j5vRSX+vsw==}
     engines: {node: '>=14'}
     peerDependencies:
       '@nuxt/kit': ^3.2.2
@@ -4385,7 +4385,6 @@ packages:
       unplugin: 1.6.0
     transitivePeerDependencies:
       - rollup
-    dev: false
 
   /unplugin-element-plus@0.8.0(rollup@4.9.4):
     resolution: {integrity: sha512-jByUGY3FG2B8RJKFryqxx4eNtSTj+Hjlo8edcOdJymewndDQjThZ1pRUQHRjQsbKhTV2jEctJV7t7RJ405UL4g==}
