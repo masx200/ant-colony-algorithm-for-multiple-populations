@@ -147,8 +147,8 @@ devDependencies:
     specifier: ^3.2.0
     version: 3.2.1(vite@5.0.12)
   vite-plugin-pwa:
-    specifier: ^0.16.0
-    version: 0.16.7(vite@5.0.12)(workbox-build@7.0.0)(workbox-window@7.0.0)
+    specifier: ^0.17.5
+    version: 0.17.5(vite@5.0.12)(workbox-build@7.0.0)(workbox-window@7.0.0)
   vue:
     specifier: 3.4.15
     version: 3.4.15(typescript@5.3.3)
@@ -4542,11 +4542,11 @@ packages:
       vite: 5.0.12(@types/node@20.10.7)(terser@5.26.0)
     dev: true
 
-  /vite-plugin-pwa@0.16.7(vite@5.0.12)(workbox-build@7.0.0)(workbox-window@7.0.0):
-    resolution: {integrity: sha512-4WMA5unuKlHs+koNoykeuCfTcqEGbiTRr8sVYUQMhc6tWxZpSRnv9Ojk4LKmqVhoPGHfBVCdGaMo8t9Qidkc1Q==}
+  /vite-plugin-pwa@0.17.5(vite@5.0.12)(workbox-build@7.0.0)(workbox-window@7.0.0):
+    resolution: {integrity: sha512-UxRNPiJBzh4tqU/vc8G2TxmrUTzT6BqvSzhszLk62uKsf+npXdvLxGDz9C675f4BJi6MbD2tPnJhi5txlMzxbQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
-      vite: ^3.1.0 || ^4.0.0 || ^5.0.0-0
+      vite: ^3.1.0 || ^4.0.0 || ^5.0.0
       workbox-build: ^7.0.0
       workbox-window: ^7.0.0
     dependencies:
