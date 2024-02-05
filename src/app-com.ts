@@ -34,7 +34,7 @@ import { Greedy_algorithm_to_solve_tsp_with_selected_start_pool } from "./Greedy
 import LineChart from "./LineChart.vue";
 import MultiplePopulationsConfigs from "./multiple-populations-configs.vue";
 import Progress_element from "./Progress-element.vue";
-import { run_tsp_by_search_time } from "./run_tsp_by_search_time";
+// import { run_tsp_by_search_time } from "./run_tsp_by_search_time";
 import { run_tsp_by_search_rounds } from "./run_tsp-by-search-rounds";
 import { RunWay } from "./RunWay";
 import { set_distance_round } from "./set_distance_round";
@@ -433,22 +433,22 @@ export default defineComponent({
                 throw new Error("incorrect parameters create_runner");
             }
         }
-        const create_and_run_tsp_by_search_time = async () => {
-            is_running.value = true;
-            TSP_RunnerRef.value ||= await create_runner();
-            const runner = TSP_RunnerRef.value;
-            return run_tsp_by_search_time({
-                on_update_output_data,
-                runner: runner.remote,
+        // const create_and_run_tsp_by_search_time = async () => {
+        //     is_running.value = true;
+        //     TSP_RunnerRef.value ||= await create_runner();
+        //     const runner = TSP_RunnerRef.value;
+        //     return run_tsp_by_search_time({
+        //         on_update_output_data,
+        //         runner: runner.remote,
 
-                search_time_seconds,
-                is_running,
-                onprogress,
-            });
-        };
+        //         search_time_seconds,
+        //         is_running,
+        //         onprogress,
+        //     });
+        // };
 
         const radio_run_way = ref(RunWay.round);
-        const run_way_time = RunWay.time;
+        // const run_way_time = RunWay.time;
         const run_way_round = RunWay.round;
         const alpha_zero = computed(() => input_options.alpha_zero);
 
@@ -498,9 +498,9 @@ export default defineComponent({
             show_chart_of_best_individual,
             run_way_round,
             // 显示每次迭代的统计,
-            run_way_time,
+            // run_way_time,
             radio_run_way,
-            create_and_run_tsp_by_search_time,
+            // create_and_run_tsp_by_search_time,
             search_time_seconds,
             indeterminate,
             TableHeadsOfHistoryOfBest,

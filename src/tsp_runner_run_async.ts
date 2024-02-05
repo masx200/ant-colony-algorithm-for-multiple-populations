@@ -33,10 +33,11 @@ export async function tsp_runner_run_async({
     const min_count = 1;
     let rest_time = time_of_search_ms;
     const type_of_search =
-        time_of_search_ms < Infinity ? RunWay.time : RunWay.round;
+        /*  time_of_search_ms < Infinity ? RunWay.time : */ RunWay.round;
     let duration = 0;
     while (
-        type_of_search === RunWay.time ? rest_time > 0 : rest_iterations > 0
+        /*  type_of_search === RunWay.time ? rest_time > 0 :  */ rest_iterations >
+        0
     ) {
         if (type_of_search === RunWay.round) {
             if (rest_iterations > 5) {

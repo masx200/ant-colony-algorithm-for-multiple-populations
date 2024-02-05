@@ -1,4 +1,4 @@
 export const enum RunWay {
-    time,
-    round,
+    // time,
+    round = 1,
 }
