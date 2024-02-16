@@ -44,13 +44,13 @@ dependencies:
     version: 0.25.2(rollup@4.9.4)(vue@3.4.15)
   vite:
     specifier: ^5.0.12
-    version: 5.0.12(@types/node@20.10.7)(terser@5.26.0)
+    version: 5.0.12(@types/node@20.10.7)(terser@5.27.1)
   vite-plugin-checker:
     specifier: ^0.6.0
     version: 0.6.2(typescript@5.3.3)(vite@5.0.12)(vue-tsc@1.8.27)
   vitest:
     specifier: ^0.34.6
-    version: 0.34.6(terser@5.26.0)
+    version: 0.34.6(terser@5.27.1)
   vue-tsc:
     specifier: ^1.0.3
     version: 1.8.27(typescript@5.3.3)
@@ -136,7 +136,7 @@ devDependencies:
     version: 1.0.1
   terser:
     specifier: ^5.14.2
-    version: 5.26.0
+    version: 5.27.1
   tslib:
     specifier: ^2.4.0
     version: 2.6.2
@@ -1981,7 +1981,7 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.0.12(@types/node@20.10.7)(terser@5.26.0)
+      vite: 5.0.12(@types/node@20.10.7)(terser@5.27.1)
       vue: 3.4.15(typescript@5.3.3)
     dev: true
 
@@ -3118,7 +3118,7 @@ packages:
       he: 1.2.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.26.0
+      terser: 5.27.1
     dev: true
 
   /idb@7.1.1:
@@ -3892,7 +3892,7 @@ packages:
       jest-worker: 26.6.2
       rollup: 2.79.1
       serialize-javascript: 4.0.0
-      terser: 5.26.0
+      terser: 5.27.1
     dev: true
 
   /rollup@2.79.1:
@@ -4161,8 +4161,8 @@ packages:
       unique-string: 2.0.0
     dev: true
 
-  /terser@5.26.0:
-    resolution: {integrity: sha512-dytTGoE2oHgbNV9nTzgBEPaqAWvcJNl66VZ0BkJqlvp71IjO8CxdBx/ykCNb47cLnCmCvRZ6ZR0tLkqvZCdVBQ==}
+  /terser@5.27.1:
+    resolution: {integrity: sha512-29wAr6UU/oQpnTw5HoadwjUZnFQXGdOfj0LjZ4sVxzqwHh/QVkvr7m8y9WoR4iN3FRitVduTc6KdjcW38Npsug==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -4447,7 +4447,7 @@ packages:
       punycode: 2.3.1
     dev: true
 
-  /vite-node@0.34.6(@types/node@20.10.7)(terser@5.26.0):
+  /vite-node@0.34.6(@types/node@20.10.7)(terser@5.27.1):
     resolution: {integrity: sha512-nlBMJ9x6n7/Amaz6F3zJ97EBwR2FkzhBRxF5e+jE6LA3yi6Wtc2lyTij1OnDMIr34v5g/tVQtsVAzhT0jc5ygA==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -4457,7 +4457,7 @@ packages:
       mlly: 1.4.2
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 5.0.12(@types/node@20.10.7)(terser@5.26.0)
+      vite: 5.0.12(@types/node@20.10.7)(terser@5.27.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4514,7 +4514,7 @@ packages:
       strip-ansi: 6.0.1
       tiny-invariant: 1.3.1
       typescript: 5.3.3
-      vite: 5.0.12(@types/node@20.10.7)(terser@5.26.0)
+      vite: 5.0.12(@types/node@20.10.7)(terser@5.27.1)
       vscode-languageclient: 7.0.0
       vscode-languageserver: 7.0.0
       vscode-languageserver-textdocument: 1.0.11
@@ -4539,7 +4539,7 @@ packages:
       html-minifier-terser: 6.1.0
       node-html-parser: 5.4.2
       pathe: 0.2.0
-      vite: 5.0.12(@types/node@20.10.7)(terser@5.26.0)
+      vite: 5.0.12(@types/node@20.10.7)(terser@5.27.1)
     dev: true
 
   /vite-plugin-pwa@0.16.7(vite@5.0.12)(workbox-build@7.0.0)(workbox-window@7.0.0):
@@ -4553,14 +4553,14 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       fast-glob: 3.3.2
       pretty-bytes: 6.1.1
-      vite: 5.0.12(@types/node@20.10.7)(terser@5.26.0)
+      vite: 5.0.12(@types/node@20.10.7)(terser@5.27.1)
       workbox-build: 7.0.0(@types/babel__core@7.20.5)
       workbox-window: 7.0.0
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite@5.0.12(@types/node@20.10.7)(terser@5.26.0):
+  /vite@5.0.12(@types/node@20.10.7)(terser@5.27.1):
     resolution: {integrity: sha512-4hsnEkG3q0N4Tzf1+t6NdN9dg/L3BM+q8SWgbSPnJvrgH2kgdyzfVJwbR1ic69/4uMJJ/3dqDZZE5/WwqW8U1w==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -4592,11 +4592,11 @@ packages:
       esbuild: 0.19.11
       postcss: 8.4.33
       rollup: 4.9.4
-      terser: 5.26.0
+      terser: 5.27.1
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitest@0.34.6(terser@5.26.0):
+  /vitest@0.34.6(terser@5.27.1):
     resolution: {integrity: sha512-+5CALsOvbNKnS+ZHMXtuUC7nL8/7F1F2DnHGjSsszX8zCjWSSviphCb/NuS9Nzf4Q03KyyDRBAXhF/8lffME4Q==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -4648,8 +4648,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.7.0
-      vite: 5.0.12(@types/node@20.10.7)(terser@5.26.0)
-      vite-node: 0.34.6(@types/node@20.10.7)(terser@5.26.0)
+      vite: 5.0.12(@types/node@20.10.7)(terser@5.27.1)
+      vite-node: 0.34.6(@types/node@20.10.7)(terser@5.27.1)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
@@ -4876,6 +4876,7 @@ packages:
 
   /workbox-google-analytics@7.0.0:
     resolution: {integrity: sha512-MEYM1JTn/qiC3DbpvP2BVhyIH+dV/5BjHk756u9VbwuAhu0QHyKscTnisQuz21lfRpOwiS9z4XdqeVAKol0bzg==}
+    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 7.0.0
       workbox-core: 7.0.0
