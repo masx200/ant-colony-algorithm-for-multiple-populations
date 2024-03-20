@@ -26,7 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
        
-    - run: npx -y cnpm i --force
+    - run: npx -y pnpx cnpm i --force
 
     - run: npm test
     - run: npm run build
