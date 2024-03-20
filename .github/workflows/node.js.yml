@@ -27,8 +27,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
        
     - run:  |
-         yarn global add pnpx cnpm yarn npm
-         pnpx cnpm i --force
+         yarn global add pnpx cnpm yarn npm pnpm
+         cnpm i --force
 
     - run: npm test
     - run: npm run build
