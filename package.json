@@ -55,7 +55,7 @@
         "prettier": "^3.0.0",
         "robust-segment-intersect": "^1.0.1",
         "rollup": "^4.1.5",
-        "terser": "^5.14.2",
+        "terser": "^5.29.2",
         "tslib": "^2.4.0",
         "typescript": "^5.0.2",
         "unplugin-auto-import": "^0.17.5",
