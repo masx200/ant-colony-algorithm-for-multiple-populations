@@ -47,7 +47,7 @@
         "comlink": "^4.3.1",
         "core-js": "^3.35.1",
         "echarts": "^5.3.2",
-        "element-plus": "^2.5.3",
+        "element-plus": "^2.7.0",
         "find": "^0.3.0",
         "lodash-es": "^4.17.21",
         "mocha": "^10.0.0",
